@@ -1,0 +1,28 @@
+# Node modules
+node_modules/
+
+# Build output
+dist/
+dist-ssr/
+
+# Large video files (host these on Cloudinary/YouTube instead)
+*.mp4
+*.mov
+*.avi
+*.webm
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+
+# Environment variables
+.env
+.env.local
+.env.production
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
