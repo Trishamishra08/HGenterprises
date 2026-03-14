@@ -5,12 +5,6 @@ node_modules/
 dist/
 dist-ssr/
 
-# Large video files (host these on Cloudinary/YouTube instead)
-*.mp4
-*.mov
-*.avi
-*.webm
-
 # Logs
 *.log
 npm-debug.log*
