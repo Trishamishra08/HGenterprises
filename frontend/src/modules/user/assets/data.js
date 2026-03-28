@@ -1,129 +1,152 @@
-import catRings from './cat_rings.png';
-import catEarrings from './cat_earrings.png';
-import catPendant from './cat_pendant.png';
-import catBracelets from './cat_bracelets.png';
-import catAnklets from './cat_anklets.png';
-import trendingHeritage from './trending_heritage.png';
-import trendingModern from './trending_modern.png';
-import prodRingMain from './prod_ring_main.png';
-import prodEarringsMain from './prod_earrings_main.png';
+// Product Data for Discovery Experience
+import catRingsRuby from './cat_rings_ruby.jpg';
+import catEarringsTrad from './cat_earrings_trad.jpg';
+import catNecklaceEmerald from './cat_necklaces_emerald.jpg';
 
-const machinePlaceholder = "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=800";
-const toolPlaceholder = "https://images.unsplash.com/photo-1530124560676-1e627e794358?auto=format&fit=crop&q=80&w=800";
+export const products = [
+    {
+        id: 'r1',
+        name: "Emerald Solitaire Ring",
+        price: 85000,
+        originalPrice: 95000,
+        category: "Jewellery",
+        subCategory: "Rings",
+        type: "Engagement",
+        metal: "Diamond",
+        gender: "Women",
+        image: "https://images.unsplash.com/photo-1617038220319-276d3cfab638?auto=format&fit=crop&q=80&w=800",
+        rating: 4.8,
+        isNew: true
+    },
+    {
+        id: 'r2',
+        name: "Platinum Wedding Band",
+        price: 32000,
+        originalPrice: 35000,
+        category: "Jewellery",
+        subCategory: "Rings",
+        type: "Couple Bands",
+        metal: "Platinum",
+        gender: "Men",
+        image: "https://images.unsplash.com/photo-1615655406736-b37c4fabf923?auto=format&fit=crop&q=80&w=800",
+        rating: 4.7
+    },
+    {
+        id: 'r3',
+        name: "Gold Office Wear Ring",
+        price: 25000,
+        originalPrice: 28000,
+        category: "Jewellery",
+        subCategory: "Rings",
+        type: "Office Wear",
+        metal: "Gold",
+        gender: "Women",
+        image: "https://images.unsplash.com/photo-1627250329059-84ee594ef36b?auto=format&fit=crop&q=80&w=800",
+        rating: 4.9,
+        isNew: true
+    },
+    {
+        id: 'e1',
+        name: "Ruby Drop Earrings",
+        price: 45000,
+        category: "Jewellery",
+        subCategory: "Earrings",
+        metal: "Diamond",
+        gender: "Women",
+        image: catEarringsTrad,
+        rating: 4.5
+    },
+    {
+        id: 'p1',
+        name: "Classic Diamond Pendant",
+        price: 55000,
+        category: "Jewellery",
+        subCategory: "Pendants",
+        metal: "Diamond",
+        gender: "Women",
+        image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&q=80&w=800",
+        rating: 4.9
+    },
+    {
+        id: 'n1',
+        name: "Grand Wedding Necklace",
+        price: 135000,
+        category: "Jewellery",
+        subCategory: "Necklaces",
+        metal: "Gold",
+        gender: "Women",
+        image: catNecklaceEmerald,
+        rating: 5.0
+    },
+    {
+        id: 't1',
+        name: "Jewellery Magnifier Pro",
+        price: 3500,
+        category: "Tools",
+        subCategory: "Measurement",
+        metal: "Optical Grade",
+        image: "https://images.unsplash.com/photo-1588444833098-4205565e248b?auto=format&fit=crop&q=80&w=400",
+        rating: 4.6
+    },
+    {
+        id: 'm1',
+        name: "Ultrasonic Jewellery Cleaner",
+        price: 12000,
+        category: "Machines",
+        subCategory: "Cleaning",
+        metal: "Stainless Steel",
+        image: "https://images.unsplash.com/photo-1506459225024-1428097a7e18?auto=format&fit=crop&q=80&w=400",
+        rating: 4.3
+    }
+];
 
 export const categories = [
     {
         id: 'jewellery',
         name: "Jewellery",
-        path: "jewellery",
-        image: catRings,
         subcategories: [
-            { name: "Rings", path: "rings", image: catRings },
-            { name: "Earrings", path: "earrings", image: catEarrings },
-            { name: "Pendants", path: "pendants", image: catPendant },
-            { name: "Bracelets", path: "bracelets", image: catBracelets },
-            { name: "Anklets", path: "anklets", image: catAnklets },
-            { name: "Chains", path: "chains", image: "https://images.unsplash.com/photo-1601121141461-9d6647bca1ed?auto=format&fit=crop&q=80&w=400" },
-            { name: "Studs", path: "studs", image: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&q=80&w=400" },
-            { name: "Toe Rings", path: "toe-rings", image: "https://images.unsplash.com/photo-1602173574767-37ac01994b2a?auto=format&fit=crop&q=80&w=400" }
-        ]
-    },
-    {
-        id: 'machine',
-        name: "Machine",
-        path: "machine",
-        image: machinePlaceholder,
-        subcategories: [
-            { name: "Filling table HY type", path: "filling-table", image: machinePlaceholder },
-            { name: "Gold Smith Working Bench", path: "working-bench", image: machinePlaceholder },
-            { name: "Guardian", path: "guardian", image: machinePlaceholder },
-            { name: "IPA Recycling Machine", path: "recycling", image: machinePlaceholder },
-            { name: "J DETECT Pro", path: "j-detect", image: machinePlaceholder },
-            { name: "Micro Setting Table Table JR Type", path: "setting-table", image: machinePlaceholder },
-            { name: "Pre Polishing Table", path: "polishing-table", image: machinePlaceholder },
-            { name: "Smart Wax Printer URC Series", path: "wax-printer", image: machinePlaceholder },
-            { name: "Stand Alone Workbench", path: "workbench", image: machinePlaceholder }
-        ]
+            { name: "Rings", image: catRingsRuby, path: "rings" },
+            { name: "Pendants", image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&q=80&w=400", path: "pendants" },
+            { name: "Earrings", image: catEarringsTrad, path: "earrings" },
+            { name: "Necklaces", image: catNecklaceEmerald, path: "necklaces" },
+            { name: "Bracelets", image: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&q=80&w=400", path: "bracelets" },
+            { name: "Mangalsutra", image: "https://images.unsplash.com/photo-1573408301185-9146fe634ad0?auto=format&fit=crop&q=80&w=400", path: "mangalsutra" }
+        ],
+        materialLabel: "By Metal",
+        materials: ["Diamond", "Gold", "Platinum"],
+        popularTypes: ["Engagement", "Couple Bands", "Office Wear", "Stackable"]
     },
     {
         id: 'tools',
         name: "Tools",
-        path: "tools",
-        image: toolPlaceholder,
         subcategories: [
-            { name: "Bristles and brushes", path: "bristles-brushes", image: toolPlaceholder },
-            { name: "Connecting lead", path: "connecting-lead", image: toolPlaceholder },
-            { name: "Felt wheels", path: "felt-wheels", image: toolPlaceholder },
-            { name: "Knife-edge felt wheels", path: "knife-edge-felt", image: toolPlaceholder },
-            { name: "Mandrals", path: "mandrals", image: toolPlaceholder },
-            { name: "Metal Center Wheel Brushes", path: "metal-center-brushes", image: toolPlaceholder },
-            { name: "Micro Motor", path: "micro-motor", image: toolPlaceholder },
-            { name: "Skotch Brite Brushes", path: "skotch-brite-brushes", image: toolPlaceholder },
-            { name: "Wax solder", path: "wax-solder", image: toolPlaceholder },
-            { name: "Yellow Cloth Buff", path: "polishing", image: toolPlaceholder }
-        ]
-    }
-];
-
-export const products = [
-    {
-        id: 'p1',
-        name: "Royal Kundan Gold Necklace",
-        category: "Jewellery",
-        price: 145000,
-        originalPrice: 160000,
-        image: trendingHeritage,
-        rating: 4.9,
-        reviews: 120,
-        isNew: true
+            { name: "Measurement", image: "https://images.unsplash.com/photo-1584947844621-a477341851e3?auto=format&fit=crop&q=80&w=400", path: "measurement" },
+            { name: "Cutting", image: "https://images.unsplash.com/photo-1506459225024-1428097a7e18?auto=format&fit=crop&q=80&w=400", path: "cutting" },
+            { name: "Polishing", image: "https://images.unsplash.com/photo-1615655406736-b37c4fabf923?auto=format&fit=crop&q=80&w=400", path: "polishing" }
+        ],
+        materialLabel: "By Material",
+        materials: ["Stainless Steel", "Hardened Carbon", "Optical Grade"],
+        popularTypes: ["High Precision", "Industrial", "Professional"]
     },
     {
-        id: 'p2',
-        name: "Classic Diamond Solitaire Ring",
-        category: "Jewellery",
-        price: 58000,
-        originalPrice: 65000,
-        image: prodRingMain,
-        rating: 4.8,
-        reviews: 85,
-        isNew: false
-    },
-    {
-        id: 'm1',
-        name: "Smart Wax Printer",
-        category: "Machine",
-        price: 125000,
-        originalPrice: 150000,
-        image: machinePlaceholder,
-        rating: 4.9,
-        reviews: 45,
-        isNew: true
-    },
-    {
-        id: 't1',
-        name: "Yellow Cloth Buff",
-        category: "Tools",
-        price: 1200,
-        originalPrice: 1500,
-        image: toolPlaceholder,
-        rating: 4.5,
-        reviews: 200,
-        isNew: false
+        id: 'machines',
+        name: "Machines",
+        subcategories: [
+            { name: "Cleaning", image: "https://images.unsplash.com/photo-1506459225024-1428097a7e18?auto=format&fit=crop&q=80&w=400", path: "cleaning" },
+            { name: "Casting", image: "https://images.unsplash.com/photo-1605100804763-247f67b3f41e?auto=format&fit=crop&q=80&w=400", path: "casting" },
+            { name: "Laser", image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&q=80&w=400", path: "laser" }
+        ],
+        materialLabel: "Engine Type",
+        materials: ["Ultrasonic", "Hydraulic", "Fiber Laser"],
+        popularTypes: ["Automated", "High Output", "Laboratory"]
     }
 ];
 
 export const banners = [
     {
         id: 1,
-        image: "https://images.unsplash.com/photo-1601121141461-9d6647bca1ed?auto=format&fit=crop&q=80&w=1600",
-        title: "Premium Jewellery Collection",
-        subtitle: "Luxury you deserve"
-    },
-    {
-        id: 2,
-        image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=1600",
-        title: "Industrial Machines",
-        subtitle: "Precision engineering for masters"
+        image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&q=80&w=1600",
+        title: "The Heritage Collection",
+        subtitle: "Luxury Crafted with Precision"
     }
 ];
-

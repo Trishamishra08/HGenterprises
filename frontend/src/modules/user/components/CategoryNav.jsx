@@ -21,75 +21,66 @@ const CategoryNav = () => {
     const [hoveredCategory, setHoveredCategory] = useState(null);
     const { toggleMenu } = useShop();
 
-    // 1. Jewellery (Mega Menu)
-    const jewelleryItem = {
-        id: 'jewellery',
-        name: 'Jewellery',
-        path: '/category/jewellery',
+    // 1. Collections (Mega Menu)
+    const collectionsItem = {
+        id: 'collections',
+        name: 'Collections',
+        path: '/shop?section=collections',
         type: 'mega-menu',
-        introTitle: "Exquisite Jewellery",
-        introDesc: "Timeless designs crafted in pure gold and diamonds for every occasion.",
+        introTitle: "Signature Collections",
+        introDesc: "Curated series of exquisite pieces, each telling a unique story of elegance and grace.",
         subcategories: [
-            { id: 'rings', name: "Rings", path: "rings", image: "https://images.unsplash.com/photo-1573408301185-9146fe634ad0?auto=format&fit=crop&q=80&w=400" },
-            { id: 'earrings', name: "Earrings", path: "earrings", image: "https://images.unsplash.com/photo-1535632787350-4e68ef0ac584?auto=format&fit=crop&q=80&w=400" },
-            { id: 'necklaces', name: "Necklaces", path: "necklaces", image: "https://images.unsplash.com/photo-1626784215021-2e39ccf971cd?auto=format&fit=crop&q=80&w=400" },
-            { id: 'bracelets', name: "Bracelets", path: "bracelets", image: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&q=80&w=400" }
+            { id: 'bridal', name: "Bridal Heritage", path: "bridal", image: "https://images.unsplash.com/photo-1626784215021-2e39ccf971cd?auto=format&fit=crop&q=80&w=400" },
+            { id: 'minimalist', name: "Daily Minimalist", path: "minimalist", image: "https://images.unsplash.com/photo-1535632787350-4e68ef0ac584?auto=format&fit=crop&q=80&w=400" },
+            { id: 'vintage', name: "Vintage Charm", path: "vintage", image: "https://images.unsplash.com/photo-1626784215021-2e39ccf971cd?auto=format&fit=crop&q=80&w=400" },
+            { id: 'modern', name: "Contemporary", path: "modern", image: "https://images.unsplash.com/photo-1543294001-f7cd5d7fb516?auto=format&fit=crop&q=80&w=400" }
         ]
     };
 
-    // 2. Machine (Mega Menu)
-    const machineItem = {
-        id: 'machine',
-        name: 'Machine',
-        path: '/category/machine',
+    // 2. Gifts (Mega Menu)
+    const giftsItem = {
+        id: 'gifts',
+        name: 'Gifts',
+        path: '/shop?section=gift-guide',
         type: 'mega-menu',
-        introTitle: "Machinery",
-        introDesc: "Advanced industrial machinery for high-precision jewellery manufacturing.",
+        introTitle: "Gift Guide",
+        introDesc: "Find the perfect token of love for the ones who matter most in your life.",
         subcategories: [
-            { id: 'filling-table', name: "Filling table HY type", path: "filling-table", image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=400" },
-            { id: 'working-bench', name: "Gold Smith Working Bench", path: "working-bench", image: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&q=80&w=400" },
-            { id: 'guardian', name: "Guardian", path: "guardian", image: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&q=80&w=400" },
-            { id: 'recycling', name: "IPA Recycling Machine", path: "recycling", image: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&q=80&w=400" },
-            { id: 'j-detect', name: "J DETECT Pro", path: "j-detect", image: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&q=80&w=400" },
-            { id: 'setting-table', name: "Micro Setting Table Table JR Type", path: "setting-table", image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=400" },
-            { id: 'polishing-table', name: "Pre Polishing Table", path: "polishing-table", image: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&q=80&w=400" },
-            { id: 'wax-printer', name: "Smart Wax Printer URC Series", path: "wax-printer", image: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&q=80&w=400" },
-            { id: 'workbench', name: "Stand Alone Workbench", path: "workbench", image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=400" }
+            { id: 'gift-for-her', name: "For Her", path: "for-her", image: navGiftWomen },
+            { id: 'gift-for-him', name: "For Him", path: "for-him", image: navGiftMens },
+            { id: 'gift-anniversary', name: "Anniversary", path: "anniversary", image: navOccasionAnniversary },
+            { id: 'gift-birthday', name: "Birthday", path: "birthday", image: navOccasionBirthday },
+            { id: 'gift-wedding', name: "Wedding Gift", path: "wedding", image: navOccasionWedding }
         ]
     };
 
-    // 3. Tools (Mega Menu)
-    const toolsItem = {
-        id: 'tools',
-        name: 'Tools',
-        path: '/category/tools',
+    // 3. Shop By Material (Mega Menu)
+    const materialItem = {
+        id: 'materials',
+        name: 'By Material',
+        path: '/shop',
         type: 'mega-menu',
-        introTitle: "Professional Tools",
-        introDesc: "Quality tools for every artisan, from polishing to setting.",
+        introTitle: "Shop By Material",
+        introDesc: "Our artisans work with the finest metals and stones to create masterpieces.",
         subcategories: [
-            { id: 'bristles-brushes', name: "Bristles and brushes", path: "bristles-brushes", image: "https://images.unsplash.com/photo-1530124560676-1e627e794358?auto=format&fit=crop&q=80&w=400" },
-            { id: 'connecting-lead', name: "Connecting lead", path: "connecting-lead", image: "https://images.unsplash.com/photo-1504148455328-43630f9d9804?auto=format&fit=crop&q=80&w=400" },
-            { id: 'felt-wheels', name: "Felt wheels", path: "felt-wheels", image: "https://images.unsplash.com/photo-1530124560676-1e627e794358?auto=format&fit=crop&q=80&w=400" },
-            { id: 'knife-edge-felt', name: "Knife-edge felt wheels", path: "knife-edge-felt", image: "https://images.unsplash.com/photo-1504148455328-43630f9d9804?auto=format&fit=crop&q=80&w=400" },
-            { id: 'mandrals', name: "Mandrals", path: "mandrals", image: "https://images.unsplash.com/photo-1530124560676-1e627e794358?auto=format&fit=crop&q=80&w=400" },
-            { id: 'metal-center-brushes', name: "Metal Center Wheel Brushes", path: "metal-center-brushes", image: "https://images.unsplash.com/photo-1504148455328-43630f9d9804?auto=format&fit=crop&q=80&w=400" },
-            { id: 'micro-motor', name: "Micro Motor", path: "micro-motor", image: "https://images.unsplash.com/photo-1530124560676-1e627e794358?auto=format&fit=crop&q=80&w=400" },
-            { id: 'skotch-brite-brushes', name: "Skotch Brite Brushes", path: "skotch-brite-brushes", image: "https://images.unsplash.com/photo-1504148455328-43630f9d9804?auto=format&fit=crop&q=80&w=400" },
-            { id: 'wax-solder', name: "Wax solder", path: "wax-solder", image: "https://images.unsplash.com/photo-1530124560676-1e627e794358?auto=format&fit=crop&q=80&w=400" },
-            { id: 'yellow-cloth-buff', name: "Yellow Cloth Buff", path: "polishing", image: "https://images.unsplash.com/photo-1504148455328-43630f9d9804?auto=format&fit=crop&q=80&w=400" }
+            { id: 'gold', name: "22k Gold", path: "gold", image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&q=80&w=400" },
+            { id: 'diamond', name: "Solitaire Diamond", path: "diamond", image: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&q=80&w=400" },
+            { id: 'silver', name: "925 Silver", path: "silver", image: "https://images.unsplash.com/photo-1617038220319-276d3cfab638?auto=format&fit=crop&q=80&w=400" },
+            { id: 'platinum', name: "Platinum", path: "platinum", image: "https://images.unsplash.com/photo-1543294001-f7cd5d7fb516?auto=format&fit=crop&q=80&w=400" },
+            { id: 'gemstones', name: "Gemstones", path: "gemstones", image: "https://images.unsplash.com/photo-1551028150-64b9f398f678?auto=format&fit=crop&q=80&w=400" }
         ]
     };
 
     // 4. Other Links
-    const shopItem = { id: 'shop', name: 'Shop', path: '/shop', type: 'link' };
+    const shopItem = { id: 'shop', name: 'Shop All', path: '/shop', type: 'link' };
     const blogsItem = { id: 'blogs', name: 'Blogs', path: '/blogs', type: 'link' };
-    const aboutUsItem = { id: 'about', name: 'About Us', path: '/about', type: 'link' };
+    const aboutUsItem = { id: 'about', name: 'Our Story', path: '/about', type: 'link' };
 
     // Combine all
     const navItems = [
-        jewelleryItem,
-        machineItem,
-        toolsItem,
+        collectionsItem,
+        giftsItem,
+        materialItem,
         shopItem,
         blogsItem,
         aboutUsItem

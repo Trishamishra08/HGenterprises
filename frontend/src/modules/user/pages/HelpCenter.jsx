@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, HelpCircle, ShoppingBag, Truck, CreditCard, RefreshCw, MessageCircle, ChevronRight, Phone, Mail, Clock, Send, Ticket, ArrowLeft, History, User } from 'lucide-react';
+import { Search, HelpCircle, ShoppingBag, Truck, CreditCard, RefreshCw, MessageCircle, ChevronRight, Phone, Mail, Clock, Send, Ticket, ArrowLeft, MapPin } from 'lucide-react';
 import { useShop } from '../../../context/ShopContext';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -23,38 +23,38 @@ const SupportForm = ({ onCancel, initialOrder = '' }) => {
     };
 
     return (
-        <div className="bg-white p-6 md:p-8 rounded-3xl shadow-lg border border-gray-100 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <h2 className="text-xl md:text-2xl font-display font-bold text-black mb-4 md:mb-6">Create Support Ticket</h2>
-            <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+        <div className="bg-white/80 backdrop-blur-md p-6 md:p-10 rounded-[2.5rem] shadow-xl border border-white/50 animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <h2 className="text-xl md:text-3xl font-display font-bold text-black mb-6 tracking-tight">Create <span className="italic font-serif font-normal text-[#8B4356]">Support Ticket</span></h2>
+            <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label className="block text-[10px] md:text-xs font-bold text-gray-500 uppercase tracking-widest mb-1 md:mb-2">Subject</label>
+                        <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Subject</label>
                         <input
                             required
                             type="text"
                             placeholder="Brief description of issue"
                             value={formData.subject}
                             onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                            className="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 md:px-4 md:py-3 text-sm md:text-base text-gray-900 focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-all"
+                            className="w-full bg-white border border-gray-100 rounded-2xl px-4 py-3.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#8B4356]/30 focus:border-[#8B4356] transition-all"
                         />
                     </div>
                     <div>
-                        <label className="block text-[10px] md:text-xs font-bold text-gray-500 uppercase tracking-widest mb-1 md:mb-2">Order ID (Optional)</label>
+                        <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Order ID (Optional)</label>
                         <input
                             type="text"
                             placeholder="e.g. 1735123456"
                             value={formData.orderId}
                             onChange={(e) => setFormData({ ...formData, orderId: e.target.value })}
-                            className="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 md:px-4 md:py-3 text-sm md:text-base text-gray-900 focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-all"
+                            className="w-full bg-white border border-gray-100 rounded-2xl px-4 py-3.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#8B4356]/30 focus:border-[#8B4356] transition-all"
                         />
                     </div>
                 </div>
                 <div>
-                    <label className="block text-[10px] md:text-xs font-bold text-gray-500 uppercase tracking-widest mb-1 md:mb-2">Category</label>
+                    <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Category</label>
                     <select
                         value={formData.category}
                         onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                        className="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 md:px-4 md:py-3 text-sm md:text-base text-gray-900 focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-all"
+                        className="w-full bg-white border border-gray-100 rounded-2xl px-4 py-3.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#8B4356]/30 focus:border-[#8B4356] transition-all"
                     >
                         <option>General Enquiry</option>
                         <option>Order Tracking</option>
@@ -64,20 +64,20 @@ const SupportForm = ({ onCancel, initialOrder = '' }) => {
                     </select>
                 </div>
                 <div>
-                    <label className="block text-[10px] md:text-xs font-bold text-gray-500 uppercase tracking-widest mb-1 md:mb-2">Detailed Message</label>
+                    <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Detailed Message</label>
                     <textarea
                         required
                         rows="4"
                         placeholder="Please describe your problem in detail..."
                         value={formData.message}
                         onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                        className="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 md:px-4 md:py-3 text-sm md:text-base text-gray-900 focus:outline-none focus:border-black focus:ring-1 focus:ring-black resize-none transition-all"
+                        className="w-full bg-white border border-gray-100 rounded-2xl px-4 py-3.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#8B4356]/30 focus:border-[#8B4356] resize-none transition-all"
                     ></textarea>
                 </div>
-                <div className="flex gap-3 md:gap-4">
+                <div className="flex flex-col md:flex-row gap-4">
                     <button
                         type="submit"
-                        className="flex-grow bg-[#EBCDD0] text-black py-3 md:py-4 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-[#D39A9F] hover:text-white transition-all shadow-sm text-sm md:text-base"
+                        className="flex-grow bg-[#8B4356] text-white py-4 rounded-full font-bold flex items-center justify-center gap-3 hover:bg-[#a64e66] transition-all shadow-lg text-sm"
                     >
                         <Send className="w-4 h-4" />
                         Submit Request
@@ -85,7 +85,7 @@ const SupportForm = ({ onCancel, initialOrder = '' }) => {
                     <button
                         type="button"
                         onClick={onCancel}
-                        className="px-6 md:px-8 py-3 md:py-4 rounded-xl border border-gray-200 font-bold text-gray-500 hover:bg-gray-50 transition-all text-sm md:text-base"
+                        className="px-10 py-4 rounded-full border border-gray-200 font-bold text-gray-500 hover:bg-gray-50 transition-all text-sm"
                     >
                         Cancel
                     </button>
@@ -149,42 +149,47 @@ const HelpCenter = () => {
     };
 
     return (
-        <div className="min-h-screen bg-white font-body pb-10 md:pb-20 selection:bg-[#D39A9F] selection:text-white">
+        <div className="min-h-screen bg-gradient-to-b from-[#fdf2f8] via-[#eecad5] to-[#fdf2f8] font-body pb-10 md:pb-20 selection:bg-[#8B4356] selection:text-white relative overflow-hidden">
+            {/* Background Glows */}
+            <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+                <div className="absolute top-[10%] left-[5%] w-[40%] h-[40%] bg-white/40 rounded-full blur-[120px] animate-pulse"></div>
+                <div className="absolute top-[40%] right-[0%] w-[50%] h-[50%] bg-[#8B4356]/5 rounded-full blur-[100px]"></div>
+            </div>
+
             {/* Back Button */}
-            <div className="container mx-auto px-4 pt-4 mb-2">
+            <div className="container mx-auto px-4 pt-4 mb-2 relative z-20">
                 <button
                     onClick={() => navigate(-1)}
-                    className="flex items-center gap-2 text-black hover:text-[#D39A9F] transition-all group font-bold uppercase tracking-widest text-[10px]"
+                    className="flex items-center gap-2 text-black hover:text-[#8B4356] transition-all group font-bold uppercase tracking-[0.3em] text-[10px]"
                 >
                     <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
                     Back
                 </button>
             </div>
-            {/* Hero Section */}
-            <div className="bg-white border-b border-gray-100 py-6 md:py-10 px-4 relative overflow-hidden">
-                {/* Decorative */}
-                <div className="absolute top-0 right-0 w-96 h-96 bg-[#EBCDD0]/20 rounded-full -mr-48 -mt-48 blur-3xl"></div>
-                <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#D39A9F]/10 rounded-full -ml-32 -mb-32 blur-3xl"></div>
 
-                <div className="max-w-4xl mx-auto text-center relative z-10">
-                    <span className="text-[#D39A9F] text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] mb-2 block">Support Center</span>
-                    <h1 className="text-2xl md:text-4xl font-display font-bold mb-4 text-black">How can we help you?</h1>
+            {/* Hero Section - Boutique Interior Styled */}
+            <div className="py-8 md:py-16 px-4 relative z-10">
+                <div className="max-w-4xl mx-auto text-center">
+                    <span className="text-[#8B4356] text-[10px] md:text-xs font-bold uppercase tracking-[0.4em] mb-4 block">Concierge & Support</span>
+                    <h1 className="text-3xl md:text-5xl font-display font-bold mb-6 text-black tracking-tighter">
+                        How can we <span className="italic font-serif font-normal text-[#8B4356]">help you?</span>
+                    </h1>
                     <div className="relative max-w-xl mx-auto">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
+                        <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
                         <input
                             type="text"
-                            placeholder="Search for topics, questions..."
+                            placeholder="Describe your inquiry..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-full py-2.5 px-10 md:py-3 md:px-12 text-sm focus:outline-none focus:ring-2 focus:ring-[#D39A9F] focus:border-transparent shadow-sm transition-all"
+                            className="w-full bg-white/90 backdrop-blur-md border border-white/50 text-gray-900 rounded-full py-3.5 px-10 md:py-4 md:px-14 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B4356]/30 focus:border-[#8B4356] shadow-[0_15px_40px_-15px_rgba(0,0,0,0.1)] transition-all placeholder:text-gray-400"
                         />
                     </div>
                 </div>
             </div>
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-4 md:-mt-8 relative z-20">
-                {/* Category Grid */}
-                <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4 mb-4 md:mb-8">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
+                {/* Category Grid - Floating Cards */}
+                <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-12">
                     {categories.map((cat) => (
                         <button
                             key={cat.id}
@@ -192,47 +197,60 @@ const HelpCenter = () => {
                                 setActiveCategory(cat.id);
                                 setView('home');
                             }}
-                            className={`bg-white p-3 md:p-6 rounded-2xl shadow-sm border transition-all text-left group hover:shadow-lg hover:-translate-y-1 ${activeCategory === cat.id && view === 'home' ? 'border-black ring-1 ring-black' : 'border-gray-100'}`}
+                            className={`p-5 md:p-8 rounded-[2.5rem] transition-all text-left group relative overflow-hidden ${activeCategory === cat.id && view === 'home' ? 'bg-[#2a2a2a] text-white shadow-2xl translate-y-[-4px]' : 'bg-white/40 backdrop-blur-md border border-white/50 text-black hover:bg-white hover:shadow-xl hover:-translate-y-1'}`}
                         >
-                            <div className={`w-8 h-8 md:w-10 md:h-10 rounded-xl flex items-center justify-center mb-2 md:mb-4 transition-colors ${activeCategory === cat.id && view === 'home' ? 'bg-black text-white' : 'bg-gray-50 text-black group-hover:bg-[#EBCDD0] group-hover:text-black'}`}>
+                            <div className={`w-10 h-10 md:w-12 md:h-12 rounded-2xl flex items-center justify-center mb-4 transition-all duration-500 ${activeCategory === cat.id && view === 'home' ? 'bg-[#8B4356] text-white scale-110 shadow-[0_0_20px_rgba(139,67,86,0.4)]' : 'bg-white shadow-sm text-[#8B4356] group-hover:bg-[#8B4356] group-hover:text-white group-hover:shadow-lg'}`}>
                                 {cat.icon}
                             </div>
-                            <h3 className="text-sm md:text-base font-bold text-black mb-1 font-display">{cat.title}</h3>
-                            <p className="text-xs text-gray-500 leading-relaxed hidden md:block font-serif">{cat.description}</p>
+                            <h3 className="text-base md:text-lg font-bold font-display tracking-tight mb-2 group-hover:text-[#8B4356] transition-colors">{cat.title}</h3>
+                            <p className={`text-[11px] md:text-xs leading-relaxed hidden md:block font-serif ${activeCategory === cat.id && view === 'home' ? 'text-gray-300' : 'text-gray-500'}`}>{cat.description}</p>
+                            
+                            {/* Status Accent */}
+                            {activeCategory === cat.id && view === 'home' && (
+                                <div className="absolute top-6 right-6 w-2 h-2 bg-[#8B4356] rounded-full animate-pulse"></div>
+                            )}
                         </button>
                     ))}
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-12">
                     {/* Main Content Area */}
                     <div className="lg:col-span-2">
                         {view === 'home' ? (
                             <div className="animate-in fade-in slide-in-from-left-4 duration-500">
-                                <div className="flex justify-between items-center mb-4 md:mb-6">
-                                    <h2 className="text-lg md:text-xl font-display font-bold text-black">Frequently Asked Questions</h2>
+                                <div className="flex justify-between items-end mb-6 md:mb-8 border-b border-black/5 pb-4">
+                                    <div>
+                                        <h2 className="text-xl md:text-2xl font-display font-bold text-black tracking-tight">Handpicked Solutions</h2>
+                                        <p className="text-[10px] md:text-xs font-serif italic text-gray-500">Most frequent inquiries and expert answers</p>
+                                    </div>
                                     {activeCategory !== 'all' && (
-                                        <button onClick={() => setActiveCategory('all')} className="text-gray-500 text-xs md:text-sm font-bold uppercase tracking-widest hover:text-black transition-colors">Clear Filter</button>
+                                        <button onClick={() => setActiveCategory('all')} className="text-[#8B4356] text-[10px] font-bold uppercase tracking-widest hover:text-black transition-colors underline pb-1">Reset</button>
                                     )}
                                 </div>
-                                <div className="space-y-3 md:space-y-4">
+                                
+                                <div className="space-y-4 md:space-y-5">
                                     {filteredFaqs.length > 0 ? (
                                         filteredFaqs.map((faq, idx) => (
-                                            <div key={idx} className="bg-white rounded-2xl border border-gray-100 overflow-hidden transition-all hover:bg-gray-50/50 hover:border-gray-200">
+                                            <div key={idx} className="bg-white/60 backdrop-blur-sm rounded-3xl border border-white/40 overflow-hidden transition-all hover:bg-white hover:shadow-xl hover:border-[#8B4356]/30 group">
                                                 <details className="group">
-                                                    <summary className="flex items-center justify-between p-4 md:p-6 cursor-pointer list-none">
-                                                        <h4 className="text-sm md:text-base font-bold text-black pr-4">{faq.question}</h4>
-                                                        <ChevronRight className="w-4 h-4 md:w-5 md:h-5 text-gray-400 transition-transform group-open:rotate-90" />
+                                                    <summary className="flex items-center justify-between p-5 md:p-8 cursor-pointer list-none">
+                                                        <h4 className="text-sm md:text-lg font-bold text-black pr-4 font-display transition-all group-hover:text-[#8B4356]">{faq.question}</h4>
+                                                        <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gray-50 flex items-center justify-center transition-all group-open:bg-[#8B4356] group-open:text-white group-open:rotate-90">
+                                                            <ChevronRight className="w-4 h-4 md:w-5 md:h-5 text-gray-400 group-open:text-white" />
+                                                        </div>
                                                     </summary>
-                                                    <div className="px-4 pb-4 md:px-6 md:pb-6 text-xs md:text-sm text-gray-600 leading-relaxed animate-in fade-in slide-in-from-top-2 font-serif">
+                                                    <div className="px-5 pb-5 md:px-8 md:pb-8 text-xs md:text-base text-gray-600 leading-relaxed animate-in fade-in slide-in-from-top-2 font-serif border-t border-gray-50 pt-6">
                                                         {faq.answer}
                                                     </div>
                                                 </details>
                                             </div>
                                         ))
                                     ) : (
-                                        <div className="text-center py-8 md:py-12 bg-white rounded-2xl border border-dashed border-gray-200">
-                                            <HelpCircle className="w-8 h-8 md:w-12 md:h-12 text-gray-300 mx-auto mb-4" />
-                                            <p className="text-sm md:text-base text-gray-500">No results found for your search.</p>
+                                        <div className="text-center py-16 bg-white/40 backdrop-blur-md rounded-3xl border border-dashed border-gray-200">
+                                            <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                                                <Search className="w-8 h-8 text-gray-300" />
+                                            </div>
+                                            <p className="text-sm md:text-base text-gray-500 font-serif italic">No matching inquiries found in our archive.</p>
                                         </div>
                                     )}
                                 </div>
@@ -248,75 +266,83 @@ const HelpCenter = () => {
                         )}
                     </div>
 
-                    {/* Support Sidebar */}
-                    <div className="space-y-6 md:space-y-8">
-                        {/* Contact Card */}
-                        <div className="bg-black text-white p-6 md:p-8 rounded-3xl shadow-xl relative overflow-hidden">
+                    {/* Support Sidebar - Premium Dark Anchor */}
+                    <div className="space-y-6 md:space-y-10">
+                        {/* Contact Card - Luxury Dark Style */}
+                        <div className="bg-[#0a0a0a] text-white p-6 md:p-10 rounded-[3rem] shadow-2xl relative overflow-hidden border border-white/5 group/card">
                             <div className="relative z-10">
-                                <h3 className="text-xl md:text-2xl font-display font-bold mb-2 md:mb-4">Still need help?</h3>
-                                <p className="text-white/80 mb-6 md:mb-8 text-xs md:text-sm leading-relaxed font-serif">Our support team is available from 10 AM to 7 PM to help you.</p>
-
-                                <div className="space-y-4 md:space-y-6">
+                                <h3 className="text-2xl md:text-3xl font-display font-bold mb-3 tracking-tight leading-tight">
+                                    Need closer <br className="hidden md:block" />
+                                    <span className="italic font-serif font-normal text-[#8B4356]">assistance?</span>
+                                </h3>
+                                <p className="text-zinc-400 mb-10 text-xs md:text-sm leading-relaxed font-serif">Our concierge is available daily to ensure your Harshad Gauri experience is essentially flawless.</p>
+                                
+                                <div className="space-y-8">
                                     <button
                                         onClick={() => {
                                             if (!user) return showNotification("Please login to contact support.");
                                             setView('contact');
                                         }}
-                                        className="w-full bg-white text-black py-3 md:py-4 rounded-xl font-bold flex items-center justify-center gap-2 md:gap-3 hover:bg-[#EBCDD0] transition-all shadow-lg active:scale-95 text-sm md:text-base"
+                                        className="w-full bg-[#8B4356] text-white py-4.5 rounded-full font-bold flex items-center justify-center gap-3 transition-all shadow-[0_0_20px_rgba(139,67,86,0.2)] hover:shadow-[0_0_35px_rgba(139,67,86,0.5)] hover:bg-[#a64e66] hover:scale-[1.02] active:scale-95 text-sm md:text-base border border-transparent"
                                     >
-                                        <MessageCircle className="w-4 h-4 md:w-5 md:h-5" />
+                                        <MessageCircle className="w-5 h-5" />
                                         Contact Support
                                     </button>
-
-                                    <div className="pt-4 space-y-4">
-                                        <div className="flex items-center gap-4 text-xs md:text-sm font-medium">
-                                            <div className="w-8 h-8 md:w-10 md:h-10 bg-white/10 rounded-full flex items-center justify-center">
-                                                <Phone className="w-4 h-4 md:w-5 md:h-5" />
+                                    
+                                    <div className="pt-2 space-y-6">
+                                        <div className="flex items-center gap-4 group/item">
+                                            <div className="w-11 h-11 bg-white/5 rounded-2xl flex items-center justify-center border border-white/10 group-hover/item:border-[#8B4356]/40 group-hover/item:bg-[#8B4356]/10 transition-all duration-500">
+                                                <Phone className="w-5 h-5 text-[#8B4356]" />
                                             </div>
                                             <div>
-                                                <p className="text-white/60 text-[10px] md:text-xs uppercase tracking-widest font-bold">Call us</p>
-                                                <p>+91 90083 81564</p>
+                                                <p className="text-zinc-500 text-[10px] uppercase tracking-[0.2em] font-bold">Priority Line</p>
+                                                <p className="text-white text-sm font-medium tracking-wide">+91 90083 81564</p>
                                             </div>
                                         </div>
-                                        <div className="flex items-center gap-4 text-xs md:text-sm font-medium">
-                                            <div className="w-8 h-8 md:w-10 md:h-10 bg-white/10 rounded-full flex items-center justify-center">
-                                                <Mail className="w-4 h-4 md:w-5 md:h-5" />
+                                        <div className="flex items-center gap-4 group/item">
+                                            <div className="w-11 h-11 bg-white/5 rounded-2xl flex items-center justify-center border border-white/10 group-hover/item:border-[#8B4356]/40 group-hover/item:bg-[#8B4356]/10 transition-all duration-500">
+                                                <Mail className="w-5 h-5 text-[#8B4356]" />
                                             </div>
                                             <div>
-                                                <p className="text-white/60 text-[10px] md:text-xs uppercase tracking-widest font-bold">Email us</p>
-                                                <p>support@sandsornaments.com</p>
+                                                <p className="text-zinc-500 text-[10px] uppercase tracking-[0.2em] font-bold">Direct Email</p>
+                                                <p className="text-white text-sm font-medium tracking-wide">support@hgjewels.com</p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-[#D39A9F]/20 rounded-full blur-3xl"></div>
+                            
+                            {/* Decorative Shard */}
+                            <div className="absolute top-[-20px] right-[-20px] w-40 h-40 bg-[#8B4356]/5 rounded-full blur-[70px] pointer-events-none"></div>
                         </div>
 
-                        {/* Order Help Card */}
+                        {/* Recent Orders - Designer Styled */}
                         {user && orders.length > 0 && (
-                            <div className="bg-white p-6 md:p-8 rounded-3xl border border-gray-100 shadow-sm">
-                                <h3 className="text-base md:text-lg font-bold text-black mb-4 md:mb-6 flex items-center gap-2 font-display">
-                                    <Clock className="w-4 h-4 md:w-5 md:h-5" />
+                            <div className="bg-white/40 backdrop-blur-md p-6 md:p-8 rounded-[2.5rem] border border-white/60 shadow-sm relative overflow-hidden group">
+                                <h3 className="text-base md:text-xl font-bold text-black mb-6 flex items-center gap-3 font-display">
+                                    <div className="w-2 h-2 bg-[#8B4356] rounded-full"></div>
                                     Recent Orders
                                 </h3>
-                                <div className="space-y-4">
+                                <div className="space-y-5 relative z-10">
                                     {orders.slice(0, 2).map((order) => (
                                         <div
                                             key={order.id}
                                             onClick={() => handleNeedHelpWithOrder(order.id)}
-                                            className="p-3 md:p-4 rounded-xl bg-gray-50 border border-gray-100 group cursor-pointer hover:border-black transition-colors"
+                                            className="p-4 rounded-2xl bg-white border border-gray-100 group/order cursor-pointer hover:border-[#8B4356] hover:shadow-lg transition-all"
                                         >
-                                            <div className="flex justify-between items-start mb-1">
-                                                <span className="text-xs font-bold text-black">#{order.id.split('-')[1]}</span>
-                                                <span className="text-[10px] font-bold uppercase tracking-widest text-gray-500">{new Date(order.date).toLocaleDateString()}</span>
+                                            <div className="flex justify-between items-start mb-2">
+                                                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">#{order.id.split('-')[1]}</span>
+                                                <span className="text-[10px] font-bold text-[#8B4356] opacity-60 italic">{new Date(order.date).toLocaleDateString()}</span>
                                             </div>
-                                            <p className="text-[10px] md:text-xs text-gray-600 line-clamp-1 mb-2 md:mb-3">{order.items[0].name}</p>
-                                            <button className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-[#D39A9F] group-hover:underline group-hover:text-black">Need help?</button>
+                                            <p className="text-xs text-gray-800 font-medium line-clamp-1 mb-3">{order.items[0].name}</p>
+                                            <span className="text-[10px] font-bold uppercase tracking-widest text-[#8B4356] flex items-center gap-2 group-hover/order:translate-x-1 transition-transform">
+                                                Raise Ticket
+                                                <ChevronRight className="w-3 h-3" />
+                                            </span>
                                         </div>
                                     ))}
                                 </div>
-                                <Link to="/profile/orders" className="text-xs font-bold text-gray-400 uppercase tracking-widest mt-4 md:mt-6 block text-center hover:text-black transition-colors">View all orders</Link>
+                                <Link to="/profile/orders" className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-8 block text-center hover:text-black hover:tracking-[0.3em] transition-all">Archive Insight</Link>
                             </div>
                         )}
                     </div>

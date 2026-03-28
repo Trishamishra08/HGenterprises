@@ -7,40 +7,45 @@ const BrandPromises = () => {
         {
             id: 1,
             icon: Gem,
-            title: "Premium Quality",
-            desc: "Certified Jewellery & Tools"
+            title: "Exquisite Gems",
+            desc: "Sourced with Authenticity"
         },
         {
             id: 2,
             icon: ShieldCheck,
-            title: "Durability & Precision",
-            desc: "High-Performance Machines"
+            title: "BIS Hallmarked",
+            desc: "Purity You Can Trust"
         },
         {
             id: 3,
             icon: Truck,
-            title: "Worldwide Shipping",
-            desc: "Secure & Trackable Delivery"
+            title: "Insured Shipping",
+            desc: "Safe Delivery Worldwide"
         },
         {
             id: 4,
             icon: Headset,
-            title: "Expert Support",
-            desc: "Dedicated Technical Team"
+            title: "Style Concierge",
+            desc: "Talk to Our Experts"
         }
     ];
 
     return (
-        <section className="pt-8 pb-8 md:pt-16 md:pb-24 bg-white relative overflow-hidden">
+        <section className="pt-4 md:pt-4 pb-4 md:pb-8 bg-white overflow-hidden">
             <div className="container mx-auto px-2 md:px-4">
 
-                {/* Header */}
-                <div className="text-center mb-8 md:mb-16">
-                    <span className="text-[#C9A24D] text-[10px] md:text-sm font-bold tracking-[0.2em] uppercase mb-2 block">Our Commitments</span>
-                    <h2 className="font-serif text-2xl md:text-5xl text-[#4A1015] font-normal uppercase tracking-[0.05em]">Why Choose Us</h2>
+                {/* Header - Matched to Style It Your Way */}
+                <div className="text-center mb-4 md:mb-6">
+                    <span className="text-primary font-serif tracking-[0.2em] font-normal italic text-[10px] md:text-sm mb-1 block">
+                        Our Commitments
+                    </span>
+                    <h2 className="font-serif text-3xl md:text-4xl font-normal text-dark tracking-tight">
+                        Why Choose Us
+                    </h2>
+                    <div className="h-[1px] w-12 bg-primary mx-auto opacity-30 mt-3"></div>
                 </div>
 
-                <div className="grid grid-cols-4 lg:grid-cols-4 gap-2 md:gap-12 lg:gap-8 pt-4 md:pt-10">
+                <div className="grid grid-cols-4 lg:grid-cols-4 gap-2 md:gap-12 lg:gap-8 pt-2 md:pt-4">
                     {promises.map((item, index) => (
                         <div
                             key={item.id}

@@ -24,12 +24,16 @@ const AnnouncementBar = () => {
 
     useEffect(() => {
         const loadSettings = () => {
-            const saved = localStorage.getItem('siteSettings');
-            if (saved) {
-                const parsed = JSON.parse(saved);
-                if (parsed.announcementItems && parsed.announcementItems.length > 0) {
-                    setAnnouncements(parsed.announcementItems);
+            try {
+                const saved = localStorage.getItem('siteSettings');
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    if (parsed.announcementItems && parsed.announcementItems.length > 0) {
+                        setAnnouncements(parsed.announcementItems);
+                    }
                 }
+            } catch (error) {
+                console.error("Error parsing siteSettings from localStorage:", error);
             }
         };
 

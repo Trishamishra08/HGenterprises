@@ -10,14 +10,12 @@ const ringUrl = ringAsset;
 const earringsUrl = earringsAsset;
 const braceletUrl = braceletAsset;
 const ankletUrl = ankletAsset;
-const machinePlaceholder = "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=800";
-const toolPlaceholder = "https://images.unsplash.com/photo-1530124560676-1e627e794358?auto=format&fit=crop&q=80&w=800";
 
 export const SKUS = [
     { id: 'sku_1', name: 'Gold Necklace 22k', unit: 'pc', price: 45000, category: 'Jewellery' },
     { id: 'sku_2', name: 'Diamond Ring 18k', unit: 'pc', price: 25000, category: 'Jewellery' },
-    { id: 'sku_m1', name: 'Smart Wax Printer', unit: 'pc', price: 120000, category: 'Machine' },
-    { id: 'sku_t1', name: 'Yellow Cloth Buff', unit: 'pc', price: 150, category: 'Tools' },
+    { id: 'sku_3', name: 'Silver Anklet 925', unit: 'pc', price: 1200, category: 'Jewellery' },
+    { id: 'sku_4', name: 'Pearl Earrings', unit: 'pc', price: 8500, category: 'Jewellery' },
 ];
 
 export const PACKS = [
@@ -85,91 +83,64 @@ export const PRODUCTS = [
             { id: 'p2-v1', name: 'Size 7', mrp: 65000, price: 58000, discount: '11%off', stock: 8, sold: 15 }
         ]
     },
-
-    // --- MACHINES ---
     {
-        id: 'm1',
-        brand: 'HG MACHINES',
-        name: 'Smart Wax Printer',
-        category: 'Machine',
-        subcategory: 'Printers',
+        id: 'p3',
+        brand: 'HG LUXE',
+        name: 'Empire Diamond Pendant',
+        category: 'Jewellery',
+        subcategory: 'Pendants',
         rating: 4.9,
-        tag: 'ADVANCED',
-        image: machinePlaceholder,
-        description: 'High-precision smart wax printer for intricate jewellery designs.',
-        benefits: ['High Resolution', 'Fast Printing', 'User Friendly Interface'],
+        tag: 'ELEGANCE',
+        image: earringsUrl,
+        description: 'A striking diamond pendant that captures the light from every angle.',
+        benefits: ['IF Clarity Diamonds', '18k Rose Gold', 'Elegant Packaging'],
         specifications: [
-            { label: 'Resolution', value: '25 Microns' },
-            { label: 'Build Volume', value: '120x80x150 mm' },
-            { label: 'Warranty', value: '2 Years' }
+            { label: 'Diamond', value: '1.2 ct' },
+            { label: 'Metal', value: '18k Rose Gold' }
         ],
-        faqs: [
-            { q: 'Does it include software?', a: 'Yes, it comes with HG Design Studio Pro.' }
-        ],
+        faqs: [],
         variants: [
-            { id: 'm1-v1', name: 'Standard', mrp: 150000, price: 125000, discount: '16%off', stock: 5, sold: 20 }
+            { id: 'p3-v1', name: 'Rose Gold', mrp: 95000, price: 82000, discount: '14%off', stock: 5, sold: 8 }
         ]
     },
     {
-        id: 'm2',
-        brand: 'HG MACHINES',
-        name: 'IPA Recycling Machine',
-        category: 'Machine',
-        subcategory: 'Recycling',
+        id: 'p4',
+        brand: 'HG TREND',
+        name: 'Heritage Gold Bangle',
+        category: 'Jewellery',
+        subcategory: 'Bracelets',
         rating: 4.7,
-        tag: 'ECO-FRIENDLY',
-        image: machinePlaceholder,
-        description: 'Efficient IPA recycling system for cleaning castable resins.',
-        benefits: ['95% Recovery Rate', 'Explosion Proof', 'Low Maintenance'],
+        tag: 'HERITAGE',
+        image: braceletUrl,
+        description: 'Traditional solid gold bangle with intricate hand-carved details.',
+        benefits: ['Pure 22k Gold', 'Hand-Crafted', 'Traditional Design'],
         specifications: [
-            { label: 'Capacity', value: '10L' },
-            { label: 'Processing Time', value: '4 Hours' }
+            { label: 'Metal', value: '22k Gold' },
+            { label: 'Weight', value: '28g' }
         ],
         faqs: [],
         variants: [
-            { id: 'm2-v1', name: '10L Model', mrp: 85000, price: 72000, discount: '15%off', stock: 3, sold: 10 }
+            { id: 'p4-v1', name: 'Size 2.4', mrp: 110000, price: 98000, discount: '11%off', stock: 12, sold: 25 }
         ]
     },
-
-    // --- TOOLS ---
     {
-        id: 't1',
-        brand: 'HG TOOLS',
-        name: 'Yellow Cloth Buff',
-        category: 'Tools',
-        subcategory: 'Polishing',
+        id: 'p5',
+        brand: 'HG SILVER',
+        name: 'Pure Silver Anklet Set',
+        category: 'Jewellery',
+        subcategory: 'Anklets',
         rating: 4.5,
-        tag: 'ESSENTIAL',
-        image: toolPlaceholder,
-        description: 'High-quality cotton cloth buff for final high-shine polishing.',
-        benefits: ['Long Lasting', 'Soft Cotton', 'Safe for Gold & Silver'],
+        tag: 'DAILY WEAR',
+        image: ankletUrl,
+        description: 'Beautiful 925 sterling silver anklets for everyday elegance.',
+        benefits: ['925 Sterling Silver', 'Skin Friendly', 'Durable Links'],
         specifications: [
-            { label: 'Material', value: 'Premium Cotton' },
-            { label: 'Diameter', value: '6 Inches' }
+            { label: 'Material', value: '925 Silver' },
+            { label: 'Length', value: '10 Inches' }
         ],
         faqs: [],
         variants: [
-            { id: 't1-v1', name: 'Pack of 10', mrp: 1500, price: 1200, discount: '20%off', stock: 50, sold: 200 }
-        ]
-    },
-    {
-        id: 't2',
-        brand: 'HG TOOLS',
-        name: 'Micro Motor',
-        category: 'Tools',
-        subcategory: 'Drilling',
-        rating: 4.8,
-        tag: 'PROFESSIONAL',
-        image: toolPlaceholder,
-        description: 'Powerful and silent micro motor for precise drilling and setting.',
-        benefits: ['35000 RPM', 'Silent Operation', 'Foot Control Included'],
-        specifications: [
-            { label: 'Speed', value: 'Max 35000 RPM' },
-            { label: 'Voltage', value: '220V' }
-        ],
-        faqs: [],
-        variants: [
-            { id: 't2-v1', name: 'Standard', mrp: 12000, price: 9500, discount: '20%off', stock: 12, sold: 45 }
+            { id: 'p5-v1', name: 'Standard', mrp: 1800, price: 1400, discount: '22%off', stock: 50, sold: 120 }
         ]
     }
 ];

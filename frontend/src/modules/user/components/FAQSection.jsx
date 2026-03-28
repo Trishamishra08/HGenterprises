@@ -29,11 +29,17 @@ const FAQSection = () => {
     };
 
     return (
-        <section className="py-8 md:py-20 bg-[#FAF9F6] relative overflow-hidden">
+        <section className="py-8 bg-[#FAF9F6] relative overflow-hidden">
             <div className="container mx-auto px-2 md:px-4 max-w-4xl relative z-10">
-                <div className="text-center mb-8 md:mb-16">
-                    <span className="text-[#C9A24D] text-[10px] md:text-sm font-bold tracking-[0.2em] uppercase mb-2 block">Common Questions</span>
-                    <h2 className="font-serif text-2xl md:text-5xl text-[#2F0A0F] font-normal uppercase tracking-[0.05em]">Frequently Asked Questions</h2>
+                {/* Header - Matched to Style It Your Way */}
+                <div className="text-center mb-6 md:mb-8">
+                    <span className="text-primary font-serif tracking-[0.2em] font-normal italic text-[10px] md:text-sm mb-1 block">
+                        Common Questions
+                    </span>
+                    <h2 className="font-serif text-3xl md:text-4xl font-normal text-dark tracking-tight">
+                        Frequently Asked Questions
+                    </h2>
+                    <div className="h-[1px] w-12 bg-primary mx-auto opacity-30 mt-3"></div>
                 </div>
 
                 <div className="space-y-3 md:space-y-4">

@@ -1,391 +1,344 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import ProductCard from '../components/ProductCard';
-import { products, categories } from '../assets/data'; // Import categories to map paths
-import { Filter, ChevronDown, ArrowUpDown, ArrowLeft } from 'lucide-react';
-import { useLocation, useParams, useNavigate } from 'react-router-dom';
+import { products, categories as initialCategories } from '../assets/data';
+import { 
+    Filter, ChevronDown, ArrowUpDown, ArrowLeft, Plus, Minus, 
+    UserCircle, ChevronRight, Search, X, SlidersHorizontal, Check, 
+    Home, Heart, RotateCcw, Diamond, Settings, Hammer, Image as ImageLucide 
+} from 'lucide-react';
+import { useLocation, useParams, useNavigate, Link } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Shop = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const { category } = useParams();
-    const [isFilterOpen, setIsFilterOpen] = useState(false); // State for Sidebar
-    const [selectedCategory, setSelectedCategory] = useState('All');
-    const [selectedSubCategory, setSelectedSubCategory] = useState(null); // New State for Subcategory
-    const [filterNewArrivals, setFilterNewArrivals] = useState(false);
-    const [filterTrending, setFilterTrending] = useState(false);
-    const [isSortOpen, setIsSortOpen] = useState(false);
-    const [isWebSortOpen, setIsWebSortOpen] = useState(false); // New state for Web Sort Dropdown
+    const { category: urlCategory } = useParams();
+    const searchParams = new URLSearchParams(location.search);
+    const filterParam = searchParams.get('filter');
+    
+    // States
+    const [isFilterOpen, setIsFilterOpen] = useState(false);
+    const [selectedCategory, setSelectedCategory] = useState('Jewellery');
+    const [openCategory, setOpenCategory] = useState('Jewellery'); 
+    const [selectedSubCategory, setSelectedSubCategory] = useState(null);
+    const [selectedType, setSelectedType] = useState('All');
+    const [selectedGender, setSelectedGender] = useState('All');
+    const [selectedMetal, setSelectedMetal] = useState('All');
     const [sortBy, setSortBy] = useState('Newest');
-    const [priceRange, setPriceRange] = useState(10000); // Mock max price
-    const [filteredProducts, setFilteredProducts] = useState(products);
-    const [pageTitle, setPageTitle] = useState('All Jewellery');
+    const [priceRange, setPriceRange] = useState(500000); // Max price slider
+    const [isSortOpen, setIsSortOpen] = useState(false);
 
-    // Effect to handle URL-based Logic + Local Category Filter
+    // Sync with URL params & Normalize Category
     useEffect(() => {
-        const path = location.pathname;
-        let baseProducts = products;
-        let title = 'All Jewellery';
+        const queryParam = urlCategory || filterParam;
+        if (queryParam) {
+            try {
+                const normalizedParam = decodeURIComponent(queryParam).toLowerCase();
+                
+                // Try to find if it matches a category
+                const catMatch = initialCategories.find(c => (c.name?.toLowerCase() === normalizedParam) || (c.id?.toLowerCase() === normalizedParam));
+                if (catMatch) {
+                    setSelectedCategory(catMatch.name || 'Jewellery');
+                    setOpenCategory(catMatch.name || 'Jewellery');
+                    setSelectedSubCategory(null);
+                    return;
+                }
 
-        // 1. Determine Base Products & Title from URL
-        if (path === '/new-arrivals') {
-            title = 'New Arrivals';
-            baseProducts = products.filter(p => p.isNew);
-        } else if (path === '/trending') {
-            title = 'Trending Now';
-            baseProducts = products.filter(p => p.rating >= 4.5);
-        } else if (category) {
-            const currentCat = categories.find(c => c.path === category);
-            title = currentCat ? currentCat.name : category.charAt(0).toUpperCase() + category.slice(1);
-            baseProducts = products.filter(p => p.category.toLowerCase() === category.toLowerCase() || (currentCat && p.category === currentCat.name));
-        }
-
-        // Apply Title overrides from Local Filters
-        if (selectedSubCategory) {
-            title = selectedSubCategory;
-        } else if (selectedCategory !== 'All') {
-            title = selectedCategory;
-        } else if (filterNewArrivals && path === '/shop') {
-            title = 'Just Arrived';
-        } else if (filterTrending && path === '/shop') {
-            title = 'Trending Now';
-        }
-
-        setPageTitle(title);
-
-        let result = baseProducts;
-
-        // 2. Apply Local Category Filter (if selected)
-        if (selectedCategory !== 'All') {
-            result = result.filter(p => p.category === selectedCategory);
-
-            // 2.1 Apply Subcategory Filter
-            if (selectedSubCategory) {
-                // Assuming product names or descriptions usually contain the subcategory type for matching 
-                // OR in a real app, products would have a 'subcategory' field.
-                // For this demo, we'll try to match exact string if possible, or fuzzy match if product has that property.
-                // Since data.js products don't specifically have 'subcategory' field, we might match name string roughly?
-                // Wait, looking at data.js, products don't have subcategory field.
-                // However, `data.js` structure has subcategories with specific names.
-                // Let's assume for now we filter by checking if product NAME contains the subcategory name (e.g. "Solitaire").
-                result = result.filter(p => p.name.includes(selectedSubCategory));
+                // Try to find if it matches a subcategory
+                const subMatch = initialCategories.flatMap(c => c.subcategories || []).find(s => 
+                    s.name?.toLowerCase() === normalizedParam || 
+                    (s.path && s.path.toLowerCase() === normalizedParam.replace(' ', '-'))
+                );
+                if (subMatch) {
+                    const parent = initialCategories.find(c => (c.subcategories || []).some(s => s.name === subMatch.name));
+                    setSelectedCategory(parent?.name || 'Jewellery');
+                    setOpenCategory(parent?.name || 'Jewellery');
+                    setSelectedSubCategory(subMatch.name);
+                }
+            } catch (err) {
+                console.error("Discovery Sync Error:", err);
             }
         }
+    }, [urlCategory, filterParam]);
 
-        // 2.2 Apply Collection Filters
-        if (filterNewArrivals) {
-            result = result.filter(p => p.isNew);
-        }
-        if (filterTrending) {
-            result = result.filter(p => p.rating >= 4.5);
-        }
+    // Removal of all automatic scroll logic as requested by user
+    // User wants to stay in the same place at all times during selection
 
-        // 3. Apply Price Filter
+    // Filtering Logic
+    const filteredProducts = useMemo(() => {
+        let result = [...products];
+
+        if (selectedCategory && selectedCategory !== 'All') {
+            result = result.filter(p => p.category?.toLowerCase() === selectedCategory.toLowerCase());
+            if (selectedSubCategory) {
+                result = result.filter(p => 
+                    (p.subCategory && p.subCategory.toLowerCase() === selectedSubCategory.toLowerCase()) || 
+                    (p.name && p.name.toLowerCase().includes(selectedSubCategory.toLowerCase()))
+                );
+            }
+        }
+        if (selectedType !== 'All') result = result.filter(p => p.type?.toLowerCase() === selectedType.toLowerCase());
+        if (selectedGender !== 'All') result = result.filter(p => p.gender?.toLowerCase() === selectedGender.toLowerCase());
+        if (selectedMetal !== 'All') result = result.filter(p => p.metal?.toLowerCase() === selectedMetal.toLowerCase());
+        
+        // Price Filter
         result = result.filter(p => p.price <= priceRange);
 
-        // 4. Apply Sorting
-        if (sortBy === 'Price: Low to High') {
-            result.sort((a, b) => a.price - b.price);
-        } else if (sortBy === 'Price: High to Low') {
-            result.sort((a, b) => b.price - a.price);
-        } else if (sortBy === 'Best Selling') {
-            result.sort((a, b) => b.rating - a.rating);
-        } else if (sortBy === 'Newest') {
-            result.sort((a, b) => (b.isNew === a.isNew) ? 0 : b.isNew ? 1 : -1);
-        }
+        if (sortBy === 'Price: Low to High') result.sort((a, b) => a.price - b.price);
+        else if (sortBy === 'Price: High to Low') result.sort((a, b) => b.price - a.price);
+        else if (sortBy === 'Best Selling') result.sort((a, b) => b.rating - a.rating);
+        else if (sortBy === 'Newest') result.sort((a, b) => (b.isNew === a.isNew) ? 0 : b.isNew ? 1 : -1);
 
-        setFilteredProducts([...result]); // Create new array to force re-render
+        return result;
+    }, [selectedCategory, selectedSubCategory, selectedType, selectedGender, selectedMetal, priceRange, sortBy]);
 
-    }, [location, category, selectedCategory, selectedSubCategory, priceRange, filterNewArrivals, filterTrending, sortBy]);
+    const pageTitle = useMemo(() => {
+        return selectedSubCategory || selectedCategory || 'Categories Master';
+    }, [selectedCategory, selectedSubCategory]);
 
-    // Handle Category Change to reset subcategory
-    const handleCategoryChange = (val) => {
-        setSelectedCategory(val);
+    const handleCategoryToggle = (name) => {
+        setOpenCategory(name);
+        setSelectedCategory(name);
         setSelectedSubCategory(null);
+        setSelectedType('All');
+        setSelectedMetal('All');
+    };
+
+    const SidebarContent = () => {
+        const currentCatData = initialCategories.find(c => c.name === openCategory);
+        
+        return (
+            <div className="flex flex-col h-full bg-white font-body overflow-hidden relative">
+                {/* Fixed Header */}
+                <div className="p-5 bg-[#0a0a0a] text-white shrink-0 border-b border-white/5 z-[70] shadow-sm">
+                    <div className="flex items-center gap-3">
+                        <UserCircle className="w-8 h-8 text-[#8B4356]" />
+                        <span className="text-[12px] font-bold tracking-[0.25em] font-serif italic text-white/90">Curated Categories</span>
+                    </div>
+                </div>
+
+                {/* Scrollable Middle Container */}
+                <div className="flex-1 overflow-y-auto scrollbar-hide px-5 pt-6 space-y-7 pb-10">
+                    <div>
+                         <h4 className="text-[7.5px] font-bold uppercase tracking-[0.5em] text-zinc-300 mb-3.5 ml-1">Archive Hub</h4>
+                         <div className="flex flex-col gap-1.5">
+                             {initialCategories.map(cat => (
+                                 <button key={cat.id} onClick={() => handleCategoryToggle(cat.name)} className={`w-full text-left px-4 py-3 rounded-xl border transition-all flex items-center justify-between group ${openCategory === cat.name ? 'border-[#8B4356] bg-[#FDF5F6]/30 text-[#8B4356]' : 'border-zinc-50 text-zinc-400 hover:border-zinc-100 hover:bg-zinc-50'}`}>
+                                     <span className="text-[9px] font-bold uppercase tracking-widest">{cat.name}</span>
+                                     <ChevronRight className={`w-3 h-3 transition-transform ${openCategory === cat.name ? 'rotate-90 text-[#8B4356]' : 'text-zinc-200 group-hover:translate-x-1'}`} />
+                                 </button>
+                             ))}
+                         </div>
+                    </div>
+
+                    <div>
+                         <h4 className="text-[7.5px] font-bold uppercase tracking-[0.5em] text-zinc-300 mb-4 flex items-center gap-3">Discovery Map <div className="h-[1px] flex-grow bg-zinc-50"></div></h4>
+                         <div className="grid grid-cols-2 gap-4">
+                             {currentCatData?.subcategories.map(sub => (
+                                 <button key={sub.name} onClick={() => setSelectedSubCategory(sub.name === selectedSubCategory ? null : sub.name)} className={`relative group p-3 rounded-2xl border transition-all text-center flex flex-col items-center gap-2.5 ${selectedSubCategory === sub.name ? 'border-[#8B4356] bg-white shadow-[0_10px_30px_rgba(139,67,86,0.08)] scale-[1.02]' : 'border-zinc-50 bg-[#fafafa] hover:border-zinc-200'}`}>
+                                     <div className={`w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden border-2 transition-transform bg-zinc-100 flex items-center justify-center ${selectedSubCategory === sub.name ? 'border-[#8B4356]' : 'border-transparent group-hover:scale-105'}`}>
+                                         {sub.image && (
+                                             <img src={sub.image} className="w-full h-full object-cover" crossOrigin="anonymous" loading="lazy" onError={(e) => { e.target.style.display = 'none'; if(e.target.nextSibling) e.target.nextSibling.style.display = 'flex'; }} />
+                                         )}
+                                         <div className="hidden items-center justify-center w-full h-full text-zinc-300"><ImageLucide className="w-5 h-5" /></div>
+                                     </div>
+                                     <span className={`text-[8px] font-bold uppercase tracking-widest leading-tight transition-colors ${selectedSubCategory === sub.name ? 'text-[#8B4356]' : 'text-zinc-500'}`}>{sub.name}</span>
+                                 </button>
+                             ))}
+                         </div>
+                    </div>
+
+                    <div className="space-y-8">
+                         {/* DYNAMIC MATERIAL SECTION based on Category */}
+                         {currentCatData?.materials && (
+                            <div>
+                                <h4 className="text-[7.5px] font-bold uppercase tracking-[0.5em] text-[#8B4356] mb-4 flex items-center gap-3">
+                                    {currentCatData.materialLabel || "By Material"} 
+                                    <div className="h-[1px] flex-grow bg-[#FDF5F6]"></div>
+                                </h4>
+                                <div className="grid grid-cols-2 gap-2 px-1">
+                                    {currentCatData.materials.map(m => (
+                                        <button key={m} onClick={() => setSelectedMetal(m === selectedMetal ? 'All' : m)} className={`py-3 rounded-xl border text-[7.5px] font-bold uppercase tracking-widest transition-all ${selectedMetal === m ? 'border-[#8B4356] bg-[#8B4356] text-white shadow-md' : 'border-zinc-100 text-zinc-400 hover:border-zinc-300'}`}>{m}</button>
+                                    ))}
+                                </div>
+                            </div>
+                         )}
+
+                        {/* PRICE SLIDER */}
+                        <div>
+                             <h4 className="text-[7.5px] font-bold uppercase tracking-[0.5em] text-zinc-300 mb-6 flex items-center gap-3">Price Explorer <div className="h-[1px] flex-grow bg-zinc-50"></div></h4>
+                             <div className="px-2 space-y-4">
+                                <div className="flex justify-between items-end mb-2">
+                                    <p className="text-[7px] font-bold uppercase tracking-widest text-zinc-400">Min: ₹0</p>
+                                    <p className="text-[11px] font-bold text-[#8B4356] font-display italic">₹{priceRange.toLocaleString()}</p>
+                                </div>
+                                <input 
+                                    type="range" 
+                                    min="0" 
+                                    max="500000" 
+                                    step="5000" 
+                                    value={priceRange} 
+                                    onChange={(e) => setPriceRange(parseInt(e.target.value))}
+                                    className="w-full h-[3px] bg-zinc-100 rounded-lg appearance-none cursor-pointer accent-[#8B4356] transition-all hover:accent-[#7a394b]"
+                                />
+                                <div className="flex justify-between mt-1">
+                                    <span className="text-[6.5px] font-black uppercase tracking-tighter text-zinc-300">Start</span>
+                                    <span className="text-[6.5px] font-black uppercase tracking-tighter text-zinc-300">5 Lakh +</span>
+                                </div>
+                             </div>
+                        </div>
+
+                        {currentCatData?.popularTypes && (
+                            <div>
+                                <h4 className="text-[7.5px] font-bold uppercase tracking-[0.5em] text-zinc-300 mb-4 flex items-center gap-3">Popular Options <div className="h-[1px] flex-grow bg-zinc-50"></div></h4>
+                                <div className="grid grid-cols-2 gap-x-4 gap-y-3 px-1">
+                                    {currentCatData.popularTypes.map(type => (
+                                        <button key={type} onClick={() => setSelectedType(type === selectedType ? 'All' : type)} className={`text-left text-[8.5px] uppercase font-bold tracking-widest transition-all ${selectedType === type ? 'text-[#8B4356] translate-x-1' : 'text-zinc-400 hover:text-black hover:translate-x-1'}`}>{type}</button>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                {/* Fixed Footer */}
+                <div className="lg:hidden p-4 border-t border-zinc-50 bg-white/95 backdrop-blur-md pb-6 shrink-0 z-[70] shadow-[0_-5px_20px_rgba(0,0,0,0.03)]">
+                    <button onClick={() => setIsFilterOpen(false)} className="w-full bg-[#8B4356] text-white py-4.5 rounded-2xl font-bold uppercase tracking-[0.2em] text-[11px] shadow-xl active:scale-95 hover:bg-[#7a394b] transition-all">Apply Discovery</button>
+                </div>
+            </div>
+        );
+    };
+
+    const CategoryMegaGrid = () => {
+        const currentCatData = initialCategories.find(c => c.name === openCategory);
+        
+        return (
+            <div className="hidden lg:grid grid-cols-4 gap-10 bg-white border border-zinc-100 p-10 rounded-[3rem] mb-12 shadow-[0_15px_50px_rgba(0,0,0,0.015)] relative z-40">
+                <div className="absolute top-0 right-0 w-40 h-40 bg-[#FDF5F6]/40 rounded-full blur-[70px] -translate-y-1/2 translate-x-1/2"></div>
+                <div>
+                    <h5 className="text-[8px] font-bold uppercase tracking-[0.5em] text-[#8B4356] mb-8 flex items-center gap-3">
+                        {currentCatData?.materialLabel || "By Material"} 
+                        <div className="h-[1px] flex-grow bg-[#FDF5F6]"></div>
+                    </h5>
+                    <div className="space-y-4">
+                        {currentCatData?.materials?.map(m => (
+                            <button key={m} onClick={() => setSelectedMetal(m === selectedMetal ? 'All' : m)} className={`block w-full text-left text-[11px] font-bold uppercase tracking-widest transition-all hover:text-black px-4 py-2 rounded-xl border ${selectedMetal === m ? 'border-[#8B4356] bg-[#FDF5F6]/30 text-[#8B4356]' : 'border-transparent text-zinc-400 hover:bg-zinc-50'}`}>{m} Selection</button>
+                        ))}
+                    </div>
+                </div>
+                <div>
+                    <h5 className="text-[8px] font-bold uppercase tracking-[0.5em] text-[#8B4356] mb-8 flex items-center gap-3">Top Styles <div className="h-[1px] flex-grow bg-[#FDF5F6]"></div></h5>
+                    <div className="grid grid-cols-1 gap-y-4">
+                        {currentCatData?.popularTypes?.map(t => (
+                            <button key={t} onClick={() => setSelectedType(t === selectedType ? 'All' : t)} className={`text-left text-[11px] font-bold uppercase tracking-widest hover:text-[#8B4356] transition-all hover:translate-x-1 ${selectedType === t ? 'text-[#8B4356] translate-x-1' : 'text-zinc-400'}`}>{t}</button>
+                        ))}
+                    </div>
+                </div>
+                <div className="border-x border-zinc-50 px-10">
+                    <h5 className="text-[8px] font-bold uppercase tracking-[0.5em] text-[#8B4356] mb-8 flex items-center gap-3">Budget Discovery <div className="h-[1px] flex-grow bg-[#FDF5F6]"></div></h5>
+                    <div className="space-y-6 pt-2">
+                        <div className="flex justify-between items-center mb-1">
+                            <span className="text-[12px] font-serif italic text-black font-bold">Max ₹{priceRange.toLocaleString()}</span>
+                        </div>
+                        <input 
+                            type="range" 
+                            min="0" 
+                            max="500000" 
+                            step="5000" 
+                            value={priceRange} 
+                            onChange={(e) => setPriceRange(parseInt(e.target.value))}
+                            className="w-full h-1 bg-zinc-100 rounded-lg appearance-none cursor-pointer accent-[#8B4356]"
+                        />
+                        <div className="flex justify-between items-center text-[7px] font-black uppercase tracking-widest text-zinc-300">
+                            <span>Min</span>
+                            <span>5 Lakh+</span>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h5 className="text-[8px] font-bold uppercase tracking-[0.5em] text-[#8B4356] mb-8 flex items-center gap-3">All Categories <div className="h-[1px] flex-grow bg-[#FDF5F6]"></div></h5>
+                    <div className="space-y-5">
+                        {initialCategories.map(m => (
+                            <div key={m.id} onClick={() => handleCategoryToggle(m.name)} className="group/item cursor-pointer flex items-center justify-between border-b border-zinc-50 pb-2.5 transition-colors hover:border-[#8B4356]/20">
+                                <p className={`text-[11.5px] font-bold uppercase tracking-widest hover:text-[#8B4356] transition-all ${openCategory === m.name ? 'text-[#8B4356] translate-x-1' : 'text-black group-hover/item:translate-x-1'}`}>{m.name}</p>
+                                <ChevronRight className={`w-3.5 h-3.5 transition-all ${openCategory === m.name ? 'text-[#8B4356] translate-x-1' : 'text-zinc-200 group-hover/item:text-black group-hover/item:translate-x-1'}`} />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        );
     };
 
     return (
-        <div className="bg-white min-h-screen relative">
-            <div className="container mx-auto px-4 pt-6">
-                <button
-                    onClick={() => navigate(-1)}
-                    className="flex items-center gap-2 text-black hover:text-black transition-all group font-bold uppercase tracking-widest text-[10px]"
-                >
-                    <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-                    Back
-                </button>
-            </div>
-            <div className="container mx-auto px-4 pt-4 pb-32 md:pb-8">
-                {/* Header Section - Single Row: Title Left, Filter Button Right */}
-                {/* Header Section - Compact Mobile */}
-                <div className="sticky top-[50px] md:top-[141px] z-30 bg-white pt-2 md:pt-4 flex flex-row justify-between items-center mb-4 md:mb-10 pb-2 md:pb-6 border-b border-[#EBCDD0] gap-4 transition-all duration-300">
-                    <div className="text-left shrink-0">
-                        <h1 className="text-2xl md:text-4xl lg:text-5xl font-serif font-medium text-black">{pageTitle}</h1>
-                        <p className="text-black mt-1 md:mt-2 text-xs md:text-base font-medium">{filteredProducts.length} Products Found</p>
-                    </div>
-
-                    <div className="hidden md:flex items-center gap-2 md:gap-4 shrink-0">
-                        {/* Desktop Sort Dropdown */}
-                        <div className="relative">
-                            <button
-                                onClick={() => setIsWebSortOpen(!isWebSortOpen)}
-                                className="flex items-center gap-2 text-black font-medium text-sm border border-[#EBCDD0] px-4 py-2 rounded-full hover:bg-[#FDF5F6] hover:shadow-sm transition-all"
-                            >
-                                <ArrowUpDown className="w-4 h-4" />
-                                <span>Sort By</span>
-                                <ChevronDown className={`w-4 h-4 transition-transform ${isWebSortOpen ? 'rotate-180' : ''}`} />
-                            </button>
-
-                            {isWebSortOpen && (
-                                <div className="absolute right-0 top-full mt-2 w-56 bg-white border border-[#EBCDD0] rounded-xl shadow-xl z-50 py-2 animate-in fade-in zoom-in-95 duration-200">
-                                    {['Newest', 'Price: High to Low', 'Price: Low to High', 'Best Selling'].map((option) => (
-                                        <button
-                                            key={option}
-                                            onClick={() => { setSortBy(option); setIsWebSortOpen(false); }}
-                                            className={`w-full text-left px-4 py-2.5 text-sm hover:bg-[#FDF5F6] transition-colors flex items-center justify-between group ${sortBy === option ? 'text-black font-bold bg-[#FDF5F6]' : 'text-gray-600'}`}
+        <div className="min-h-screen bg-white font-body selection:bg-[#8B4356] selection:text-white pb-32 md:pb-10 overflow-hidden">
+            <div className="flex max-w-[1700px] mx-auto min-h-screen">
+                <aside className="hidden lg:block w-[310px] shrink-0 border-r border-zinc-100 sticky top-[104px] h-[calc(100vh-104px)] z-20 overflow-hidden bg-white shadow-sm"><SidebarContent /></aside>
+                <main className="flex-grow min-w-0 bg-[#fdf2f8]/5">
+                    <div className="p-4 md:p-8 lg:px-16 lg:py-10">
+                        <div className="mb-8 lg:mb-12">
+                            <div className="flex items-center gap-2 text-[8px] uppercase tracking-[0.5em] font-bold text-zinc-300 mb-6 px-1">
+                                <Link to="/" className="hover:text-[#8B4356] transition-colors">Home</Link>
+                                <span className="opacity-20">/</span>
+                                <span className="text-zinc-400">Categories</span>
+                                {selectedCategory !== 'All' && (
+                                    <React.Fragment>
+                                        <span className="opacity-20">/</span>
+                                        <span className="text-[#8B4356]/60 tracking-[0.2em]">{selectedCategory}</span>
+                                    </React.Fragment>
+                                )}
+                                {selectedSubCategory && (
+                                    <React.Fragment>
+                                        <span className="opacity-20">/</span>
+                                        <span className="text-[#8B4356] tracking-[0.25em] font-black">{selectedSubCategory}</span>
+                                    </React.Fragment>
+                                )}
+                            </div>
+                            
+                            <div className="flex flex-col md:flex-row md:items-end justify-between items-start gap-4 border-b border-zinc-100 pb-8 relative px-1">
+                                <div className="flex items-start justify-between w-full relative">
+                                    <div className="flex flex-col gap-4">
+                                        <motion.h1 key={pageTitle} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="text-5xl md:text-7xl lg:text-8xl font-display font-medium text-black tracking-tighter lowercase italic leading-none">{pageTitle}</motion.h1>
+                                        <div className="flex items-center gap-4">
+                                            <div className="h-[1px] w-12 bg-[#8B4356]/20"></div>
+                                            <p className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.5em] text-[#8B4356]/30 leading-none">{filteredProducts.length} Piece Discovery</p>
+                                        </div>
+                                    </div>
+                                    <div className="absolute top-0 right-0 flex items-center gap-3">
+                                        <button 
+                                            onClick={() => setIsFilterOpen(true)}
+                                            className="lg:hidden w-11 h-11 rounded-2xl border border-zinc-100 flex items-center justify-center bg-white text-[#8B4356] shadow-sm active:scale-95 transition-all"
                                         >
-                                            <span>{option}</span>
-                                            {sortBy === option && <div className="w-2 h-2 rounded-full bg-[#D39A9F]" />}
+                                            <SlidersHorizontal className="w-4.5 h-4.5" strokeWidth={1} />
                                         </button>
-                                    ))}
+                                    </div>
                                 </div>
-                            )}
+                            </div>
                         </div>
 
-                        <button
-                            onClick={() => setIsFilterOpen(true)}
-                            className="flex items-center gap-1.5 md:gap-2 border border-[#EBCDD0] px-3 md:px-6 py-1.5 md:py-2.5 rounded-full hover:bg-[#D39A9F] hover:text-white hover:border-[#D39A9F] hover:shadow-md transition-all text-black text-xs md:text-sm font-medium bg-white/50"
-                        >
-                            <Filter className="w-3 h-3 md:w-4 md:h-4" />
-                            <span>Filter</span>
-                        </button>
-                    </div>
-                </div>
+                        <CategoryMegaGrid />
 
-
-
-                {/* Product Grid */}
-                {filteredProducts.length > 0 ? (
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-8 gap-y-8 md:gap-y-12">
-                        {filteredProducts.map((product) => (
-                            <ProductCard key={product.id} product={product} />
-                        ))}
-                    </div>
-                ) : (
-                    <div className="flex flex-col items-center justify-center py-20 text-center">
-                        <h3 className="text-2xl font-serif text-black mb-2">No products found</h3>
-                        <p className="text-black">Try adjusting your filters.</p>
-                        <button onClick={() => { setSelectedCategory('All'); setSelectedSubCategory(null); setPriceRange(10000); }} className="mt-4 underline text-gray-600 hover:text-black">Clear all filters</button>
-                    </div>
-                )}
-            </div>
-
-            {/* Mobile Bottom Action Bar (Nykaa Style) */}
-            <div className="md:hidden fixed bottom-[62px] left-0 right-0 bg-white z-[60] border-t border-[#EBCDD0] flex h-14 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
-                {/* Sort Button (Custom Sheet Trigger) */}
-                <div onClick={() => setIsSortOpen(true)} className="flex-1 border-r border-[#EBCDD0] relative flex flex-col items-center justify-center active:bg-gray-50 cursor-pointer py-1">
-                    <span className="text-black font-bold text-xs flex items-center gap-1.5">
-                        <ArrowUpDown className="w-3 h-3" /> Sort by
-                    </span>
-                    <span className="text-[10px] text-gray-600 font-medium mt-0.5">{sortBy}</span>
-                </div>
-
-                {/* Filter Button */}
-                <button
-                    onClick={() => setIsFilterOpen(true)}
-                    className="flex-1 flex flex-col items-center justify-center active:bg-gray-50 py-1"
-                >
-                    <span className="text-black font-bold text-xs flex items-center gap-1.5">
-                        <Filter className="w-3 h-3" /> Filter
-                    </span>
-                    <span className="text-[10px] text-gray-600 font-medium mt-0.5">
-                        {(selectedCategory !== 'All' || selectedSubCategory || filterNewArrivals || filterTrending || priceRange < 10000) ? 'Filters applied' : 'No filter applied'}
-                    </span>
-                </button>
-            </div>
-
-            {/* Filter Sidebar Drawer */}
-            {/* Overlay */}
-            {isFilterOpen && (
-                <div
-                    className="fixed inset-0 bg-black/40 z-[105] backdrop-blur-sm transition-opacity"
-                    onClick={() => setIsFilterOpen(false)}
-                ></div>
-            )}
-
-            {/* Sidebar */}
-            <div className={`fixed top-0 right-0 h-full w-[320px] bg-white z-[110] shadow-2xl transform transition-transform duration-300 ease-in-out border-l border-[#EBCDD0] ${isFilterOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-                <div className="flex flex-col h-full">
-                    {/* Sidebar Header */}
-                    <div className="flex items-center justify-between p-6 border-b border-[#EBCDD0]">
-                        <h3 className="text-xl font-serif text-black">Filters</h3>
-                        <button onClick={() => setIsFilterOpen(false)} className="text-gray-400 hover:text-black">
-                            <ChevronDown className="w-6 h-6 rotate-90" /> {/* Using Chevron as Close Icon approximation or could import X */}
-                        </button>
-                    </div>
-
-                    {/* Sidebar Content */}
-                    <div className="p-6 flex-1 overflow-y-auto space-y-8">
-
-                        {/* 1. Category Filter */}
-                        <div>
-                            <h4 className="font-bold text-black text-sm uppercase tracking-wider mb-4">Category</h4>
-                            <div className="space-y-3">
-                                <label className="flex items-center space-x-3 cursor-pointer group">
-                                    <input
-                                        type="radio"
-                                        name="category"
-                                        value="All"
-                                        checked={selectedCategory === 'All'}
-                                        onChange={(e) => handleCategoryChange(e.target.value)}
-                                        className="form-radio text-black focus:ring-[#D39A9F] h-4 w-4 border-gray-300"
-                                    />
-                                    <span className={`text-sm group-hover:text-black transition-colors ${selectedCategory === 'All' ? 'text-black font-medium' : 'text-gray-600'}`}>All Categories</span>
-                                </label>
-                                {categories.map(cat => (
-                                    <div key={cat.id}>
-                                        <label className="flex items-center space-x-3 cursor-pointer group mb-2">
-                                            <input
-                                                type="radio"
-                                                name="category"
-                                                value={cat.name}
-                                                checked={selectedCategory === cat.name}
-                                                onChange={(e) => handleCategoryChange(e.target.value)}
-                                                className="form-radio text-black focus:ring-[#D39A9F] h-4 w-4 border-gray-300"
-                                            />
-                                            <span className={`text-sm group-hover:text-black transition-colors ${selectedCategory === cat.name ? 'text-black font-medium' : 'text-gray-600'}`}>{cat.name}</span>
-                                        </label>
-
-                                        {/* Show Subcategories if Selected */}
-                                        {selectedCategory === cat.name && cat.subcategories && (
-                                            <div className="ml-7 space-y-2 border-l-2 border-[#EBCDD0] pl-3 animate-in slide-in-from-left-2 duration-300">
-                                                {cat.subcategories.map(sub => (
-                                                    <button
-                                                        key={sub.name}
-                                                        onClick={() => setSelectedSubCategory(sub.name === selectedSubCategory ? null : sub.name)}
-                                                        className={`block text-xs text-left w-full hover:text-black transition-colors ${selectedSubCategory === sub.name ? 'text-black font-bold' : 'text-gray-600'}`}
-                                                    >
-                                                        {sub.name}
-                                                    </button>
-                                                ))}
-                                            </div>
-                                        )}
-                                    </div>
+                        {filteredProducts.length > 0 ? (
+                            <div className="grid grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-8 md:gap-14 gap-y-12 md:gap-y-24 pb-40">
+                                {filteredProducts.map((product, idx) => (
+                                    <motion.div key={product.id} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.8, delay: (idx % 3) * 0.1, ease: "easeOut" }}><ProductCard product={product} /></motion.div>
                                 ))}
                             </div>
-                        </div>
-
-
-
-                        {/* 1.5 Collections Filter */}
-                        <div className="pt-6 border-t border-[#EBCDD0]">
-                            <h4 className="font-bold text-black text-sm uppercase tracking-wider mb-4">Collections</h4>
-                            <div className="space-y-3">
-                                <label className="flex items-center space-x-3 cursor-pointer group">
-                                    <input
-                                        type="checkbox"
-                                        checked={filterNewArrivals}
-                                        onChange={(e) => setFilterNewArrivals(e.target.checked)}
-                                        className="rounded border-gray-300 text-black focus:ring-[#D39A9F] h-4 w-4"
-                                    />
-                                    <span className={`text-sm group-hover:text-black transition-colors ${filterNewArrivals ? 'text-black font-medium' : 'text-gray-600'}`}>
-                                        Just Arrived
-                                    </span>
-                                </label>
-                                <label className="flex items-center space-x-3 cursor-pointer group">
-                                    <input
-                                        type="checkbox"
-                                        checked={filterTrending}
-                                        onChange={(e) => setFilterTrending(e.target.checked)}
-                                        className="rounded border-gray-300 text-black focus:ring-[#D39A9F] h-4 w-4"
-                                    />
-                                    <span className={`text-sm group-hover:text-black transition-colors ${filterTrending ? 'text-black font-medium' : 'text-gray-600'}`}>
-                                        Trending Now
-                                    </span>
-                                </label>
-                            </div>
-                        </div>
-
-                        {/* 2. Price Filter */}
-                        <div className="pt-6 border-t border-[#EBCDD0]">
-                            <h4 className="font-bold text-black text-sm uppercase tracking-wider mb-4">Max Price: ₹{priceRange.toLocaleString()}</h4>
-                            <input
-                                type="range"
-                                min="500"
-                                max="10000"
-                                step="500"
-                                value={priceRange}
-                                onChange={(e) => setPriceRange(Number(e.target.value))}
-                                className="w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-[#D39A9F]"
-                            />
-                            <div className="flex justify-between text-xs text-gray-600 mt-2">
-                                <span>₹500</span>
-                                <span>₹10,000+</span>
-                            </div>
-                        </div>
-
-                        {/* 3. Availability (Mock) */}
-                        <div>
-                            <h4 className="font-bold text-black text-sm uppercase tracking-wider mb-4">Availability</h4>
-                            <div className="space-y-3">
-                                <label className="flex items-center space-x-3 cursor-pointer">
-                                    <input type="checkbox" className="rounded border-gray-300 text-black focus:ring-[#D39A9F]" defaultChecked />
-                                    <span className="text-sm text-gray-600">In Stock</span>
-                                </label>
-                                <label className="flex items-center space-x-3 cursor-pointer">
-                                    <input type="checkbox" className="rounded border-gray-300 text-black focus:ring-[#D39A9F]" />
-                                    <span className="text-sm text-gray-600">Out of Stock</span>
-                                </label>
-                            </div>
-                        </div>
+                        ) : (
+                            <div className="flex flex-col items-center justify-center py-40 text-center bg-white rounded-[4rem] border border-zinc-50 mx-2 shadow-sm"><div className="w-24 h-24 bg-[#FDF5F6]/50 rounded-full flex items-center justify-center mb-8"><Search className="w-10 h-10 text-[#8B4356]/30" /></div><h3 className="text-3xl font-serif font-bold text-black mb-5">Choice Not Found</h3><p className="text-zinc-400 font-serif italic mb-10 max-w-sm mx-auto text-base">We couldn't match your discovery parameters.</p><button onClick={() => { setSelectedCategory('Jewellery'); setSelectedSubCategory(null); setSelectedType('All'); setSelectedGender('All'); setSelectedMetal('All'); setPriceRange(500000); setSortBy('Newest'); }} className="bg-[#8B4356] text-white px-10 py-5 rounded-full font-bold uppercase tracking-[0.4em] text-[10px] shadow-2xl transition-all">Reset All</button></div>
+                        )}
                     </div>
-
-                    {/* Sidebar Footer */}
-                    <div className="p-6 border-t border-[#EBCDD0] bg-white">
-                        <button
-                            onClick={() => { setSelectedCategory('All'); setSelectedSubCategory(null); setFilterNewArrivals(false); setFilterTrending(false); setPriceRange(10000); }}
-                            className="w-full py-3 border border-[#EBCDD0] text-black font-medium rounded-lg hover:bg-[#FDF5F6] hover:shadow-sm transition-all text-sm mb-3"
-                        >
-                            Reset Filters
-                        </button>
-                        <button
-                            onClick={() => setIsFilterOpen(false)}
-                            className="w-full py-3 bg-[#D39A9F] text-white font-medium rounded-lg hover:bg-[#D39A9F] shadow-lg hover:shadow-xl transition-all text-sm"
-                        >
-                            View Results
-                        </button>
-                    </div>
-                </div>
+                </main>
             </div>
 
-            {/* Sort Bottom Sheet */}
-            {isSortOpen && (
-                <>
-                    <div className="fixed inset-0 bg-black/40 z-[70] backdrop-blur-sm transition-opacity" onClick={() => setIsSortOpen(false)} />
-                    <div className="fixed bottom-0 left-0 right-0 bg-white z-[80] rounded-t-2xl p-6 pb-8 animate-in slide-in-from-bottom duration-300 safe-bottom">
-                        <div className="w-12 h-1.5 bg-gray-200 rounded-full mx-auto mb-6 opacity-50" />
-                        <h3 className="text-lg font-serif font-bold text-black mb-6">Sort By</h3>
-                        <div className="space-y-4">
-                            {['Newest', 'Price: High to Low', 'Price: Low to High', 'Best Selling'].map((option) => (
-                                <button
-                                    key={option}
-                                    onClick={() => { setSortBy(option); setIsSortOpen(false); }}
-                                    className="w-full flex items-center justify-between text-left py-2 group"
-                                >
-                                    <span className={`text-sm transition-colors ${sortBy === option ? 'font-bold text-black' : 'text-gray-600 group-hover:text-black'}`}>{option}</span>
-                                    {sortBy === option ? (
-                                        <div className="w-5 h-5 rounded-full bg-[#D39A9F] flex items-center justify-center">
-                                            <div className="w-2 h-2 bg-white rounded-full" />
-                                        </div>
-                                    ) : (
-                                        <div className="w-5 h-5 rounded-full border border-gray-300 group-hover:border-[#D39A9F]" />
-                                    )}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-                </>
-            )}
-
+            <AnimatePresence>
+                {isFilterOpen && (
+                    <>
+                        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-black/95 z-[210] backdrop-blur-2xl" onClick={() => setIsFilterOpen(false)} />
+                        <motion.div initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ type: 'spring', damping: 45, stiffness: 600 }} className="fixed top-0 right-0 h-full w-[80%] max-w-[360px] bg-white z-[220] shadow-[0_0_120px_rgba(0,0,0,0.7)] overflow-hidden"><SidebarContent /><div className="absolute top-6 right-6 z-[70]"><button onClick={() => setIsFilterOpen(false)} className="w-11 h-11 bg-zinc-50 border border-zinc-100 hover:bg-[#8B4356] hover:text-white rounded-full flex items-center justify-center transition-all shadow-lg group"><X className="w-4.5 h-4.5 group-hover:rotate-90 transition-transform" /></button></div></motion.div>
+                    </>
+                )}
+            </AnimatePresence>
         </div>
     );
 };

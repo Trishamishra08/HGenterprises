@@ -27,27 +27,19 @@ const NewLaunchSection = () => {
     const displayItems = sectionData?.items && sectionData.items.length > 0 ? sectionData.items : newLaunches;
 
     return (
-        <section className="pt-12 pb-16 md:pt-20 md:pb-24 bg-bg-light relative overflow-hidden">
+        <section className="pt-8 pb-10 md:pt-12 md:pb-16 bg-bg-light relative overflow-hidden">
 
             <div className="container mx-auto px-2 md:px-4 relative z-10">
 
-                {/* Header Area */}
-                {/* Header Area - Center Heading, Right Button */}
-                <div className="relative flex flex-col md:block items-center justify-center mb-10">
-
-                    {/* Centered Content */}
-                    <div className="flex flex-col items-center justify-center gap-3 text-center md:w-full">
-                        {/* Simple Wine Badge */}
-                        <div className="inline-block bg-primary text-white px-4 py-1 font-display tracking-wider text-xs uppercase rounded-sm shadow-sm opacity-90">
-                            New Launch
-                        </div>
-
-                        {/* Classy & Sweet Heading - Straight */}
-                        <h3 className="font-serif text-dark text-3xl md:text-4xl font-normal tracking-tight">
-                            {sectionData?.label || "Limited Edition"}
-                        </h3>
-                    </div>
-
+                {/* Header - Matched to Style It Your Way */}
+                <div className="text-center mb-6 md:mb-8">
+                    <span className="text-secondary font-serif tracking-[0.2em] font-normal italic text-[10px] md:text-sm mb-1 block">
+                        Our Latest
+                    </span>
+                    <h2 className="font-serif text-3xl md:text-4xl font-normal text-dark tracking-tight">
+                        {sectionData?.label || "New Launches"}
+                    </h2>
+                    <div className="h-[1px] w-12 bg-primary mx-auto opacity-30 mt-2"></div>
                 </div>
 
                 {/* Cards Row */}
@@ -62,14 +54,12 @@ const NewLaunchSection = () => {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                                className="w-[45%] md:w-56 lg:w-64"
+                                className="w-[45%] md:w-48 lg:w-56"
                             >
                                 <Link to={item.path} className="group block relative">
-                                    {/* Square Card Container */}
-                                    <div className="relative rounded-3xl overflow-hidden aspect-square bg-white shadow-xl group-hover:shadow-2xl transition-all duration-500 transform group-hover:-translate-y-2 isolate">
-
-
-
+                                    {/* Square Card Container - Tighter Corner */}
+                                    <div className="relative rounded-2xl overflow-hidden aspect-square bg-white shadow-xl group-hover:shadow-2xl transition-all duration-500 transform group-hover:-translate-y-2 isolate">
+                                        
                                         {/* Image */}
                                         <div className="absolute inset-0 overflow-hidden">
                                             <img
@@ -82,25 +72,25 @@ const NewLaunchSection = () => {
                                         {/* Gradient Overlay */}
                                         <div className="absolute inset-0 bg-gradient-to-t from-dark/90 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300"></div>
 
-                                        {/* Content - Bottom Center */}
-                                        <div className="absolute bottom-0 left-0 right-0 p-6 flex flex-col items-center justify-end text-center z-10">
+                                        {/* Content - Bottom Center - Reduced Padding */}
+                                        <div className="absolute bottom-0 left-0 right-0 p-4 flex flex-col items-center justify-end text-center z-10">
 
-                                            {/* Name */}
-                                            <h4 className="font-serif font-normal text-xl text-white tracking-wide mb-1 transform transition-transform duration-300 group-hover:-translate-y-1 uppercase">
+                                            {/* Name - Smaller Font */}
+                                            <h4 className="font-serif font-normal text-lg text-white tracking-wide mb-1 transform transition-transform duration-300 group-hover:-translate-y-1 uppercase">
                                                 {itemLabel}
                                             </h4>
 
-                                            {/* Divider */}
-                                            <div className="w-8 h-0.5 bg-gold rounded-full mb-2 opacity-50 group-hover:w-16 group-hover:opacity-100 transition-all duration-500"></div>
+                                            {/* Divider - Thinner */}
+                                            <div className="w-6 h-[1px] bg-gold rounded-full mb-2 opacity-50 group-hover:w-12 group-hover:opacity-100 transition-all duration-500"></div>
 
-                                            {/* Action Text */}
-                                            <span className="text-gold text-xs font-medium uppercase tracking-[0.2em] opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 delay-100">
+                                            {/* Action Text - Ultra Small */}
+                                            <span className="text-gold text-[8px] font-medium uppercase tracking-[0.2em] opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 delay-100">
                                                 Discover
                                             </span>
                                         </div>
 
                                         {/* Border Glow Effect */}
-                                        <div className="absolute inset-0 border-2 border-transparent group-hover:border-gold/30 rounded-3xl transition-colors duration-300 pointer-events-none"></div>
+                                        <div className="absolute inset-0 border-2 border-transparent group-hover:border-gold/30 rounded-2xl transition-colors duration-300 pointer-events-none"></div>
                                     </div>
                                 </Link>
                             </motion.div>

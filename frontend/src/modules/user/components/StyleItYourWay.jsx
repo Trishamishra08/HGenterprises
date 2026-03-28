@@ -107,30 +107,30 @@ const StyleItYourWay = () => {
     }, []);
 
     return (
-        <section className="pt-8 pb-2 md:pt-24 md:pb-4 bg-white relative">
+        <section className="pt-8 pb-2 md:pt-12 md:pb-4 bg-white relative">
             <div className="container mx-auto px-2 md:px-4">
 
-                {/* Centered Header */}
-                <div className="flex flex-col items-center text-center mb-12">
-                    <div className="flex flex-col items-center">
-                        <span className="text-gold text-sm font-bold tracking-[0.2em] uppercase mb-2 block">Curated For You</span>
-                        <h2 className="font-serif text-3xl md:text-5xl text-primary font-normal uppercase tracking-[0.05em]">
-                            {sectionData?.label || "Style It Your Way"}
-                        </h2>
-                        <div className="h-1 w-20 bg-gold mt-3 rounded-full md:hidden"></div>
-                    </div>
+                {/* Centered Header - Matched to Editorial Style */}
+                <div className="text-center mb-6 md:mb-8">
+                    <span className="text-primary font-serif tracking-[0.2em] font-normal italic text-[10px] md:text-sm mb-1 block">
+                        Curated For You
+                    </span>
+                    <h2 className="font-serif text-3xl md:text-4xl font-normal text-dark tracking-tight">
+                        {sectionData?.label || "Style It Your Way"}
+                    </h2>
+                    <div className="h-[1px] w-12 bg-primary mx-auto opacity-30 mt-3"></div>
                 </div>
 
                 {/* Carousel Container */}
                 <div
                     ref={scrollRef}
-                    className="flex gap-6 overflow-x-auto pb-12 snap-x snap-mandatory scrollbar-hide"
+                    className="flex gap-4 md:gap-6 overflow-x-auto pb-8 snap-x snap-mandatory scrollbar-hide"
                     style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                 >
                     {displayCollections.map((detail) => (
                         <div
                             key={detail.id}
-                            className={`min-w-[70vw] md:min-w-[850px] h-[180px] md:h-[480px] rounded-[1.25rem] md:rounded-[2.5rem] relative flex-shrink-0 snap-center group overflow-hidden cursor-pointer shadow-md md:shadow-2xl transition-all duration-500 isolate`}
+                            className={`min-w-[85vw] md:min-w-[700px] h-[220px] md:h-[320px] rounded-[1.25rem] md:rounded-[1.5rem] relative flex-shrink-0 snap-center group overflow-hidden cursor-pointer shadow-md md:shadow-lg transition-all duration-500 isolate`}
                         >
                             <Link to={detail.path}>
                                 {/* Full Card Banner Image */}
@@ -172,19 +172,19 @@ const StyleItYourWay = () => {
                     ))}
                 </div>
 
-                {/* Navigation Buttons for Desktop - Positioned Below Carousel */}
-                <div className="hidden md:flex justify-center gap-6 mt-8">
+                {/* Navigation Buttons for Desktop - Compacted Position Below Carousel */}
+                <div className="hidden md:flex justify-center gap-4 mt-4">
                     <button
                         onClick={() => scroll('left')}
-                        className="p-4 rounded-full border-2 border-primary/20 hover:bg-primary hover:text-white text-primary transition-all duration-300 shadow-sm hover:shadow-lg"
+                        className="p-2.5 rounded-full border border-primary/20 hover:bg-primary hover:text-white text-primary transition-all duration-300 shadow-sm"
                     >
-                        <ChevronLeft className="w-8 h-8" />
+                        <ChevronLeft className="w-5 h-5" />
                     </button>
                     <button
                         onClick={() => scroll('right')}
-                        className="p-4 rounded-full border-2 border-primary/20 hover:bg-primary hover:text-white text-primary transition-all duration-300 shadow-sm hover:shadow-lg"
+                        className="p-2.5 rounded-full border border-primary/20 hover:bg-primary hover:text-white text-primary transition-all duration-300 shadow-sm"
                     >
-                        <ChevronRight className="w-8 h-8" />
+                        <ChevronRight className="w-5 h-5" />
                     </button>
                 </div>
 

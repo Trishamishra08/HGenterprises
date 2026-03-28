@@ -34,18 +34,18 @@ const PriceRangeShowcase = () => {
     const displayItems = sectionData?.items && sectionData.items.length > 0 ? sectionData.items : priceRanges;
 
     return (
-        <section className="pt-4 md:pt-8 pb-0 bg-bg-light overflow-hidden">
+        <section className="pt-20 md:pt-32 pb-0 bg-bg-light overflow-hidden">
             <div className="container mx-auto px-4">
-                <div className="text-center mb-2 md:mb-4">
+                <div className="text-center mb-6 md:mb-10">
                     <motion.h2
                         initial={{ opacity: 0, y: 10 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}
-                        className="text-2xl md:text-3xl font-serif font-normal text-footerBg tracking-tight"
+                        className="text-2xl md:text-4xl font-serif font-normal text-footerBg tracking-tight"
                     >
                         {sectionData?.label || "Luxury In Range"}
                     </motion.h2>
-                    <div className="h-[1px] w-12 bg-primary mx-auto opacity-30 mt-2"></div>
+                    <div className="h-[1px] w-12 bg-primary mx-auto opacity-30 mt-3"></div>
                 </div>
             </div>
 

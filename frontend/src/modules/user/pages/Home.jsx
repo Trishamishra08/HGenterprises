@@ -19,9 +19,6 @@ import BrandPromises from '../components/BrandPromises';
 import FAQSection from '../components/FAQSection';
 import ChitChatSection from '../components/ChitChatSection';
 
-import heroSlide1 from '../assets/hero_slide_1.png';
-import heroSlide2 from '../assets/hero_slide_2.png';
-import heroSlide3 from '../assets/hero_slide_3.png';
 import spotlightMain from '../assets/spotlight_silver_main.png';
 import spotlightHover from '../assets/spotlight_silver_hover.png';
 
@@ -64,17 +61,17 @@ const Home = () => {
     const heroSlides = [
         {
             video: "/videos/pinterest-banner.mp4",
-            badge: "Bespoke Luxury",
-            title: "Emerald & Diamond",
-            description: "A masterpiece of nature, refined by human artistry.",
-            btnText: "Explore More",
-            link: "/category/jewellery"
+            badge: "Harshad Gauri",
+            title: "HARSHAD GAURI",
+            titleItalic: "enterprises",
+            description: "Luxury Crafted with Precision.",
+            btnText: "Explore Selection",
+            link: "/shop"
         }
     ];
 
-    // Slide timer - Only relevant if multiple slides exist
+    // Slide timer
     useEffect(() => {
-        if (heroSlides.length <= 1) return;
         const timer = setInterval(() => {
             setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
         }, 8000);
@@ -93,7 +90,7 @@ const Home = () => {
 
             {/* Hero Section - Video Banners like Bluestone */}
             <section className="relative overflow-hidden bg-white">
-                <div className="relative h-[55vh] md:h-[450px]">
+                <div className="relative h-[300px] md:h-[calc(100vh-130px)] overflow-hidden">
                     <AnimatePresence mode="wait">
                         <motion.div
                             key={currentSlide}
@@ -111,7 +108,6 @@ const Home = () => {
                                     loop
                                     muted
                                     playsInline
-                                    poster={heroSlides[currentSlide].image}
                                     className="absolute inset-0 w-full h-full object-cover"
                                 >
                                     <source src={heroSlides[currentSlide].video} type="video/mp4" />
@@ -123,38 +119,49 @@ const Home = () => {
                                     className="absolute inset-0 w-full h-full object-cover transform scale-100 animate-slow-zoom"
                                 />
                             )}
-                            {/* Perfectly Centered Overlay */}
+                            {/* Overlay */}
                             <div className="absolute inset-0 bg-black/25 flex items-center justify-center">
                                 <div className="container mx-auto px-4">
-                                    <div className="flex flex-col items-center justify-center text-white text-center transform -translate-y-2">
+                                    <div className="flex flex-col items-center justify-center text-white text-center">
                                         
                                         {/* Premium Compact Typography */}
-                                        <div className="relative flex flex-col items-center">
-                                            <motion.h1
-                                                initial={{ opacity: 0, y: 15 }}
+                                        <AnimatePresence mode="wait">
+                                            <motion.div 
+                                                key={currentSlide}
+                                                initial={{ opacity: 0, y: 20 }}
                                                 animate={{ opacity: 1, y: 0 }}
-                                                transition={{ duration: 1, ease: "easeOut" }}
-                                                className="text-3xl md:text-5xl font-serif tracking-[0.3em] uppercase leading-tight"
+                                                exit={{ opacity: 0, y: -20 }}
+                                                transition={{ duration: 0.8 }}
+                                                className="relative flex flex-col items-center"
                                             >
-                                                <span className="block font-light drop-shadow-2xl text-[#FDF5F6]">Harshad Gauri</span>
-                                            </motion.h1>
-                                            
-                                            <motion.p
-                                                initial={{ opacity: 0 }}
-                                                animate={{ opacity: 1 }}
-                                                transition={{ duration: 1, delay: 0.3 }}
-                                                className="italic font-light text-[#F7E7CE] lowercase text-2xl md:text-4xl font-serif tracking-tighter"
-                                            >
-                                                enterprises
-                                            </motion.p>
-                                            
-                                            {/* Minimalist Centered Divider - Extra Thin */}
-                                            <motion.div
-                                                initial={{ width: 0 }}
-                                                animate={{ width: '30px' }}
-                                                transition={{ duration: 1, delay: 0.5 }}
-                                                className="h-[0.5px] bg-white/40 mt-4 mb-4"
-                                            />
+                                                <span className="text-[10px] md:text-xs tracking-[0.4em] uppercase mb-2 block text-secondary font-serif">
+                                                    {heroSlides[currentSlide].badge}
+                                                </span>
+                                                <h1 className="font-serif uppercase leading-none mb-2 px-4">
+                                                    {/* Mobile Split Title */}
+                                                    <span className="md:hidden block">
+                                                        <span className="block text-2xl font-light tracking-[0.45em] mb-2">HARSHAD</span>
+                                                        <span className="block text-2xl font-light tracking-[0.45em] mb-3">GAURI</span>
+                                                    </span>
+                                                    {/* Desktop Single Line Title */}
+                                                    <span className="hidden md:block text-5xl font-light drop-shadow-2xl text-white tracking-[0.55em]">
+                                                        {heroSlides[currentSlide].title}
+                                                    </span>
+                                                    
+                                                    {/* Enlarged Italic Subtitle for Mobile */}
+                                                    <span className="block font-serif italic lowercase font-light text-2xl md:text-3xl text-gold-light mt-1 tracking-normal">
+                                                        {heroSlides[currentSlide].titleItalic}
+                                                    </span>
+                                                </h1>
+                                                
+                                                {/* Minimalist Centered Divider - Extra Thin */}
+                                                <motion.div
+                                                    initial={{ width: 0 }}
+                                                    animate={{ width: '60px' }}
+                                                    transition={{ duration: 1, delay: 0.5 }}
+                                                    className="h-[1px] bg-secondary/50 mt-4 mb-4"
+                                                />
+
 
                                             {/* Elegant CTA - Close to main text */}
                                             <motion.div
@@ -168,10 +175,11 @@ const Home = () => {
                                                     </span>
                                                 </Link>
                                             </motion.div>
-                                        </div>
-                                    </div>
+                                        </motion.div>
+                                    </AnimatePresence>
                                 </div>
                             </div>
+                        </div>
                         </motion.div>
                     </AnimatePresence>
 

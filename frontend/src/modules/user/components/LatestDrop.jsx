@@ -27,28 +27,15 @@ const LatestDrop = () => {
     return (
         <section className="pt-4 pb-8 md:pt-8 md:pb-16 bg-white">
             <div className="container mx-auto px-2 md:px-4">
-
-                {/* Header */}
-                {/* Header - Centered Layout */}
-                <div className="relative flex flex-col md:block items-center justify-center mb-6 md:mb-12">
-                    <div className="flex flex-col items-center justify-center text-center md:w-full">
-                        <span className="text-primary font-serif tracking-[0.2em] font-normal italic text-[10px] md:text-sm mb-2 block">
-                            Fresh Arrivals
-                        </span>
-                        <h2 className="font-serif text-3xl md:text-4xl font-normal text-dark tracking-tight">
-                            {sectionData?.label || "Latest Drop"}
-                        </h2>
-                    </div>
-
-                    <div className="hidden md:block md:absolute md:right-0 md:top-1/2 md:-translate-y-1/2">
-                        <Link
-                            to="/shop?sort=newest"
-                            className="group flex items-center gap-2 text-dark font-serif font-normal border-b border-black pb-1 hover:text-primary hover:border-primary transition-all"
-                        >
-                            Explore Collection
-                            <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
-                        </Link>
-                    </div>
+                {/* Header - Matched to Style It Your Way */}
+                <div className="text-center mb-6 md:mb-10">
+                    <span className="text-primary font-serif tracking-[0.2em] font-normal italic text-[10px] md:text-sm mb-1 block">
+                        Fresh Arrivals
+                    </span>
+                    <h2 className="font-serif text-3xl md:text-4xl font-normal text-dark tracking-tight">
+                        {sectionData?.label || "Latest Drops"}
+                    </h2>
+                    <div className="h-[1px] w-12 bg-primary mx-auto opacity-30 mt-2"></div>
                 </div>
 
                 {/* Grid (Desktop) / Horizontal Scroll (Mobile) */}
@@ -89,23 +76,23 @@ const LatestDrop = () => {
 
                                         </div>
 
-                                        {/* Info - Added padding since parent padding is removed */}
-                                        <div className="p-4">
-                                            <div className="flex justify-between items-start mb-1 gap-2">
-                                                <h3 className="font-serif font-normal text-base md:text-lg text-white group-hover:text-gold transition-colors line-clamp-1 tracking-wide">
+                                        {/* Info - Ultra Compact */}
+                                        <div className="p-2.5 md:p-3">
+                                            <div className="flex justify-between items-start mb-0.5 gap-2">
+                                                <h3 className="font-serif font-normal text-sm md:text-base text-white group-hover:text-gold transition-colors line-clamp-1 tracking-wide">
                                                     {name}
                                                 </h3>
-                                                <div className="flex text-gold shrink-0 pt-1">
-                                                    <Star className="w-3 h-3 fill-current" />
-                                                    <Star className="w-3 h-3 fill-current" />
-                                                    <Star className="w-3 h-3 fill-current" />
-                                                    <Star className="w-3 h-3 fill-current" />
-                                                    <Star className="w-3 h-3 fill-current" />
+                                                <div className="flex text-gold shrink-0 pt-0.5">
+                                                    <Star className="w-2.5 h-2.5 fill-current" />
+                                                    <Star className="w-2.5 h-2.5 fill-current" />
+                                                    <Star className="w-2.5 h-2.5 fill-current" />
+                                                    <Star className="w-2.5 h-2.5 fill-current" />
+                                                    <Star className="w-2.5 h-2.5 fill-current" />
                                                 </div>
                                             </div>
                                             <div className="flex items-center justify-between">
-                                                <p className="font-serif text-lg text-white font-bold leading-none tracking-wide">{price}</p>
-                                                <span className="text-[10px] text-white/60 font-bold uppercase tracking-widest hidden group-hover:block transition-all duration-300">View</span>
+                                                <p className="font-serif text-base text-white font-bold leading-none tracking-wide">{price}</p>
+                                                <span className="text-[9px] text-white/50 font-bold uppercase tracking-widest hidden group-hover:block transition-all duration-300">View</span>
                                             </div>
                                         </div>
                                     </div>

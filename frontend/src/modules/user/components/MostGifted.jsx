@@ -25,7 +25,7 @@ const MostGifted = () => {
     const displayItems = sectionData?.items && sectionData.items.length > 0 ? sectionData.items : categories;
 
     return (
-        <section className="py-8 md:py-24 bg-bg-light relative overflow-hidden">
+        <section className="py-8 md:py-12 bg-bg-light relative overflow-hidden">
             {/* Custom Animation for Reverse/Yoyo Effect */}
             <style>{`
                 @keyframes shine-alt {
@@ -73,7 +73,7 @@ const MostGifted = () => {
                     </div>
 
                     {/* Category Cards - Compact for Mobile */}
-                    <div className="w-full lg:w-[55%] grid grid-cols-4 md:grid-cols-4 gap-2 md:gap-4">
+                    <div className="w-full lg:w-[55%] grid grid-cols-4 md:grid-cols-4 gap-2 md:gap-4 lg:h-full">
                         {displayItems.map((cat, index) => {
                             const itemLabel = cat.name || cat.label;
 
@@ -81,17 +81,18 @@ const MostGifted = () => {
                                 <Link
                                     to={cat.path}
                                     key={cat.id}
-                                    className="relative rounded-xl md:rounded-[2rem] overflow-hidden group h-[120px] md:h-[280px] lg:h-full bg-white shadow shadow-[#4A1015]/10 hover:shadow-2xl transition-all duration-500 border border-gray-100 cursor-pointer isolate"
+                                    className="relative rounded-xl md:rounded-2xl overflow-hidden group h-[120px] md:h-full bg-white shadow shadow-[#4A1015]/10 hover:shadow-2xl transition-all duration-500 border border-gray-100 cursor-pointer isolate"
                                 >
                                     {/* Product Image */}
-                                    <img
-                                        src={cat.image}
-                                        alt={itemLabel}
-                                        className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-[2000ms] opacity-90 group-hover:opacity-100"
-                                    />
-
-                                    {/* Gradient Overlay */}
-                                    <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/20 to-transparent opacity-90 z-10" />
+                                    <div className="w-full h-full relative">
+                                        <img
+                                            src={cat.image}
+                                            alt={itemLabel}
+                                            className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-[2000ms] opacity-90 group-hover:opacity-100"
+                                        />
+                                        {/* Dynamic Gradient Overlay */}
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-90 z-10" />
+                                    </div>
 
                                     {/* Text Content */}
                                     <div className="absolute bottom-2 md:bottom-6 left-0 right-0 text-center z-30 px-1 transition-transform duration-500 md:group-hover:-translate-y-2">

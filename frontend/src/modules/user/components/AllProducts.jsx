@@ -9,19 +9,22 @@ const AllProducts = () => {
     const displayProducts = products.slice(0, 16);
 
     return (
-        <section className="py-8 md:py-24 bg-white">
+        <section className="pt-4 md:pt-4 pb-12 bg-white overflow-hidden">
             <div className="container mx-auto px-2 md:px-4">
-                {/* Header - Centered for Mobile, Original for Desktop */}
-                <div className="flex flex-col md:flex-row md:justify-between items-center md:items-end text-center md:text-left mb-10 md:mb-16 gap-6">
-                    <div className="flex flex-col items-center md:items-start">
-                        <span className="text-[10px] md:text-sm uppercase tracking-[0.4em] text-gold font-bold mb-1 md:mb-2">Our Collection</span>
-                        <h2 className="text-2xl md:text-5xl font-display text-primary font-bold">All Products</h2>
-                        <div className="h-1 w-12 bg-gold mt-2 rounded-full md:hidden"></div>
-                    </div>
+                
+                {/* Centered Header - Matched to Style It Your Way */}
+                <div className="text-center mb-6 md:mb-8">
+                    <span className="text-primary font-serif tracking-[0.2em] font-normal italic text-[10px] md:text-sm mb-1 block">
+                        Our Collection
+                    </span>
+                    <h2 className="font-serif text-3xl md:text-4xl font-normal text-dark tracking-tight">
+                        All Products
+                    </h2>
+                    <div className="h-[1px] w-12 bg-primary mx-auto opacity-30 mt-3"></div>
                 </div>
-
-                {/* Grid - Using the standard ProductCard component */}
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
+ 
+                {/* Grid - Using the standard ProductCard component with tighter gaps */}
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
                     {displayProducts.map((product) => (
                         <ProductCard key={product.id} product={product} />
                     ))}

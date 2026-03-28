@@ -7,28 +7,57 @@ const ShopContext = createContext();
 export const ShopProvider = ({ children }) => {
     // Initialize from LocalStorage if available
     const [cart, setCart] = useState(() => {
-        const saved = localStorage.getItem('cart');
-        return saved ? JSON.parse(saved) : [];
+        try {
+            const saved = localStorage.getItem('cart');
+            return saved ? JSON.parse(saved) : [];
+        } catch (error) {
+            console.error("Error parsing cart from localStorage:", error);
+            return [];
+        }
     });
     const [wishlist, setWishlist] = useState(() => {
-        const saved = localStorage.getItem('wishlist');
-        return saved ? JSON.parse(saved) : [];
+        try {
+            const saved = localStorage.getItem('wishlist');
+            return saved ? JSON.parse(saved) : [];
+        } catch (error) {
+            console.error("Error parsing wishlist from localStorage:", error);
+            return [];
+        }
     });
     const [user, setUser] = useState(() => {
-        const saved = localStorage.getItem('user');
-        return saved ? JSON.parse(saved) : null;
+        try {
+            const saved = localStorage.getItem('user');
+            return saved ? JSON.parse(saved) : null;
+        } catch (error) {
+            console.error("Error parsing user from localStorage:", error);
+            return null;
+        }
     });
     const [orders, setOrders] = useState(() => {
-        const saved = localStorage.getItem('orders');
-        return saved ? JSON.parse(saved) : [];
+        try {
+            const saved = localStorage.getItem('orders');
+            return saved ? JSON.parse(saved) : [];
+        } catch (error) {
+            console.error("Error parsing orders from localStorage:", error);
+            return [];
+        }
     });
     const [addresses, setAddresses] = useState(() => {
-        const saved = localStorage.getItem('addresses');
-        return saved ? JSON.parse(saved) : [];
+        try {
+            const saved = localStorage.getItem('addresses');
+            return saved ? JSON.parse(saved) : [];
+        } catch (error) {
+            console.error("Error parsing addresses from localStorage:", error);
+            return [];
+        }
     });
     const [supportTickets, setSupportTickets] = useState(() => {
-        const saved = localStorage.getItem('supportTickets');
-        if (saved) return JSON.parse(saved);
+        try {
+            const saved = localStorage.getItem('supportTickets');
+            if (saved) return JSON.parse(saved);
+        } catch (error) {
+            console.error("Error parsing supportTickets from localStorage:", error);
+        }
 
         // Initial Dummy Data to show the flow
         return [
@@ -90,8 +119,13 @@ export const ShopProvider = ({ children }) => {
     });
 
     const [userNotifications, setUserNotifications] = useState(() => {
-        const saved = localStorage.getItem('userNotifications');
-        return saved ? JSON.parse(saved) : [];
+        try {
+            const saved = localStorage.getItem('userNotifications');
+            return saved ? JSON.parse(saved) : [];
+        } catch (error) {
+            console.error("Error parsing userNotifications from localStorage:", error);
+            return [];
+        }
     });
 
     const toggleNotificationSettings = () => {

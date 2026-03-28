@@ -1,138 +1,121 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-// Using premium editorial-style imagery from Unsplash for that exact magazine look
-const block1Images = [
-    "https://images.unsplash.com/photo-1541185933-ef5d8ed016c2?auto=format&fit=crop&q=80&w=1200", // Block 1: Large Left (Necklace)
-    "https://images.unsplash.com/photo-1573408302185-9127feed2233?auto=format&fit=crop&q=80&w=800", 
-    "https://images.unsplash.com/photo-1601121141461-9d66474fb1cd?auto=format&fit=crop&q=80&w=800",
-    "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&q=80&w=800",
-    "https://images.unsplash.com/photo-1620916566398-39f1143af7bf?auto=format&fit=crop&q=80&w=800",
-    "https://images.unsplash.com/photo-1617038220319-276d3cfab638?auto=format&fit=crop&q=80&w=800",
-    "https://images.unsplash.com/photo-1635767798638-3e25273a8236?auto=format&fit=crop&q=80&w=800"  
-];
+// Import all premium local editorial assets
+import feature1 from '../../../assets/editorial/clean_feature1.png';
+import feature2 from '../../../assets/editorial/clean_feature2.png';
+import detail1 from '../../../assets/editorial/detail1.png';
+import detail2 from '../../../assets/editorial/detail2.png';
+import item3 from '../../../assets/editorial/clean_item3.png';
+import item4 from '../../../assets/editorial/item4.png';
+import item5 from '../../../assets/editorial/item5.png';
+import item6 from '../../../assets/editorial/item6.png';
+import item7 from '../../../assets/editorial/item7.png';
+import item8 from '../../../assets/editorial/item8.png';
+import item9 from '../../../assets/editorial/item9.png';
+import item10 from '../../../assets/editorial/item10.png';
+import item11 from '../../../assets/editorial/item11.png';
+import item12 from '../../../assets/editorial/item12.png';
 
-const block2Images = [
-    "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&q=80&w=1200", // Block 2: Large Right (Cat Focus)
-    "https://images.unsplash.com/photo-1516762689617-e1cffcef479d?auto=format&fit=crop&q=80&w=800",
-    "https://images.unsplash.com/photo-1487309078313-fe80c3e155c0?auto=format&fit=crop&q=80&w=800",
-    "https://images.unsplash.com/photo-1515255384510-33045958564a?auto=format&fit=crop&q=80&w=800",
-    "https://images.unsplash.com/photo-1509941943102-10c232535736?auto=format&fit=crop&q=80&w=800",
-    "https://images.unsplash.com/photo-1533228891704-fbefee212e62?auto=format&fit=crop&q=80&w=800",
-    "https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?auto=format&fit=crop&q=80&w=800"
-];
+// Premium editorial-style imagery sets
+const block1Images = [feature1, item3, item4, item5, item6, detail1, item7];
+const block2Images = [feature2, item8, item9, item10, item11, detail2, item12];
 
 const EditorialSection = () => {
     return (
-        <section className="py-8 md:py-16 bg-white overflow-hidden space-y-12 md:space-y-24">
-            <div className="container mx-auto px-2 md:px-4">
-                {/* Heading */}
-                <div className="text-center mb-10">
-                    <h2 className="font-serif text-3xl md:text-4xl text-dark tracking-tight">
+        <section className="pt-12 md:pt-20 pb-16 bg-white overflow-hidden">
+            <div className="max-w-[1400px] mx-auto px-4 md:px-8">
+                
+                {/* Section Header */}
+                <div className="text-center mb-10 md:mb-16">
+                    <span className="text-primary font-serif tracking-[0.2em] font-normal italic text-[10px] md:text-sm mb-1 block">
+                        Our Vision
+                    </span>
+                    <h2 className="font-serif text-3xl md:text-4xl font-normal text-dark tracking-tight">
                         Editorial
                     </h2>
+                    <div className="h-[1px] w-12 bg-primary mx-auto opacity-30 mt-3"></div>
                 </div>
-
-                {/* --- Block 1: Big Left, Small Right --- */}
-                <div className="grid grid-cols-2 md:grid-cols-5 gap-2 md:gap-3 h-auto md:h-[650px] mb-12 md:mb-20">
+                
+                {/* --- Block 1: Bluestone Grid Pattern (Mobile: 3cols) --- */}
+                <div className="grid grid-cols-3 md:grid-cols-5 gap-2 md:gap-6 mb-2 md:mb-16">
                     
-                    {/* Big Feature (ELLE) */}
+                    {/* Big Feature (2x2 on Mobile) */}
                     <motion.div 
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="col-span-2 row-span-2 relative group overflow-hidden rounded-xl md:rounded-2xl h-[400px] md:h-full"
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        className="col-span-2 row-span-2 relative group overflow-hidden rounded-lg min-h-[280px] md:min-h-0 md:h-full shadow-sm"
                     >
                         <img 
                             src={block1Images[0]} 
-                            alt="Editorial Feature" 
-                            className="w-full h-full object-cover transform group-hover:scale-105 transition-all duration-[2000ms]"
+                            alt="Editorial" 
+                            className="w-full h-full object-cover"
                         />
-                        <div className="absolute inset-0 bg-black/10 transition-opacity group-hover:opacity-0"></div>
-                        <div className="absolute top-4 left-4 md:top-8 md:left-8">
-                            <span className="text-white font-serif text-4xl md:text-7xl font-bold tracking-tighter opacity-90 drop-shadow-lg">ELLE</span>
-                        </div>
-                        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0">
-                            <button className="bg-white text-dark px-6 py-2 rounded-sm text-xs md:text-sm font-serif uppercase tracking-widest shadow-xl">Shop Now</button>
+                        <div className="absolute inset-0 bg-black/10"></div>
+                        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 w-fit">
+                            <button className="bg-white text-dark px-4 py-1.5 rounded-sm text-[8px] md:text-xs font-bold uppercase tracking-widest whitespace-nowrap shadow-md">
+                                Shop Now
+                            </button>
                         </div>
                     </motion.div>
 
-                    {/* Clustered Columns (3 Columns) */}
-                    {[1, 2, 3].map((col) => (
-                        <div key={col} className="flex flex-col gap-2 md:gap-3 h-full col-span-1">
-                            {[0, 1].map((row) => {
-                                const index = (col - 1) * 2 + row + 1;
-                                return (
-                                    <motion.div 
-                                        key={index}
-                                        initial={{ opacity: 0, scale: 0.95 }}
-                                        whileInView={{ opacity: 1, scale: 1 }}
-                                        viewport={{ once: true }}
-                                        className="flex-1 relative group overflow-hidden rounded-xl h-[150px] md:h-auto"
-                                    >
-                                        <img 
-                                            src={block1Images[index]} 
-                                            alt={`Editorial ${index}`} 
-                                            className="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-1000"
-                                        />
-                                    </motion.div>
-                                );
-                            })}
-                        </div>
-                    ))}
+                    {/* Small Details (Stacked Right) */}
+                    <div className="col-span-1 row-span-1 relative rounded-lg overflow-hidden h-[138px] md:h-auto">
+                        <img src={block1Images[1]} alt="Detail" className="w-full h-full object-cover" />
+                    </div>
+                    <div className="col-span-1 row-span-1 relative rounded-lg overflow-hidden h-[138px] md:h-auto">
+                        <img src={block1Images[2]} alt="Detail" className="w-full h-full object-cover" />
+                    </div>
+
+                    {/* Full Row (3 columns) */}
+                    <div className="col-span-1 h-[130px] md:min-h-0 md:h-auto rounded-lg overflow-hidden">
+                        <img src={block1Images[3]} alt="Detail" className="w-full h-full object-cover" />
+                    </div>
+                    <div className="col-span-1 h-[130px] md:min-h-0 md:h-auto rounded-lg overflow-hidden">
+                        <img src={block1Images[4]} alt="Detail" className="w-full h-full object-cover" />
+                    </div>
+                    <div className="col-span-1 h-[130px] md:min-h-0 md:h-auto rounded-lg overflow-hidden">
+                        <img src={block1Images[5]} alt="Detail" className="w-full h-full object-cover" />
+                    </div>
                 </div>
 
-                {/* --- Block 2: Small Left, Big Right (Mirrored) --- */}
-                <div className="grid grid-cols-2 md:grid-cols-5 gap-2 md:gap-3 h-auto md:h-[650px]">
-                    
-                    {/* Clustered Columns (3 Columns on Left) */}
-                    {[1, 2, 3].map((col) => (
-                        <div key={col} className="flex flex-col gap-2 md:gap-3 h-full col-span-1 order-2 md:order-1">
-                            {[0, 1].map((row) => {
-                                const index = (col - 1) * 2 + row + 1;
-                                return (
-                                    <motion.div 
-                                        key={index}
-                                        initial={{ opacity: 0, scale: 0.95 }}
-                                        whileInView={{ opacity: 1, scale: 1 }}
-                                        viewport={{ once: true }}
-                                        className="flex-1 relative group overflow-hidden rounded-xl h-[150px] md:h-auto"
-                                    >
-                                        <img 
-                                            src={block2Images[index]} 
-                                            alt={`Editorial ${index}`} 
-                                            className="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-1000"
-                                        />
-                                    </motion.div>
-                                );
-                            })}
-                        </div>
-                    ))}
+                {/* --- Block 2: Continued Pattern (Mobile: 3cols) --- */}
+                <div className="grid grid-cols-3 md:grid-cols-5 gap-2 md:gap-6 mt-2">
+                    {/* Pattern continues mirroring original Bluestone look */}
+                    <div className="col-span-1 h-[130px] md:min-h-0 md:h-auto rounded-lg overflow-hidden">
+                        <img src={block2Images[1]} alt="Detail" className="w-full h-full object-cover" />
+                    </div>
+                    <div className="col-span-1 h-[130px] md:min-h-0 md:h-auto rounded-lg overflow-hidden">
+                        <img src={block2Images[2]} alt="Detail" className="w-full h-full object-cover" />
+                    </div>
+                    <div className="col-span-1 h-[130px] md:min-h-0 md:h-auto rounded-lg overflow-hidden">
+                        <img src={block2Images[3]} alt="Detail" className="w-full h-full object-cover" />
+                    </div>
 
-                    {/* Big Feature (ELLE with Cat focus) on Right */}
                     <motion.div 
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="col-span-2 row-span-2 relative group overflow-hidden rounded-xl md:rounded-2xl h-[400px] md:h-full order-1 md:order-2"
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        className="col-span-2 row-span-2 relative group overflow-hidden rounded-lg min-h-[280px] md:min-h-0 md:h-full shadow-sm"
                     >
                         <img 
                             src={block2Images[0]} 
-                            alt="Editorial Feature" 
-                            className="w-full h-full object-cover transform group-hover:scale-105 transition-all duration-[2000ms]"
+                            alt="Editorial" 
+                            className="w-full h-full object-cover"
                         />
-                        <div className="absolute inset-0 bg-black/5 transition-opacity group-hover:opacity-0"></div>
-                        
-                        {/* ELLE Branding */}
-                        <div className="absolute top-4 left-4 md:top-8 md:left-8">
-                            <span className="text-white font-serif text-4xl md:text-7xl font-bold tracking-tighter opacity-90 drop-shadow-lg">ELLE</span>
-                        </div>
-
-                        {/* Shop Now Button */}
-                        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0 text-center">
-                            <button className="bg-white text-dark px-6 py-2 rounded-sm text-xs md:text-sm font-serif uppercase tracking-widest shadow-xl">Shop Now</button>
+                        <div className="absolute inset-0 bg-black/10"></div>
+                        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 w-fit">
+                            <button className="bg-white text-dark px-4 py-1.5 rounded-sm text-[8px] md:text-xs font-bold uppercase tracking-widest whitespace-nowrap shadow-md">
+                                Shop Now
+                            </button>
                         </div>
                     </motion.div>
+
+                    <div className="col-span-1 h-[138px] md:min-h-0 md:h-auto rounded-lg overflow-hidden">
+                        <img src={block2Images[4]} alt="Detail" className="w-full h-full object-cover" />
+                    </div>
+                    <div className="col-span-1 h-[138px] md:min-h-0 md:h-auto rounded-lg overflow-hidden">
+                        <img src={block2Images[5]} alt="Detail" className="w-full h-full object-cover" />
+                    </div>
                 </div>
             </div>
         </section>

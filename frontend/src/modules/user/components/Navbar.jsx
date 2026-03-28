@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Search, Heart, ShoppingBag, User, Store, Menu, X, Bell, ChevronDown, ChevronRight } from 'lucide-react';
+import { Search, Heart, ShoppingBag, User, Store, Menu, X, Bell, ChevronDown, ChevronRight, Home } from 'lucide-react';
 import { useShop } from '../../../context/ShopContext';
 import hgLogo from '../assets/hg_logo_gold.png';
 import hgLogoPremium from '../assets/logo_final.jpg';
@@ -142,8 +142,8 @@ const Navbar = () => {
                         </div>
                     </div>
 
-                    {/* 3. Secondary Navigation Links Row - Balanced & Premium Typography */}
-                    <div className="hidden md:block bg-[#FFF8F8] border-t border-gray-100 py-2.5 shadow-inner">
+                    {/* 3. Secondary Navigation Links Row - Ultra Compact & Clean */}
+                    <div className="hidden md:block bg-white border-t border-gray-100 py-1.5 shadow-sm">
                         <div className="container mx-auto px-6 flex justify-center items-center gap-10">
                             <Link to="/" className="text-[11px] font-serif font-bold text-black hover:text-primary transition-all tracking-[0.3em] uppercase border-b-2 border-transparent hover:border-primary pb-0.5">
                                 Home
@@ -194,7 +194,7 @@ const Navbar = () => {
                                                             <span className="text-primary italic text-3xl">Collection</span>
                                                         </h2>
                                                         <p className="text-[11px] text-gray-500 font-serif leading-relaxed mb-8 max-w-[240px]">
-                                                            Explore our curated {activeMegaCategory?.name.toLowerCase()} range, handcrafted for excellence.
+                                                            Explore our curated {activeMegaCategory?.name?.toLowerCase() || 'Jewellery'} range, handcrafted for excellence.
                                                         </p>
                                                         
                                                         <Link 
@@ -217,7 +217,7 @@ const Navbar = () => {
                                                             {(activeMegaCategory?.subcategories || []).map((sub, idx) => (
                                                                 <Link 
                                                                     key={idx} 
-                                                                    to={`/category/${activeMegaCategory.id}/${sub.path}`}
+                                                                    to={`/category/${activeMegaCategory?.id}/${sub.path}`}
                                                                     className="flex flex-col items-center gap-4 group/sub"
                                                                 >
                                                                     <div className="relative w-24 h-24 rounded-full border border-gray-100 p-0.5 transition-all duration-700 group-hover/sub:border-primary/40 group-hover/sub:shadow-lg bg-white overflow-hidden">
@@ -297,7 +297,7 @@ const Navbar = () => {
                                             onClick={() => toggleMenu(false)}
                                             className="flex items-center justify-between p-4 rounded-xl hover:bg-gray-50 group transition-all"
                                         >
-                                            <span className="font-display font-black text-xs uppercase tracking-widest text-gray-800 group-hover:text-primary group-hover:translate-x-1 transition-all">
+                                            <span className="font-serif text-sm uppercase tracking-widest text-gray-800 group-hover:text-primary transition-all">
                                                 {item.name}
                                             </span>
                                             <ChevronRight className="w-4 h-4 text-gray-300 group-hover:text-primary group-hover:translate-x-1 transition-all" />
@@ -311,7 +311,7 @@ const Navbar = () => {
                                             key={idx}
                                             to={item.path} 
                                             onClick={() => toggleMenu(false)}
-                                            className="block text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 hover:text-primary transition-colors py-2"
+                                            className="block text-[10px] font-serif uppercase tracking-widest text-gray-400 hover:text-primary transition-colors py-2"
                                         >
                                             {item.name}
                                         </Link>
@@ -336,7 +336,7 @@ const Navbar = () => {
             {/* Bottom Nav (Mobile) */}
             <div className="md:hidden fixed bottom-6 left-6 right-6 h-16 bg-white border border-gray-100 rounded-2xl flex items-center justify-around z-[100] shadow-[0_10px_30px_rgba(0,0,0,0.1)] px-4">
                 <Link to="/" className="flex flex-col items-center gap-1 group">
-                    <Store className="w-5 h-5 text-gray-400 group-active:scale-90 transition-all group-[.active]:text-primary" />
+                    <Home className="w-5 h-5 text-gray-400 group-active:scale-90 transition-all group-[.active]:text-primary" />
                     <span className="text-[8px] font-bold uppercase tracking-tighter text-gray-400">Home</span>
                 </Link>
                 <button onClick={() => toggleMenu(true)} className="flex flex-col items-center gap-1 group">
