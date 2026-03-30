@@ -19,7 +19,8 @@ export const products = [
         gender: "Women",
         image: "https://images.unsplash.com/photo-1617038220319-276d3cfab638?auto=format&fit=crop&q=80&w=800",
         rating: 4.8,
-        isNew: true
+        isNew: true,
+        weight: "4.5g"
     },
     {
         id: 'r2',
@@ -32,7 +33,8 @@ export const products = [
         metal: "Platinum",
         gender: "Men",
         image: "https://images.unsplash.com/photo-1615655406736-b37c4fabf923?auto=format&fit=crop&q=80&w=800",
-        rating: 4.7
+        rating: 4.7,
+        weight: "6.2g"
     },
     {
         id: 'r3',
@@ -46,7 +48,8 @@ export const products = [
         gender: "Women",
         image: goldOfficeWearEarrings,
         rating: 4.9,
-        isNew: true
+        isNew: true,
+        weight: "3.8g"
     },
     {
         id: 'e1',
@@ -58,7 +61,8 @@ export const products = [
         metal: "Diamond",
         gender: "Women",
         image: catEarringsTrad,
-        rating: 4.5
+        rating: 4.5,
+        weight: "5.4g"
     },
     {
         id: 'p1',
@@ -70,7 +74,8 @@ export const products = [
         metal: "Diamond",
         gender: "Women",
         image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&q=80&w=800",
-        rating: 4.9
+        rating: 4.9,
+        weight: "2.5g"
     },
     {
         id: 'n1',
@@ -82,7 +87,8 @@ export const products = [
         metal: "Gold",
         gender: "Women",
         image: catNecklaceEmerald,
-        rating: 5.0
+        rating: 5.0,
+        weight: "12.8g"
     },
     {
         id: 't1',
@@ -92,7 +98,8 @@ export const products = [
         subCategory: "Measurement",
         metal: "Optical Grade",
         image: jewelleryMagnifier,
-        rating: 4.6
+        rating: 4.6,
+        weight: "450g"
     },
     {
         id: 'm1',
@@ -102,7 +109,8 @@ export const products = [
         subCategory: "Cleaning",
         metal: "Stainless Steel",
         image: ultrasonicCleaner,
-        rating: 4.3
+        rating: 4.3,
+        weight: "2500g"
     }
 ];
 

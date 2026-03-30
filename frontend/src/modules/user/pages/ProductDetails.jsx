@@ -94,7 +94,7 @@ const ProductDetails = () => {
                         </div>
 
                         <div className="px-4 lg:px-0">
-                            <div className="aspect-square bg-white rounded-[1.5rem] lg:rounded-[2.5rem] overflow-hidden shadow-sm relative group border border-[#F5E6E8]/30">
+                            <div className="aspect-[4/4.5] lg:aspect-[4/4] bg-white rounded-[1.2rem] lg:rounded-[2rem] overflow-hidden shadow-sm relative group border border-[#F5E6E8]/30 max-h-[450px] mx-auto">
                                 <motion.img 
                                     key={selectedImgIdx}
                                     initial={{ opacity: 0 }}
@@ -112,17 +112,17 @@ const ProductDetails = () => {
                         </div>
 
                         {/* Thumbnail Selector - Tighter Spacing */}
-                        <div className="flex justify-center gap-4 py-5 px-4">
+                        <div className="flex justify-center gap-3 py-3 px-4">
                             {['FRONT', 'SIDE', 'DETAIL'].map((label, idx) => (
                                 <button 
                                     key={idx}
                                     onClick={() => setSelectedImgIdx(idx % productImages.length)}
-                                    className="flex flex-col items-center gap-2"
+                                    className="flex flex-col items-center gap-1.5"
                                 >
-                                    <div className={`w-14 h-14 rounded-xl overflow-hidden border-2 transition-all p-0.5 ${selectedImgIdx === (idx % productImages.length) ? 'border-[#8B4356] scale-105' : 'border-white'}`}>
-                                        <img src={productImages[idx % productImages.length]} className="w-full h-full object-cover rounded-lg" />
+                                    <div className={`w-11 h-11 rounded-lg overflow-hidden border transition-all p-0.5 ${selectedImgIdx === (idx % productImages.length) ? 'border-[#8B4356] scale-105' : 'border-white'}`}>
+                                        <img src={productImages[idx % productImages.length]} className="w-full h-full object-cover rounded-md" />
                                     </div>
-                                    <span className={`text-[6.5px] font-black uppercase tracking-widest transition-colors ${selectedImgIdx === (idx % productImages.length) ? 'text-[#8B4356]' : 'text-zinc-300'}`}>{label}</span>
+                                    <span className={`text-[6px] font-black uppercase tracking-widest transition-colors ${selectedImgIdx === (idx % productImages.length) ? 'text-[#8B4356]' : 'text-zinc-300'}`}>{label}</span>
                                 </button>
                             ))}
                         </div>
@@ -135,7 +135,7 @@ const ProductDetails = () => {
                                 <Zap className="w-3 h-3 fill-[#FFD700] text-[#FFD700]" />
                                 <span className="text-[8.5px] font-black uppercase font-serif italic tracking-[.4em] text-[#8B4356]/60">Premium Selection</span>
                             </div>
-                            <h1 className="text-[24px] md:text-3xl lg:text-3xl font-display font-black leading-tight text-black tracking-tight uppercase">{product.name}</h1>
+                            <h1 className="text-[22px] md:text-2xl lg:text-2xl font-display font-black leading-tight text-black tracking-tight uppercase">{product.name}</h1>
                             
                             <div className="flex items-center gap-3">
                                 <div className="flex items-center gap-1 bg-white border border-[#F5E6E8] px-2 py-1 rounded-full shadow-sm">
@@ -145,23 +145,32 @@ const ProductDetails = () => {
                                 <span className="text-[9px] font-bold text-zinc-350 tracking-wide uppercase">{product.reviews || '880'} reviews</span>
                                 <div className="h-3 w-[1px] bg-zinc-100"></div>
                                 <span className="text-[9px] font-bold text-[#8B4356] tracking-wide uppercase">5K+ Monthly Seekers</span>
+                                {product.weight && (
+                                    <>
+                                        <div className="h-3 w-[1px] bg-zinc-100"></div>
+                                        <div className="flex items-center gap-1">
+                                            <span className="text-[8px] font-black uppercase text-[#8B4356]/40 tracking-widest">Weight:</span>
+                                            <span className="text-[9px] font-bold text-black tracking-wide uppercase">{product.weight}</span>
+                                        </div>
+                                    </>
+                                )}
                             </div>
                         </div>
 
-                        {/* Pricing Section - Compact */}
-                        <div className="bg-white p-4 lg:p-4 rounded-[1.2rem] border border-[#F5E6E8] relative overflow-hidden shadow-sm">
+                        {/* Pricing Section - Ultra Compact */}
+                        <div className="bg-white p-3 lg:p-3 rounded-[1rem] border border-[#F5E6E8] relative overflow-hidden shadow-sm">
                             <div className="flex items-center gap-4">
-                                <div className="bg-[#8B4356]/5 text-[#8B4356] px-2.5 py-1.5 rounded-lg border border-[#8B4356]/10">
-                                    <span className="text-[14px] font-black">{discount > 0 ? `-${discount}%` : 'LIVE'}</span>
+                                <div className="bg-[#8B4356]/5 text-[#8B4356] px-2 py-1 rounded-md border border-[#8B4356]/10">
+                                    <span className="text-[12px] font-black">{discount > 0 ? `-${discount}%` : 'LIVE'}</span>
                                 </div>
                                 <div className="flex flex-col">
-                                    <span className="text-[24px] lg:text-[28px] font-display font-black text-black tracking-tighter leading-none">₹{currentPrice.toLocaleString()}</span>
+                                    <span className="text-[22px] lg:text-[24px] font-display font-black text-black tracking-tighter leading-none">₹{currentPrice.toLocaleString()}</span>
                                     {originalPrice > currentPrice && (
-                                        <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest leading-none line-through mt-0.5">M.R.P.: ₹{originalPrice.toLocaleString()}</span>
+                                        <span className="text-[8.5px] font-bold text-zinc-400 uppercase tracking-widest leading-none line-through mt-0.5">M.R.P.: ₹{originalPrice.toLocaleString()}</span>
                                     )}
                                 </div>
                             </div>
-                            <p className="text-[7px] font-black uppercase tracking-[.2em] text-[#8B4356] opacity-40 mt-1.5">Inclusive of all taxes</p>
+                            <p className="text-[6.5px] font-black uppercase tracking-[.2em] text-[#8B4356] opacity-40 mt-1">Inclusive of all taxes</p>
                         </div>
 
                         {/* Offers Section - Compact Card Stying */}
@@ -172,11 +181,11 @@ const ProductDetails = () => {
                                     { tag: "BANK OFFER", title: "Bank Offer", desc: "Flat ₹100 Off on SBI..." },
                                     { tag: "CASHBACK", title: "Reward Hub", desc: "5% Unlimited Reward..." }
                                 ].map((offer, oIdx) => (
-                                    <div key={oIdx} className="shrink-0 w-[150px] bg-white p-3 rounded-xl border border-[#F5E6E8] shadow-sm relative group">
-                                         <div className="absolute top-0 right-0 px-2 py-0.5 bg-[#FDF5F6] rounded-bl-lg text-[5px] font-black text-[#8B4356]">{offer.tag}</div>
-                                         <h5 className="text-[9px] font-bold text-black mb-0.5">{offer.title}</h5>
-                                         <p className="text-[8px] text-zinc-400 mb-1.5">{offer.desc}</p>
-                                         <button className="text-[7px] font-black text-[#8B4356] uppercase tracking-widest border-b border-[#8B4356]/30">Explore</button>
+                                    <div key={oIdx} className="shrink-0 w-[140px] bg-white p-2.5 rounded-lg border border-[#F5E6E8] shadow-sm relative group">
+                                         <div className="absolute top-0 right-0 px-2 py-0.5 bg-[#FDF5F6] rounded-bl-md text-[4.5px] font-black text-[#8B4356]">{offer.tag}</div>
+                                         <h5 className="text-[8.5px] font-bold text-black mb-0.5">{offer.title}</h5>
+                                         <p className="text-[7.5px] text-zinc-400 mb-1">{offer.desc}</p>
+                                         <button className="text-[6.5px] font-black text-[#8B4356] uppercase tracking-widest border-b border-[#8B4356]/30">Explore</button>
                                     </div>
                                 ))}
                             </div>
