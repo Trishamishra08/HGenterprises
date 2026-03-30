@@ -14,8 +14,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 const ProductDetails = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const { addToCart, wishlist, addToWishlist, removeFromWishlist } = useShop();
+    const { addToCart, wishlist, addToWishlist, removeFromWishlist, showNotification } = useShop();
     const product = products.find(p => p.id === id);
+    const [appliedCoupon, setAppliedCoupon] = useState(null);
 
     // Gallery State
     const [selectedImgIdx, setSelectedImgIdx] = useState(0);
@@ -24,6 +25,7 @@ const ProductDetails = () => {
         : [product?.image, product?.image, product?.image];
     
     // UI states
+    const [showSuccessSheet, setShowSuccessSheet] = useState(false);
     const [openSection, setOpenSection] = useState('about');
     const isWishlisted = wishlist.some(item => item.id === product?.id);
     const originalPrice = product?.originalPrice || product?.price || 0;
@@ -43,12 +45,12 @@ const ProductDetails = () => {
 
     const handleAddToCart = () => {
         addToCart(product);
+        setShowSuccessSheet(true);
     };
 
     const handleBuyNow = () => {
-        addToCart(product);
-        // Using state to inform Checkout that this is a direct buy flow to prevent premature empty-cart redirects
-        navigate('/checkout', { state: { directBuy: true, buyNowProduct: product } });
+        // Direct buy flow: navigate to checkout with this product only
+        navigate('/checkout', { state: { directBuy: true, product: product } });
     };
 
     const handleWishlist = () => {
@@ -56,10 +58,15 @@ const ProductDetails = () => {
         else addToWishlist(product);
     };
 
+    const handleApplyCoupon = (code) => {
+        setAppliedCoupon(code);
+        showNotification(`${code} applied successfully!`);
+    };
+
     return (
         <div className="min-h-screen bg-[#FDF5F6] font-body text-[#1A1A1A] pb-12 selection:bg-[#8B4356] selection:text-white overflow-x-hidden">
             {/* 1. Header Navigation - Compact branded header */}
-            <header className="sticky top-0 z-[100] bg-white border-b border-[#F5E6E8] flex items-center justify-between px-4 py-3 lg:hidden">
+            <header className="sticky top-[48px] z-[90] bg-white border-b border-[#F5E6E8] flex items-center justify-between px-4 py-3 lg:hidden">
                 <div className="flex items-center gap-2">
                     <button onClick={() => navigate(-1)} className="p-1"><ArrowLeft className="w-5 h-5 text-black" /></button>
                     <div className="flex flex-col">
@@ -68,10 +75,10 @@ const ProductDetails = () => {
                     </div>
                 </div>
                 <div className="flex items-center gap-3.5 text-zinc-800">
-                    <Search className="w-4.5 h-4.5" strokeWidth={1.5} />
-                    <Link to="/wishlist"><Heart className={`w-4.5 h-4.5 ${isWishlisted ? 'fill-[#8B4356] text-[#8B4356]' : ''}`} strokeWidth={1.5} /></Link>
-                    <Link to="/profile"><UserCircle className="w-4.5 h-4.5" strokeWidth={1.5} /></Link>
-                    <SlidersHorizontal className="w-4.5 h-4.5 rotate-90" strokeWidth={1.5} />
+                    <Link to="/shop" className="p-1"><Search className="w-4.5 h-4.5 text-black" strokeWidth={1.5} /></Link>
+                    <Link to="/wishlist" className="p-1"><Heart className={`w-4.5 h-4.5 ${isWishlisted ? 'fill-[#8B4356] text-[#8B4356]' : 'text-black'}`} strokeWidth={1.5} /></Link>
+                    <Link to="/profile" className="p-1"><UserCircle className="w-4.5 h-4.5 text-black" strokeWidth={1.5} /></Link>
+                    <Link to="/shop" className="p-1"><SlidersHorizontal className="w-4.5 h-4.5 rotate-90 text-black" strokeWidth={1.5} /></Link>
                 </div>
             </header>
 
@@ -84,16 +91,11 @@ const ProductDetails = () => {
                 <span className="text-[#8B4356] font-black">{product.name}</span>
             </div>
 
-            <main className="container mx-auto px-0 lg:px-12">
+            <main className="container mx-auto px-0 lg:px-12 pt-12 lg:pt-0">
                 <div className="flex flex-col lg:grid lg:grid-cols-12 lg:gap-10">
                     
                     {/* 2. Left Column: Image Gallery - Compacted Spacing */}
                     <div className="relative lg:col-span-5">
-                        <div className="lg:hidden px-4 py-3 flex items-center gap-1.5 text-[8px] font-bold uppercase tracking-widest text-zinc-300">
-                            <span>Shop</span> <ChevronRight className="w-2 h-2" /> 
-                            <span className="text-zinc-500 font-black">{product.name}</span>
-                        </div>
-
                         <div className="px-4 lg:px-0">
                             <div className="aspect-[4/4.5] lg:aspect-[4/4] bg-white rounded-[1.2rem] lg:rounded-[2rem] overflow-hidden shadow-sm relative group border border-[#F5E6E8]/30 max-h-[450px] mx-auto">
                                 <motion.img 
@@ -103,8 +105,8 @@ const ProductDetails = () => {
                                     src={productImages[selectedImgIdx]} 
                                     className="w-full h-full object-cover" 
                                 />
-                                <button onClick={handleWishlist} className="absolute top-4 right-4 w-9 h-9 bg-white/80 backdrop-blur-md rounded-full flex items-center justify-center shadow-sm active:scale-95 transition-all">
-                                    <Heart className={`w-4 h-4 ${isWishlisted ? 'fill-[#8B4356] text-[#8B4356]' : 'text-zinc-300'}`} />
+                                <button onClick={handleWishlist} className="absolute top-4 right-4 w-10 h-10 bg-white border border-[#F5E6E8]/50 rounded-full flex items-center justify-center shadow-md active:scale-95 transition-all z-10">
+                                    <Heart className={`w-5 h-5 ${isWishlisted ? 'fill-[#8B4356] text-[#8B4356]' : 'text-zinc-400'}`} strokeWidth={2.5} />
                                 </button>
                                 <div className="absolute top-4 left-4">
                                     <span className="bg-[#8B4356] text-white text-[6.5px] font-black uppercase tracking-[.3em] px-2.5 py-1 rounded-full">New Arrival</span>
@@ -165,7 +167,15 @@ const ProductDetails = () => {
                                     <span className="text-[12px] font-black">{discount > 0 ? `-${discount}%` : 'LIVE'}</span>
                                 </div>
                                 <div className="flex flex-col">
-                                    <span className="text-[22px] lg:text-[24px] font-display font-black text-black tracking-tighter leading-none">₹{currentPrice.toLocaleString()}</span>
+                                    <div className="flex items-center gap-2">
+                                        <span className="text-[22px] lg:text-[24px] font-display font-black text-black tracking-tighter leading-none">₹{currentPrice.toLocaleString()}</span>
+                                        {appliedCoupon && (
+                                            <div className="bg-emerald-50 text-emerald-600 px-2 py-0.5 rounded-full border border-emerald-100 flex items-center gap-1 animate-in zoom-in-95 duration-300">
+                                                <Check className="w-2.5 h-2.5" />
+                                                <span className="text-[8px] font-bold uppercase tracking-wider">{appliedCoupon} Applied</span>
+                                            </div>
+                                        )}
+                                    </div>
                                     {originalPrice > currentPrice && (
                                         <span className="text-[8.5px] font-bold text-zinc-400 uppercase tracking-widest leading-none line-through mt-0.5">M.R.P.: ₹{originalPrice.toLocaleString()}</span>
                                     )}
@@ -179,14 +189,19 @@ const ProductDetails = () => {
                             <h4 className="text-[9px] font-black uppercase tracking-[.4em] text-zinc-300 mb-4 flex items-center gap-3">Available Offers <div className="h-[1px] flex-grow bg-zinc-100/30"></div></h4>
                             <div className="flex overflow-x-auto gap-3 pb-2 scrollbar-hide">
                                 {[
-                                    { tag: "BANK OFFER", title: "Bank Offer", desc: "Flat ₹100 Off on SBI..." },
-                                    { tag: "CASHBACK", title: "Reward Hub", desc: "5% Unlimited Reward..." }
+                                    { tag: "COUPON", title: "HG25", desc: "Flat 25% Off on first order..." },
+                                    { tag: "COUPON", title: "WELCOME20", desc: "Flat ₹200 Off on orders..." }
                                 ].map((offer, oIdx) => (
                                     <div key={oIdx} className="shrink-0 w-[140px] bg-white p-2.5 rounded-lg border border-[#F5E6E8] shadow-sm relative group">
                                          <div className="absolute top-0 right-0 px-2 py-0.5 bg-[#FDF5F6] rounded-bl-md text-[4.5px] font-black text-[#8B4356]">{offer.tag}</div>
-                                         <h5 className="text-[8.5px] font-bold text-black mb-0.5">{offer.title}</h5>
+                                         <h5 className="text-[10px] font-bold text-black mb-0.5 tracking-widest">{offer.title}</h5>
                                          <p className="text-[7.5px] text-zinc-400 mb-1">{offer.desc}</p>
-                                         <button className="text-[6.5px] font-black text-[#8B4356] uppercase tracking-widest border-b border-[#8B4356]/30">Explore</button>
+                                         <button 
+                                            onClick={() => handleApplyCoupon(offer.title)}
+                                            className={`text-[6.5px] font-black uppercase tracking-widest border-b ${appliedCoupon === offer.title ? 'text-emerald-500 border-emerald-500' : 'text-[#8B4356] border-[#8B4356]/30'}`}
+                                         >
+                                            {appliedCoupon === offer.title ? 'Applied' : 'Apply'}
+                                         </button>
                                     </div>
                                 ))}
                             </div>
@@ -287,6 +302,79 @@ const ProductDetails = () => {
                     Buy Now
                 </button>
             </div>
+            {/* Mobile Success Sheet - Immersive Swipe Up */}
+            <AnimatePresence>
+                {showSuccessSheet && (
+                    <>
+                        {/* Overlay */}
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={() => setShowSuccessSheet(false)}
+                            className="fixed inset-0 bg-black/60 z-[140] backdrop-blur-[4px]"
+                        />
+
+                        {/* Swipe Up Sheet */}
+                        <motion.div
+                            initial={{ y: "100%" }}
+                            animate={{ y: 0 }}
+                            exit={{ y: "100%" }}
+                            transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                            className="fixed bottom-0 left-0 right-0 z-[150] bg-white rounded-t-[2.5rem] shadow-[0_-20px_50px_rgba(0,0,0,0.3)] pb-[calc(1rem+env(safe-area-inset-bottom))] p-6 lg:hidden"
+                        >
+                            {/* Drag Indicator */}
+                            <div className="w-12 h-1.5 bg-zinc-100 rounded-full mx-auto mb-6"></div>
+
+                            {/* Success Context */}
+                            <div className="flex items-center gap-4 mb-8">
+                                <div className="w-20 h-20 bg-[#FDF5F6] rounded-2xl overflow-hidden border border-[#F5E6E8]/50 p-1">
+                                    <img src={product.image} alt={product.name} className="w-full h-full object-cover rounded-xl" />
+                                </div>
+                                <div className="flex flex-col">
+                                    <div className="flex items-center gap-2 mb-1">
+                                        <div className="w-4 h-4 bg-emerald-500 rounded-full flex items-center justify-center p-0.5">
+                                            <Check className="w-3 h-3 text-white" />
+                                        </div>
+                                        <span className="text-[12px] font-black text-emerald-600 uppercase tracking-widest">Added to Bag</span>
+                                    </div>
+                                    <span className="font-display font-black text-black text-lg tracking-tighter leading-none">{product.name}</span>
+                                    <span className="text-zinc-400 text-[10px] font-bold uppercase tracking-widest mt-1.5">{product.subCategory}</span>
+                                </div>
+                            </div>
+
+                            {/* Action Buttons */}
+                            <div className="flex flex-col gap-3">
+                                <button 
+                                    onClick={() => navigate('/cart')}
+                                    className="w-full bg-[#8B4356] text-white h-14 rounded-2xl font-black uppercase tracking-[.25em] text-[10px] shadow-xl active:scale-95 transition-all"
+                                >
+                                    View My Bag
+                                </button>
+                                <button 
+                                    onClick={() => setShowSuccessSheet(false)}
+                                    className="w-full bg-white text-zinc-400 h-14 rounded-2xl font-black uppercase tracking-[.25em] text-[10px] border border-zinc-100 hover:bg-zinc-50 active:scale-95 transition-all"
+                                >
+                                    Continue Shopping
+                                </button>
+                                
+                                <div className="flex items-center justify-between px-2 mt-4 pt-4 border-t border-zinc-50">
+                                    <div className="flex flex-col">
+                                        <span className="text-[10px] font-black text-zinc-300 uppercase tracking-widest">Bag Subtotal</span>
+                                        <span className="text-xl font-display font-black text-black tracking-tighter">₹{product.price.toLocaleString()}</span>
+                                    </div>
+                                    <button 
+                                        onClick={() => navigate('/checkout')}
+                                        className="bg-[#FFD700] text-black h-12 px-8 rounded-full font-black uppercase tracking-widest text-[9px] shadow-lg active:scale-95 transition-all"
+                                    >
+                                        Place Order
+                                    </button>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </>
+                )}
+            </AnimatePresence>
         </div>
     );
 };

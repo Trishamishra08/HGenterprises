@@ -228,12 +228,12 @@ const OrderCard = ({ order, isExpanded, onToggle }) => {
                         </div>
                     </div>
 
-                    <div className="flex gap-2 w-full md:w-auto">
+                    <div className="flex gap-1.5 w-full md:w-auto">
                         {!returnRequest ? (
                             <>
-                                <button onClick={() => openAction('return')} className="flex-1 md:flex-none px-6 py-2.5 rounded-full border border-gray-200 text-[10px] font-bold uppercase tracking-widest hover:bg-black hover:text-white transition-all">Return</button>
-                                <button onClick={() => openAction('exchange')} className="flex-1 md:flex-none px-6 py-2.5 rounded-full border border-gray-200 text-[10px] font-bold uppercase tracking-widest hover:bg-black hover:text-white transition-all">Exchange</button>
-                                <button onClick={() => navigate(`/order-tracking/${order.id}`)} className="flex-1 md:flex-none px-6 py-2.5 rounded-full bg-black text-white text-[10px] font-bold uppercase tracking-widest hover:bg-[#8B4356] transition-all shadow-lg shadow-black/10">Track Journey</button>
+                                <button onClick={() => openAction('return')} className="flex-1 md:flex-none px-3 md:px-6 py-2.5 rounded-full border border-gray-200 text-[9px] md:text-[10px] font-bold uppercase tracking-wider md:tracking-widest hover:bg-black hover:text-white transition-all">Return</button>
+                                <button onClick={() => openAction('exchange')} className="flex-1 md:flex-none px-3 md:px-6 py-2.5 rounded-full border border-gray-200 text-[9px] md:text-[10px] font-bold uppercase tracking-wider md:tracking-widest hover:bg-black hover:text-white transition-all">Exchange</button>
+                                <button onClick={() => navigate(`/order-tracking/${order.id}`)} className="flex-1 md:flex-none px-3 md:px-6 py-2.5 rounded-full bg-black text-white text-[9px] md:text-[10px] font-bold uppercase tracking-wider md:tracking-widest hover:bg-[#8B4356] transition-all shadow-lg shadow-black/10">Track Journey</button>
                             </>
                         ) : (
                             <div className="flex items-center gap-3 bg-gray-50 px-5 py-2.5 rounded-full border border-gray-100">
@@ -340,7 +340,7 @@ const Profile = () => {
 
     return (
         <div className="min-h-screen bg-[#f9fafb] selection:bg-[#8B4356] selection:text-white pb-20">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 md:pt-14">
                 {/* Header Section */}
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
                     <div>

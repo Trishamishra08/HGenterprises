@@ -1,3 +1,5 @@
+
+
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { ShopProvider } from './context/ShopContext';
 import Navbar from './modules/user/components/Navbar';
@@ -96,7 +98,7 @@ const AppContent = () => {
               <AnnouncementBar />
               <Navbar />
             </div>
-            <div className="h-[60px] md:h-[80px] w-full"></div>
+            <div className="h-[84px] md:h-[110px] w-full"></div>
             <CategoryNav />
           </>
         )}

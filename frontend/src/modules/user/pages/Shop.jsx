@@ -25,7 +25,7 @@ const Shop = () => {
     const [selectedGender, setSelectedGender] = useState('All');
     const [selectedMetal, setSelectedMetal] = useState('All');
     const [sortBy, setSortBy] = useState('Newest');
-    const [priceRange, setPriceRange] = useState(500000); // Max price slider
+    const [priceRange, setPriceRange] = useState({ min: 0, max: 500000 }); // Dual price slider support
     const [isSortOpen, setIsSortOpen] = useState(false);
 
     // Sync with URL params & Normalize Category
@@ -98,7 +98,7 @@ const Shop = () => {
         if (selectedMetal !== 'All') result = result.filter(p => p.metal?.toLowerCase() === selectedMetal.toLowerCase());
         
         // Price Filter
-        result = result.filter(p => p.price <= priceRange);
+        result = result.filter(p => p.price >= priceRange.min && p.price <= priceRange.max);
 
         if (sortBy === 'Price: Low to High') result.sort((a, b) => a.price - b.price);
         else if (sortBy === 'Price: High to Low') result.sort((a, b) => b.price - a.price);
@@ -180,28 +180,80 @@ const Shop = () => {
                             </div>
                          )}
 
-                        {/* PRICE SLIDER */}
+                        {/* PRICE SLIDER - Restored Manual Shift UI */}
                         <div>
                              <h4 className="text-[9.5px] font-bold uppercase tracking-[0.5em] text-zinc-500 mb-6 flex items-center gap-3">Price Explorer <div className="h-[1px] flex-grow bg-zinc-50"></div></h4>
                              <div className="px-2 space-y-4">
-                                <div className="flex justify-between items-end mb-2">
-                                    <p className="text-[9px] font-bold uppercase tracking-widest text-zinc-500">Min: ₹0</p>
-                                    <p className="text-[13px] font-bold text-[#8B4356] font-display italic">₹{priceRange.toLocaleString()}</p>
+                                <div className="flex justify-between items-end mb-4">
+                                    <div className="flex flex-col gap-1">
+                                        <label className="text-[7px] font-black uppercase text-zinc-400">Min Budget</label>
+                                        <input 
+                                            type="number" 
+                                            value={priceRange.min}
+                                            onChange={(e) => setPriceRange(prev => ({ ...prev, min: parseInt(e.target.value) || 0 }))}
+                                            className="w-20 bg-zinc-50 border-none text-[12px] font-bold text-[#8B4356] font-display p-1 rounded"
+                                        />
+                                    </div>
+                                    <div className="flex flex-col gap-1 text-right">
+                                        <label className="text-[7px] font-black uppercase text-zinc-400">Max Budget</label>
+                                        <input 
+                                            type="number" 
+                                            value={priceRange.max}
+                                            onChange={(e) => setPriceRange(prev => ({ ...prev, max: parseInt(e.target.value) || 0 }))}
+                                            className="w-24 bg-zinc-50 border-none text-[12px] font-bold text-[#8B4356] font-display p-1 rounded text-right"
+                                        />
+                                    </div>
                                 </div>
-                                <input 
-                                    type="range" 
-                                    min="0" 
-                                    max="500000" 
-                                    step="5000" 
-                                    value={priceRange} 
-                                    onChange={(e) => setPriceRange(parseInt(e.target.value))}
-                                    className="w-full h-[3px] bg-zinc-100 rounded-lg appearance-none cursor-pointer accent-[#8B4356] transition-all hover:accent-[#7a394b]"
-                                />
+                                
+                                <div className="relative h-6 flex items-center">
+                                    <input 
+                                        type="range" 
+                                        min="0" 
+                                        max="500000" 
+                                        step="1000" 
+                                        value={priceRange.max} 
+                                        onChange={(e) => setPriceRange(prev => ({ ...prev, max: Math.max(prev.min + 1000, parseInt(e.target.value)) }))}
+                                        className="absolute w-full h-[3px] bg-zinc-100 rounded-lg appearance-none cursor-pointer accent-[#8B4356] z-20 pointer-events-auto"
+                                    />
+                                    <input 
+                                        type="range" 
+                                        min="0" 
+                                        max="500000" 
+                                        step="1000" 
+                                        value={priceRange.min} 
+                                        onChange={(e) => setPriceRange(prev => ({ ...prev, min: Math.min(prev.max - 1000, parseInt(e.target.value)) }))}
+                                        className="absolute w-full h-[3px] bg-transparent appearance-none cursor-pointer accent-[#8B4356] invisible pointer-events-none [&::-webkit-slider-thumb]:visible [&::-webkit-slider-thumb]:pointer-events-auto"
+                                    />
+                                </div>
+                                
                                 <div className="flex justify-between mt-1">
-                                    <span className="text-[9px] font-black uppercase tracking-tighter text-zinc-400">Start</span>
-                                    <span className="text-[9px] font-black uppercase tracking-tighter text-zinc-400">5 Lakh +</span>
+                                    <span className="text-[9px] font-black uppercase tracking-tighter text-zinc-400">Min 0</span>
+                                    <span className="text-[9px] font-black uppercase tracking-tighter text-zinc-400">Max 5 Lakh +</span>
                                 </div>
                              </div>
+                        </div>
+
+                        {/* GENDER FILTER - Restored */}
+                        <div>
+                            <h4 className="text-[9.5px] font-bold uppercase tracking-[0.5em] text-zinc-500 mb-4 flex items-center gap-3">Target View <div className="h-[1px] flex-grow bg-zinc-50"></div></h4>
+                            <div className="flex gap-2 px-1">
+                                {['All', 'Women', 'Men'].map(g => (
+                                    <button key={g} onClick={() => setSelectedGender(g)} className={`flex-1 py-3 rounded-xl border text-[11.5px] font-serif uppercase tracking-widest transition-all ${selectedGender === g ? 'border-[#8B4356] bg-[#8B4356] text-white shadow-md font-bold' : 'border-zinc-100 text-zinc-800 border-zinc-200 hover:border-zinc-300'}`}>{g}</button>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* SORT FILTER - Restored to Sidebar */}
+                        <div>
+                            <h4 className="text-[9.5px] font-bold uppercase tracking-[0.5em] text-zinc-500 mb-4 flex items-center gap-3">Refine Order <div className="h-[1px] flex-grow bg-zinc-50"></div></h4>
+                            <div className="grid grid-cols-1 gap-2 px-1">
+                                {['Newest', 'Price: Low to High', 'Price: High to Low', 'Best Selling'].map(s => (
+                                    <button key={s} onClick={() => setSortBy(s)} className={`w-full text-left px-4 py-3 rounded-xl border transition-all flex items-center justify-between group ${sortBy === s ? 'border-[#8B4356] bg-[#FDF5F6]/30 text-[#8B4356]' : 'border-zinc-50 text-zinc-800 hover:bg-zinc-50'}`}>
+                                        <span className="text-[12px] font-serif uppercase tracking-widest">{s}</span>
+                                        {sortBy === s && <Check className="w-3.5 h-3.5 text-[#8B4356]" />}
+                                    </button>
+                                ))}
+                            </div>
                         </div>
 
                         {currentCatData?.popularTypes && (
@@ -253,16 +305,27 @@ const Shop = () => {
                 <div className="border-x border-zinc-50 px-10">
                     <h5 className="text-[8px] font-bold uppercase tracking-[0.5em] text-[#8B4356] mb-5 flex items-center gap-3">Budget Discovery <div className="h-[1px] flex-grow bg-[#FDF5F6]"></div></h5>
                     <div className="space-y-6 pt-2">
-                        <div className="flex justify-between items-center mb-1">
-                            <span className="text-[12px] font-serif italic text-black font-bold">Max ₹{priceRange.toLocaleString()}</span>
+                        <div className="flex gap-2">
+                            <input 
+                                type="number" 
+                                value={priceRange.min}
+                                onChange={(e) => setPriceRange(prev => ({ ...prev, min: parseInt(e.target.value) || 0 }))}
+                                className="w-1/2 bg-zinc-50 border-none text-[10px] font-bold text-[#8B4356] p-1.5 rounded"
+                            />
+                            <input 
+                                type="number" 
+                                value={priceRange.max}
+                                onChange={(e) => setPriceRange(prev => ({ ...prev, max: parseInt(e.target.value) || 0 }))}
+                                className="w-1/2 bg-zinc-50 border-none text-[10px] font-bold text-[#8B4356] p-1.5 rounded text-right"
+                            />
                         </div>
                         <input 
                             type="range" 
                             min="0" 
                             max="500000" 
                             step="5000" 
-                            value={priceRange} 
-                            onChange={(e) => setPriceRange(parseInt(e.target.value))}
+                            value={priceRange.max} 
+                            onChange={(e) => setPriceRange(prev => ({ ...prev, max: parseInt(e.target.value) }))}
                             className="w-full h-1 bg-zinc-100 rounded-lg appearance-none cursor-pointer accent-[#8B4356]"
                         />
                         <div className="flex justify-between items-center text-[7px] font-black uppercase tracking-widest text-zinc-300">
@@ -291,7 +354,7 @@ const Shop = () => {
             <div className="flex max-w-[1700px] mx-auto min-h-screen">
                 <aside className="hidden lg:block w-[280px] shrink-0 border-r border-zinc-100 sticky top-[48px] h-[calc(100vh-48px)] z-20 overflow-hidden bg-white shadow-sm"><SidebarContent /></aside>
                 <main className="flex-grow min-w-0 bg-[#fdf2f8]/5">
-                    <div className="p-0 md:p-4 lg:px-16 lg:pt-0 lg:pb-6">
+                    <div className="pt-8 pb-4 px-2 md:p-4 lg:px-16 lg:pt-0 lg:pb-6">
                         <div className="mb-0 lg:mb-1">
                              <div className="flex items-center gap-2 text-[8px] uppercase tracking-[0.5em] font-bold text-zinc-300 mb-1 px-1">
                                 <Link to="/" className="hover:text-[#8B4356] transition-colors">Home</Link>
@@ -314,7 +377,7 @@ const Shop = () => {
                             <div className="flex flex-col md:flex-row md:items-end justify-between items-start gap-4 border-b border-zinc-100 pb-1 relative px-1">
                                 <div className="flex items-start justify-between w-full relative">
                                     <div className="flex flex-col gap-1">
-                                        <motion.h1 key={pageTitle} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="text-4xl md:text-6xl lg:text-5xl font-display font-medium text-black tracking-tighter lowercase italic leading-none">{pageTitle}</motion.h1>
+                                        <motion.h1 key={pageTitle} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="text-4xl md:text-6xl lg:text-5xl font-display font-medium text-black tracking-tighter lowercase italic leading-tight">{pageTitle}</motion.h1>
                                         <div className="flex items-center gap-4">
                                             <div className="h-[1px] w-12 bg-[#8B4356]/20"></div>
                                             <p className="text-[9px] md:text-[9.5px] font-bold uppercase tracking-[0.5em] text-[#8B4356]/30 leading-none">{filteredProducts.length} Piece Discovery</p>
@@ -341,7 +404,7 @@ const Shop = () => {
                                 ))}
                             </div>
                         ) : (
-                            <div className="flex flex-col items-center justify-center py-40 text-center bg-white rounded-[4rem] border border-zinc-50 mx-2 shadow-sm"><div className="w-24 h-24 bg-[#FDF5F6]/50 rounded-full flex items-center justify-center mb-8"><Search className="w-10 h-10 text-[#8B4356]/30" /></div><h3 className="text-3xl font-serif font-bold text-black mb-5">Choice Not Found</h3><p className="text-zinc-400 font-serif italic mb-10 max-w-sm mx-auto text-base">We couldn't match your discovery parameters.</p><button onClick={() => { setSelectedCategory('Jewellery'); setSelectedSubCategory(null); setSelectedType('All'); setSelectedGender('All'); setSelectedMetal('All'); setPriceRange(500000); setSortBy('Newest'); }} className="bg-[#8B4356] text-white px-10 py-5 rounded-full font-bold uppercase tracking-[0.4em] text-[10px] shadow-2xl transition-all">Reset All</button></div>
+                            <div className="flex flex-col items-center justify-center py-40 text-center bg-white rounded-[4rem] border border-zinc-50 mx-2 shadow-sm"><div className="w-24 h-24 bg-[#FDF5F6]/50 rounded-full flex items-center justify-center mb-8"><Search className="w-10 h-10 text-[#8B4356]/30" /></div><h3 className="text-3xl font-serif font-bold text-black mb-5">Choice Not Found</h3><p className="text-zinc-400 font-serif italic mb-10 max-w-sm mx-auto text-base">We couldn't match your discovery parameters.</p><button onClick={() => { setSelectedCategory('Jewellery'); setSelectedSubCategory(null); setSelectedType('All'); setSelectedGender('All'); setSelectedMetal('All'); setPriceRange({ min: 0, max: 500000 }); setSortBy('Newest'); }} className="bg-[#8B4356] text-white px-10 py-5 rounded-full font-bold uppercase tracking-[0.4em] text-[10px] shadow-2xl transition-all">Reset All</button></div>
                         )}
                     </div>
                 </main>

@@ -13,7 +13,7 @@ const Checkout = () => {
     // Login State
     const [loginStep, setLoginStep] = useState(1); // 1: Phone, 2: OTP
     const [phoneNumber, setPhoneNumber] = useState('');
-    const [otp, setOtp] = useState(['', '', '', '']); // 4 digit OTP
+    const [otp, setOtp] = useState(['', '', '', '', '', '']); // 6 digit OTP
 
     // Checkout Form State
     const [formData, setFormData] = useState({
@@ -80,13 +80,13 @@ const Checkout = () => {
     const handleVerifyOtp = (e) => {
         e.preventDefault();
         const enteredOtp = otp.join('');
-        if (enteredOtp.length === 4) {
+        if (enteredOtp.length === 6) {
             // Mock Login Success
             login({ names: 'Guest User', phone: phoneNumber });
             // Pre-fill phone in checkout form
             setFormData(prev => ({ ...prev, phone: phoneNumber }));
         } else {
-            alert("Please enter the 4-digit OTP");
+            alert("Please enter the 6-digit OTP");
         }
     };
 
@@ -194,7 +194,7 @@ const Checkout = () => {
                         <p className="text-gray-500 text-sm font-serif">
                             {loginStep === 1
                                 ? 'Please enter your phone number to proceed with your order'
-                                : `Enter the 4-digit code sent to +91 ${phoneNumber}`
+                                : `Enter the 6-digit code sent to +91 ${phoneNumber}`
                             }
                         </p>
                     </div>
@@ -224,7 +224,7 @@ const Checkout = () => {
                             </form>
                         ) : (
                             <form onSubmit={handleVerifyOtp} className="space-y-6">
-                                <div className="flex justify-center gap-3">
+                                <div className="flex justify-center gap-2">
                                     {otp.map((data, index) => (
                                         <input
                                             key={index}
@@ -233,7 +233,7 @@ const Checkout = () => {
                                             value={data}
                                             onChange={(e) => handleOtpChange(e.target, index)}
                                             onFocus={(e) => e.target.select()}
-                                            className="w-14 h-14 border border-gray-200 rounded-xl text-center text-xl font-bold focus:ring-black focus:border-black outline-none bg-gray-50/50 transition-all font-display"
+                                            className="w-12 h-14 border border-gray-200 rounded-xl text-center text-xl font-bold focus:ring-black focus:border-black outline-none bg-gray-50/50 transition-all font-display"
                                         />
                                     ))}
                                 </div>

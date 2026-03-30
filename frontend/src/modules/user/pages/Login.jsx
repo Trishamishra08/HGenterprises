@@ -17,7 +17,7 @@ const Login = () => {
 
     const [phoneNumber, setPhoneNumber] = useState('');
     const [loginStep, setLoginStep] = useState(1);
-    const [otp, setOtp] = useState(['', '', '', '']);
+    const [otp, setOtp] = useState(['', '', '', '', '', '']);
 
     // Additional fields for Signup
     const [fullName, setFullName] = useState('');
@@ -27,7 +27,7 @@ const Login = () => {
     useEffect(() => {
         setLoginStep(1);
         setPhoneNumber('');
-        setOtp(['', '', '', '']);
+        setOtp(['', '', '', '', '', '']);
         setFullName('');
         setEmail('');
     }, [isSignup]);
@@ -44,7 +44,7 @@ const Login = () => {
     const handleVerifyOtp = (e) => {
         e.preventDefault();
         const enteredOtp = otp.join('');
-        if (enteredOtp.length === 4) {
+        if (enteredOtp.length === 6) {
             // Mock Login/Signup
             const userData = {
                 name: isSignup ? fullName : 'Guest User',
@@ -56,7 +56,7 @@ const Login = () => {
             // Redirect to Profile page after successful login/signup as requested
             navigate('/profile');
         } else {
-            alert("Please enter the 4-digit OTP");
+            alert("Please enter the 6-digit OTP");
         }
     };
 
@@ -109,7 +109,7 @@ const Login = () => {
                         </h2>
                         <p className="text-gray-400 text-[9px] font-serif italic mt-0.5">
                             {loginStep === 1
-                                ? (isSignup ? 'Enter details below.' : 'Login to continue.')
+                                 ? (isSignup ? 'Enter details below.' : 'Login to continue.')
                                 : `Code for +91 ${phoneNumber}`
                             }
                         </p>
@@ -168,7 +168,7 @@ const Login = () => {
                         </form>
                     ) : (
                         <form onSubmit={handleVerifyOtp} className="space-y-6">
-                            <div className="flex justify-between gap-3 px-2">
+                            <div className="flex justify-between gap-2 px-0">
                                 {otp.map((data, index) => (
                                     <input
                                         key={index}
@@ -177,7 +177,7 @@ const Login = () => {
                                         value={data}
                                         onChange={(e) => handleOtpChange(e.target, index)}
                                         onFocus={(e) => e.target.select()}
-                                        className="w-14 h-16 bg-transparent border-b-2 border-[#EBCDD0] focus:border-[#D39A9F] text-center text-3xl font-bold text-black outline-none transition-all p-0 rounded-none"
+                                        className="w-10 h-12 bg-transparent border-b-2 border-[#EBCDD0] focus:border-[#D39A9F] text-center text-2xl font-bold text-black outline-none transition-all p-0 rounded-none"
                                     />
                                 ))}
                             </div>
@@ -285,8 +285,8 @@ const Login = () => {
                         ) : (
                             <form onSubmit={handleVerifyOtp} className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-300">
                                 <div className="text-center">
-                                    <p className="text-gray-500 mb-6 font-serif">Enter the 4-digit code sent to <span className="font-bold text-black">+91 {phoneNumber}</span></p>
-                                    <div className="flex justify-center gap-4 mb-6">
+                                    <p className="text-gray-500 mb-6 font-serif">Enter the 6-digit code sent to <span className="font-bold text-black">+91 {phoneNumber}</span></p>
+                                    <div className="flex justify-center gap-3 mb-6">
                                         {otp.map((data, index) => (
                                             <input
                                                 key={index}
@@ -295,7 +295,7 @@ const Login = () => {
                                                 value={data}
                                                 onChange={(e) => handleOtpChange(e.target, index)}
                                                 onFocus={(e) => e.target.select()}
-                                                className="w-14 h-14 border border-[#EBCDD0] rounded-xl text-center text-2xl font-bold focus:border-[#D39A9F] focus:ring-2 focus:ring-[#D39A9F]/20 outline-none transition-all text-black bg-[#FAFAFA]"
+                                                className="w-12 h-14 border border-[#EBCDD0] rounded-xl text-center text-2xl font-bold focus:border-[#D39A9F] focus:ring-2 focus:ring-[#D39A9F]/20 outline-none transition-all text-black bg-[#FAFAFA]"
                                             />
                                         ))}
                                     </div>
