@@ -229,29 +229,29 @@ const Shop = () => {
         const currentCatData = initialCategories.find(c => c.name === openCategory);
         
         return (
-            <div className="hidden lg:grid grid-cols-4 gap-10 bg-white border border-zinc-100 p-10 rounded-[3rem] mb-12 shadow-[0_15px_50px_rgba(0,0,0,0.015)] relative z-40">
+            <div className="hidden lg:grid grid-cols-4 gap-6 bg-white border border-zinc-100 p-6 rounded-[2rem] mb-8 shadow-[0_15px_50px_rgba(0,0,0,0.015)] relative z-40">
                 <div className="absolute top-0 right-0 w-40 h-40 bg-[#FDF5F6]/40 rounded-full blur-[70px] -translate-y-1/2 translate-x-1/2"></div>
                 <div>
-                    <h5 className="text-[8px] font-bold uppercase tracking-[0.5em] text-[#8B4356] mb-8 flex items-center gap-3">
+                    <h5 className="text-[8px] font-bold uppercase tracking-[0.5em] text-[#8B4356] mb-5 flex items-center gap-3">
                         {currentCatData?.materialLabel || "By Material"} 
                         <div className="h-[1px] flex-grow bg-[#FDF5F6]"></div>
                     </h5>
-                    <div className="space-y-4">
+                    <div className="space-y-2">
                         {currentCatData?.materials?.map(m => (
                             <button key={m} onClick={() => setSelectedMetal(m === selectedMetal ? 'All' : m)} className={`block w-full text-left text-[13.5px] font-serif uppercase tracking-widest transition-all hover:text-black px-4 py-2 rounded-xl border ${selectedMetal === m ? 'border-[#8B4356] bg-[#FDF5F6]/30 text-[#8B4356] font-bold' : 'border-transparent text-zinc-800 hover:bg-zinc-50'}`}>{m} Selection</button>
                         ))}
                     </div>
                 </div>
                 <div>
-                    <h5 className="text-[8px] font-bold uppercase tracking-[0.5em] text-[#8B4356] mb-8 flex items-center gap-3">Top Styles <div className="h-[1px] flex-grow bg-[#FDF5F6]"></div></h5>
-                    <div className="grid grid-cols-1 gap-y-4">
+                    <h5 className="text-[8px] font-bold uppercase tracking-[0.5em] text-[#8B4356] mb-5 flex items-center gap-3">Top Styles <div className="h-[1px] flex-grow bg-[#FDF5F6]"></div></h5>
+                    <div className="grid grid-cols-1 gap-y-2.5">
                         {currentCatData?.popularTypes?.map(t => (
                             <button key={t} onClick={() => setSelectedType(t === selectedType ? 'All' : t)} className={`text-left text-[13.5px] font-serif uppercase tracking-widest hover:text-[#8B4356] transition-all hover:translate-x-1 ${selectedType === t ? 'text-[#8B4356] translate-x-1 font-bold' : 'text-zinc-800'}`}>{t}</button>
                         ))}
                     </div>
                 </div>
                 <div className="border-x border-zinc-50 px-10">
-                    <h5 className="text-[8px] font-bold uppercase tracking-[0.5em] text-[#8B4356] mb-8 flex items-center gap-3">Budget Discovery <div className="h-[1px] flex-grow bg-[#FDF5F6]"></div></h5>
+                    <h5 className="text-[8px] font-bold uppercase tracking-[0.5em] text-[#8B4356] mb-5 flex items-center gap-3">Budget Discovery <div className="h-[1px] flex-grow bg-[#FDF5F6]"></div></h5>
                     <div className="space-y-6 pt-2">
                         <div className="flex justify-between items-center mb-1">
                             <span className="text-[12px] font-serif italic text-black font-bold">Max ₹{priceRange.toLocaleString()}</span>
@@ -272,8 +272,8 @@ const Shop = () => {
                     </div>
                 </div>
                 <div>
-                    <h5 className="text-[8px] font-bold uppercase tracking-[0.5em] text-[#8B4356] mb-8 flex items-center gap-3">All Categories <div className="h-[1px] flex-grow bg-[#FDF5F6]"></div></h5>
-                    <div className="space-y-5">
+                    <h5 className="text-[8px] font-bold uppercase tracking-[0.5em] text-[#8B4356] mb-5 flex items-center gap-3">All Categories <div className="h-[1px] flex-grow bg-[#FDF5F6]"></div></h5>
+                    <div className="space-y-3.5">
                         {initialCategories.map(m => (
                             <div key={m.id} onClick={() => handleCategoryToggle(m.name)} className="group/item cursor-pointer flex items-center justify-between border-b border-zinc-50 pb-2.5 transition-colors hover:border-[#8B4356]/20">
                                 <p className={`text-[11.5px] font-bold uppercase tracking-widest hover:text-[#8B4356] transition-all ${openCategory === m.name ? 'text-[#8B4356] translate-x-1' : 'text-black group-hover/item:translate-x-1'}`}>{m.name}</p>
@@ -289,7 +289,7 @@ const Shop = () => {
     return (
         <div className="min-h-screen bg-white font-body selection:bg-[#8B4356] selection:text-white pb-32 md:pb-10 overflow-hidden">
             <div className="flex max-w-[1700px] mx-auto min-h-screen">
-                <aside className="hidden lg:block w-[310px] shrink-0 border-r border-zinc-100 sticky top-[104px] h-[calc(100vh-104px)] z-20 overflow-hidden bg-white shadow-sm"><SidebarContent /></aside>
+                <aside className="hidden lg:block w-[280px] shrink-0 border-r border-zinc-100 sticky top-[104px] h-[calc(100vh-104px)] z-20 overflow-hidden bg-white shadow-sm"><SidebarContent /></aside>
                 <main className="flex-grow min-w-0 bg-[#fdf2f8]/5">
                     <div className="p-4 md:p-8 lg:px-16 lg:py-10">
                         <div className="mb-8 lg:mb-12">
@@ -313,11 +313,11 @@ const Shop = () => {
                             
                             <div className="flex flex-col md:flex-row md:items-end justify-between items-start gap-4 border-b border-zinc-100 pb-8 relative px-1">
                                 <div className="flex items-start justify-between w-full relative">
-                                    <div className="flex flex-col gap-4">
-                                        <motion.h1 key={pageTitle} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="text-5xl md:text-7xl lg:text-8xl font-display font-medium text-black tracking-tighter lowercase italic leading-none">{pageTitle}</motion.h1>
+                                    <div className="flex flex-col gap-2">
+                                        <motion.h1 key={pageTitle} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="text-4xl md:text-6xl lg:text-5xl font-display font-medium text-black tracking-tighter lowercase italic leading-none">{pageTitle}</motion.h1>
                                         <div className="flex items-center gap-4">
                                             <div className="h-[1px] w-12 bg-[#8B4356]/20"></div>
-                                            <p className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.5em] text-[#8B4356]/30 leading-none">{filteredProducts.length} Piece Discovery</p>
+                                            <p className="text-[9px] md:text-[9.5px] font-bold uppercase tracking-[0.5em] text-[#8B4356]/30 leading-none">{filteredProducts.length} Piece Discovery</p>
                                         </div>
                                     </div>
                                     <div className="absolute top-0 right-0 flex items-center gap-3">
