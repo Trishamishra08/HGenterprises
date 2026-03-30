@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Hammer, Sparkles, Shield, Heart, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const CraftsmanshipPage = () => {
     const navigate = useNavigate();
-    useEffect(() => { window.scrollTo(0, 0); }, []);
 
     const steps = [
         {

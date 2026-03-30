@@ -1,13 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { XCircle, Clock, CreditCard, RefreshCw, AlertCircle, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const CancellationPolicy = () => {
     const navigate = useNavigate();
-
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, []);
 
     const sections = [
         {
@@ -46,8 +42,10 @@ const CancellationPolicy = () => {
 
                 <div className="text-center mb-12 md:mb-16">
                     <span className="text-[#D39A9F] text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] mb-3 block">Terms of Service</span>
-                    <h1 className="text-3xl md:text-5xl font-display text-black mb-6 tracking-tight">Cancellation & Refund Policy</h1>
-                    <div className="w-16 md:w-24 h-0.5 bg-[#EBCDD0] mx-auto mb-6"></div>
+                    <h1 className="text-3xl md:text-5xl font-serif text-black mb-4 tracking-tight font-normal">
+                        <span className="italic text-[#D39A9F]">Cancellation</span> & Refund Policy
+                    </h1>
+                    <div className="w-16 md:w-20 h-[1px] bg-[#EBCDD0] mx-auto mb-4"></div>
                     <p className="text-gray-400 text-xs md:text-sm font-serif italic max-w-lg mx-auto leading-relaxed">
                         At HG Enterprises, we strive to ensure total satisfaction. Please review our policies regarding order cancellations and financial returns.
                     </p>

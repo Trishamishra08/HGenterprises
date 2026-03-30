@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { MapPin, Navigation, Phone, Clock, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const StoreLocator = () => {
     const navigate = useNavigate();
-    useEffect(() => { window.scrollTo(0, 0); }, []);
 
     const stores = [
         {

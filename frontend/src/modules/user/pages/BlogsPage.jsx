@@ -225,7 +225,7 @@ const BlogsPage = () => {
                                         <span className="opacity-30">|</span>
                                         <span>{blog.readTime}</span>
                                     </div>
-                                    <h2 className="text-xl md:text-xl font-display font-bold text-black mb-3 tracking-tight leading-[1.2] group-hover:text-[#8B4356] transition-colors duration-500 uppercase">
+                                    <h2 className="text-xl md:text-xl font-serif font-normal text-black mb-3 tracking-tight leading-[1.2] group-hover:text-[#8B4356] transition-colors duration-500 uppercase">
                                         {blog.title}
                                     </h2>
                                     <p className="text-xs md:text-xs text-gray-500 font-serif italic mb-6 leading-relaxed max-w-sm mx-auto">

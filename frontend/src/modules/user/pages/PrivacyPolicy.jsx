@@ -1,13 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Shield, Eye, Lock, RefreshCw, UserCheck, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const PrivacyPolicy = () => {
     const navigate = useNavigate();
-
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, []);
 
     const policies = [
         {
@@ -18,7 +14,7 @@ const PrivacyPolicy = () => {
         {
             title: "Secure Payments",
             icon: <Lock className="w-6 h-6" />,
-            content: "Your payment details are encrypted and processed by Razorpay. Sands Ornaments does not store your credit card or bank credentials on our servers."
+            content: "Your payment details are encrypted and processed by Razorpay. HG Enterprises does not store your credit card or bank credentials on our servers."
         },
         {
             title: "Cookies & Tracking",
@@ -44,17 +40,19 @@ const PrivacyPolicy = () => {
                     Back
                 </button>
 
-                <div className="text-center mb-12 md:mb-20">
+                <div className="text-center mb-10 md:mb-16">
                     <span className="text-[#D39A9F] text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] mb-3 block">Your Privacy Matters</span>
-                    <h1 className="text-4xl md:text-6xl font-display text-black mb-6">Privacy Policy</h1>
-                    <div className="w-16 md:w-24 h-0.5 bg-[#EBCDD0] mx-auto mb-6"></div>
-                    <p className="text-gray-400 text-xs md:text-sm font-serif italic">Your trust is our most valuable asset.</p>
+                    <h1 className="text-3xl md:text-5xl font-serif text-black mb-4 tracking-tight font-normal">
+                        <span className="italic text-[#D39A9F]">Privacy</span> Policy
+                    </h1>
+                    <div className="w-16 md:w-20 h-[1px] bg-[#EBCDD0] mx-auto mb-4"></div>
+                    <p className="text-gray-400 text-[10px] md:text-sm font-serif italic">Your trust is our most valuable asset.</p>
                 </div>
 
                 <div className="bg-white rounded-[2rem] p-6 md:p-12 shadow-sm border border-[#F3F4F6]">
-                    <div className="flex items-center gap-4 mb-10 md:mb-16 p-6 bg-gray-50 rounded-2xl border border-[#F3F4F6]">
-                        <Shield className="w-8 h-8 md:w-10 md:h-10 text-[#D39A9F] flex-shrink-0" />
-                        <p className="text-sm md:text-base font-serif text-gray-600 italic">"Sands Ornaments is committed to ensuring that your privacy is protected and your data is used only to enhance your shopping experience."</p>
+                    <div className="flex items-center gap-4 mb-8 md:mb-12 p-6 bg-gray-50 rounded-2xl border border-[#F3F4F6]">
+                        <Shield className="w-8 h-8 text-[#D39A9F] flex-shrink-0" />
+                        <p className="text-sm md:text-base font-serif text-gray-600 italic">"HG Enterprises is committed to ensuring that your privacy is protected and your data is used only to enhance your shopping experience."</p>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">

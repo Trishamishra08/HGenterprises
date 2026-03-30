@@ -75,10 +75,10 @@ import StoreLocator from './modules/user/pages/StoreLocator';
 import ReturnsPolicy from './modules/user/pages/ReturnsPolicy';
 
 const ScrollToTop = () => {
-  const { pathname } = useLocation();
+  const { pathname, key } = useLocation();
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [pathname, key]);
   return null;
 };
 

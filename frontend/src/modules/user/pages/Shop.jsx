@@ -134,7 +134,7 @@ const Shop = () => {
                 </div>
 
                 {/* Scrollable Middle Container */}
-                <div className="flex-1 overflow-y-auto scrollbar-hide px-5 pt-6 space-y-7 pb-10">
+                <div className="flex-1 overflow-y-auto scrollbar-hide px-5 pt-6 space-y-7 pb-32">
                     <div>
                          <h4 className="text-[9.5px] font-bold uppercase tracking-[0.5em] text-zinc-500 mb-3.5 ml-1">Archive Hub</h4>
                          <div className="flex flex-col gap-1.5">
@@ -257,7 +257,7 @@ const Shop = () => {
                         </div>
 
                         {currentCatData?.popularTypes && (
-                            <div>
+                            <div className="pb-10">
                                 <h4 className="text-[9.5px] font-bold uppercase tracking-[0.5em] text-zinc-500 mb-4 flex items-center gap-3">Popular Options <div className="h-[1px] flex-grow bg-zinc-50"></div></h4>
                                 <div className="grid grid-cols-2 gap-x-4 gap-y-3 px-1">
                                     {currentCatData.popularTypes.map(type => (
@@ -270,7 +270,7 @@ const Shop = () => {
                 </div>
 
                 {/* Fixed Footer */}
-                <div className="lg:hidden p-4 border-t border-zinc-50 bg-white/95 backdrop-blur-md pb-6 shrink-0 z-[70] shadow-[0_-5px_20px_rgba(0,0,0,0.03)]">
+                <div className="lg:hidden p-4 border-t border-zinc-50 bg-white/95 backdrop-blur-md pb-10 shrink-0 z-[70] shadow-[0_-5px_20px_rgba(0,0,0,0.03)]">
                     <button onClick={() => setIsFilterOpen(false)} className="w-full bg-[#8B4356] text-white py-4.5 rounded-2xl font-bold uppercase tracking-[0.2em] text-[11px] shadow-xl active:scale-95 hover:bg-[#7a394b] transition-all">Apply Discovery</button>
                 </div>
             </div>

@@ -47,12 +47,15 @@ const Checkout = () => {
     const availableCoupons = coupons ? coupons.filter(c => c.active) : [];
 
     const handleApplyCoupon = (coupon) => {
-        if (subtotal < coupon.minOrder) {
-            alert(`Minimum order value of ₹${coupon.minOrder} required`);
+        const minVal = coupon.minOrderValue || coupon.minOrder || 0;
+        const discountVal = coupon.value || coupon.amount || 0;
+
+        if (subtotal < minVal) {
+            alert(`Minimum order value of ₹${minVal} required`);
             return;
         }
         setAppliedCoupon(coupon);
-        setDiscount(coupon.amount > subtotal ? subtotal : coupon.amount); // Discount can't exceed subtotal
+        setDiscount(discountVal > subtotal ? subtotal : discountVal);
         setShowCouponModal(false);
     };
 
@@ -175,7 +178,7 @@ const Checkout = () => {
         }
     }, [cart, navigate, isDirectBuy]);
 
-    if (cart.length === 0) {
+    if (cart.length === 0 && !isDirectBuy) {
         return null; // Or redirect
     }
 
@@ -644,62 +647,69 @@ const Checkout = () => {
             {showCouponModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in">
                     <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
-                        <div className="p-4 border-b border-gray-100 flex items-center justify-between bg-gray-50">
-                            <h3 className="font-bold text-lg font-display uppercase tracking-wide">Available Coupons</h3>
+                        <div className="p-3 border-b border-gray-100 flex items-center justify-between bg-white">
+                            <h3 className="font-bold text-sm font-display uppercase tracking-widest text-[#4a1d1d]">Available Coupons</h3>
                             <button
                                 onClick={() => setShowCouponModal(false)}
-                                className="p-2 hover:bg-gray-200 rounded-full transition-colors"
+                                className="p-1.5 hover:bg-gray-100 rounded-full transition-colors"
                             >
-                                <X className="w-5 h-5 text-gray-500" />
+                                <X className="w-4 h-4 text-gray-500" />
                             </button>
                         </div>
 
-                        <div className="p-6 space-y-6">
-                            {/* Manual Input */}
+                        <div className="p-5 space-y-5 bg-white">
+                            {/* Manual Input - Compact */}
                             <div className="flex gap-2">
                                 <input
                                     type="text"
                                     placeholder="Enter Coupon Code"
                                     value={couponCode}
                                     onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
-                                    className="flex-1 border border-gray-200 rounded-lg px-4 py-2.5 outline-none focus:border-black font-medium uppercase placeholder:normal-case"
+                                    className="flex-1 border border-gray-200 rounded-xl px-4 py-2 text-xs outline-none focus:border-black font-bold uppercase placeholder:normal-case h-10"
                                 />
                                 <button
                                     onClick={() => {
-                                        // Mock manual check
-                                        const mockForce = { code: couponCode, amount: 100, minOrder: 0 };
-                                        handleApplyCoupon(mockForce);
+                                        const found = availableCoupons.find(c => c.code === couponCode);
+                                        if (found) {
+                                            handleApplyCoupon(found);
+                                        } else {
+                                            alert("Invalid coupon code");
+                                        }
                                     }}
-                                    className="bg-black text-white px-6 py-2.5 rounded-lg font-bold text-sm uppercase tracking-wider hover:bg-[#D39A9F] transition-colors"
+                                    className="bg-black text-white px-5 rounded-xl font-bold text-[10px] uppercase tracking-widest hover:bg-[#D39A9F] transition-all h-10"
                                 >
                                     Apply
                                 </button>
                             </div>
 
-                            {/* List */}
+                            {/* List - Compact Heritage Style */}
                             <div className="space-y-3">
-                                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Best Offers For You</p>
-                                <div className="space-y-3 max-h-[300px] overflow-y-auto pr-1 custom-scrollbar">
-                                    {availableCoupons.map((coupon, idx) => (
+                                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-4">Personalized Offers</p>
+                                <div className="space-y-2 max-h-[260px] overflow-y-auto pr-1 custom-scrollbar">
+                                    {availableCoupons.length > 0 ? availableCoupons.map((coupon, idx) => (
                                         <div
                                             key={idx}
-                                            className="border border-gray-200 rounded-xl p-4 hover:border-[#D39A9F] transition-all group relative overflow-hidden"
+                                            className="border border-gray-100 rounded-2xl p-4 bg-gray-50/30 hover:bg-white hover:shadow-lg hover:border-[#D39A9F]/30 transition-all group flex flex-col gap-2"
                                         >
-                                            <div className="flex justify-between items-start mb-2">
-                                                <div className="bg-[#EBCDD0]/30 px-3 py-1 rounded border border-[#EBCDD0] text-[#D39A9F] font-bold text-xs uppercase tracking-wider">
+                                            <div className="flex justify-between items-center">
+                                                <div className="bg-[#f0dae4] px-3 py-1 rounded-lg text-[#8b4356] font-bold text-[10px] tracking-widest border border-[#f0dae4]">
                                                     {coupon.code}
                                                 </div>
                                                 <button
                                                     onClick={() => handleApplyCoupon(coupon)}
-                                                    className="text-black font-bold text-xs uppercase tracking-wider hover:text-[#D39A9F] transition-colors"
+                                                    className="text-[#8b4356] font-bold text-[10px] uppercase tracking-widest hover:scale-105 transition-transform"
                                                 >
-                                                    Apply
+                                                    Tap to Apply
                                                 </button>
                                             </div>
-                                            <p className="text-sm font-bold text-black mb-0.5">Save ₹{typeof coupon.amount === 'number' ? coupon.amount.toFixed(0) : coupon.amount}</p>
-                                            <p className="text-xs text-gray-500 font-serif">{coupon.desc}</p>
+                                            <div>
+                                                <p className="text-xs font-bold text-black mb-1">Save ₹{(coupon.value || coupon.amount || 0).toLocaleString()}</p>
+                                                <p className="text-[10px] text-gray-500 font-serif italic leading-relaxed">{coupon.description || coupon.desc}</p>
+                                            </div>
                                         </div>
-                                    ))}
+                                    )) : (
+                                        <p className="text-center py-6 text-xs text-gray-400 font-serif italic">No coupons available at the moment.</p>
+                                    )}
                                 </div>
                             </div>
                         </div>

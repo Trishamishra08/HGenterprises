@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 
 const ReturnsPolicy = () => {
     const navigate = useNavigate();
-    useEffect(() => { window.scrollTo(0, 0); }, []);
 
     const policies = [
         {
@@ -39,7 +38,7 @@ const ReturnsPolicy = () => {
 
                 <div className="text-center mb-12">
                     <span className="text-[#4A1015] text-[10px] md:text-sm font-bold uppercase tracking-[0.4em] mb-4 block">Our Promise</span>
-                    <h1 className="text-4xl md:text-6xl font-display text-black mb-6 tracking-tight tracking-tight">Easy Returns</h1>
+                    <h1 className="text-3xl md:text-5xl font-serif text-black mb-4 tracking-tight font-normal">Easy <span className="italic text-[#4A1015]">Returns</span></h1>
                     <p className="text-gray-400 text-xs md:text-base italic font-serif max-w-3xl mx-auto leading-relaxed">
                         Total peace of mind is part of the HG experience. If a piece isn't perfect, our return process is designed to be as effortless as your purchase.
                     </p>

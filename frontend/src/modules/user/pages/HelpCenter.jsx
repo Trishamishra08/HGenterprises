@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search, HelpCircle, ShoppingBag, Truck, CreditCard, RefreshCw, MessageCircle, ChevronRight, Phone, Mail, Clock, Send, Ticket, ArrowLeft, MapPin } from 'lucide-react';
 import { useShop } from '../../../context/ShopContext';
 import { Link, useNavigate } from 'react-router-dom';
@@ -100,8 +100,22 @@ const HelpCenter = () => {
     const navigate = useNavigate();
     const [searchQuery, setSearchQuery] = useState('');
     const [activeCategory, setActiveCategory] = useState('all');
-    const [view, setView] = useState('home'); // home, contact
+    const [view, setView] = useState('home'); 
     const [prefilledOrder, setPrefilledOrder] = useState('');
+
+    // Smooth scroll to top when view changes (FAQ vs Support Form)
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, [view]);
+
+    // Handle incoming navigation with order context (from Order Details page)
+    useEffect(() => {
+        const stateData = window.history.state?.usr;
+        if (stateData?.orderId) {
+            setPrefilledOrder(stateData.orderId.split('-')[1] || stateData.orderId);
+            setView('contact');
+        }
+    }, []);
 
     const categories = [
         { id: 'orders', icon: <ShoppingBag className="w-6 h-6" />, title: 'Orders', description: 'Tracking, shipping, and delivery details' },
@@ -170,7 +184,7 @@ const HelpCenter = () => {
             {/* Hero Section - Boutique Interior Styled */}
             <div className="py-8 md:py-16 px-4 relative z-10">
                 <div className="max-w-4xl mx-auto text-center">
-                    <h1 className="text-3xl md:text-6xl font-serif text-black tracking-tight leading-tight">
+                    <h1 className="text-3xl md:text-5xl font-serif text-black tracking-tight leading-tight mb-10 md:mb-14">
                         How can we <span className="italic text-[#8B4356]">help you?</span>
                     </h1>
                     <div className="relative max-w-xl mx-auto">
@@ -201,7 +215,7 @@ const HelpCenter = () => {
                             <div className={`w-10 h-10 md:w-12 md:h-12 rounded-2xl flex items-center justify-center mb-4 transition-all duration-500 ${activeCategory === cat.id && view === 'home' ? 'bg-[#8B4356] text-white scale-110 shadow-[0_0_20px_rgba(139,67,86,0.4)]' : 'bg-white shadow-sm text-[#8B4356] group-hover:bg-[#8B4356] group-hover:text-white group-hover:shadow-lg'}`}>
                                 {cat.icon}
                             </div>
-                            <h3 className="text-base md:text-lg font-bold font-display tracking-tight mb-2 group-hover:text-[#8B4356] transition-colors">{cat.title}</h3>
+                            <h3 className="text-base md:text-lg font-normal font-serif tracking-tight mb-2 group-hover:text-[#8B4356] transition-colors">{cat.title}</h3>
                             <p className={`text-[11px] md:text-xs leading-relaxed hidden md:block font-serif ${activeCategory === cat.id && view === 'home' ? 'text-gray-300' : 'text-gray-500'}`}>{cat.description}</p>
                             
                             {/* Status Accent */}
@@ -233,7 +247,7 @@ const HelpCenter = () => {
                                             <div key={idx} className="bg-white/60 backdrop-blur-sm rounded-3xl border border-white/40 overflow-hidden transition-all hover:bg-white hover:shadow-xl hover:border-[#8B4356]/30 group">
                                                 <details className="group">
                                                     <summary className="flex items-center justify-between p-5 md:p-8 cursor-pointer list-none">
-                                                        <h4 className="text-sm md:text-lg font-bold text-black pr-4 font-display transition-all group-hover:text-[#8B4356]">{faq.question}</h4>
+                                                        <h4 className="text-sm md:text-lg font-normal text-black pr-4 font-serif transition-all group-hover:text-[#8B4356]">{faq.question}</h4>
                                                         <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gray-50 flex items-center justify-center transition-all group-open:bg-[#8B4356] group-open:text-white group-open:rotate-90">
                                                             <ChevronRight className="w-4 h-4 md:w-5 md:h-5 text-gray-400 group-open:text-white" />
                                                         </div>

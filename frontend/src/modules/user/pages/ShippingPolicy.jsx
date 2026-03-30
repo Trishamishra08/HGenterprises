@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 
 const ShippingPolicy = () => {
     const navigate = useNavigate();
-    useEffect(() => { window.scrollTo(0, 0); }, []);
 
     const details = [
         {
@@ -39,7 +38,7 @@ const ShippingPolicy = () => {
 
                 <div className="text-center mb-12">
                     <span className="text-[#D39A9F] text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] mb-3 block">Service Commitment</span>
-                    <h1 className="text-3xl md:text-5xl font-display text-black mb-6 tracking-tight">Shipping & Delivery</h1>
+                    <h1 className="text-3xl md:text-5xl font-serif text-black mb-4 tracking-tight font-normal">Shipping & <span className="italic text-[#D39A9F]">Delivery</span></h1>
                     <p className="text-gray-400 text-[11px] md:text-sm italic font-serif max-w-lg mx-auto leading-relaxed">
                         Precision crafted, carefully delivered. Learn about our logistics network and delivery commitment.
                     </p>

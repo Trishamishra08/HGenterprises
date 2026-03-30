@@ -10,11 +10,11 @@ const CategoryShowcase = () => {
     const filteredSubcats = (categories || []).find(cat => cat.id?.toLowerCase() === activeTab?.toLowerCase())?.subcategories || [];
     
     return (
-        <section className="pt-12 pb-0 bg-white overflow-hidden">
+        <section className="pt-4 pb-0 bg-white overflow-hidden">
             <div className="container mx-auto px-6 md:px-12">
                 
                 {/* Compact Category Tabs */}
-                <div className="flex justify-center gap-4 md:gap-12 mb-10 border-b border-gray-100 pb-3 overflow-x-auto scrollbar-hide">
+                <div className="flex justify-center gap-4 md:gap-12 mb-6 border-b border-gray-100 pb-3 overflow-x-auto scrollbar-hide">
                     {categories.map((cat) => (
                         <button
                             key={cat.id}

@@ -26,6 +26,7 @@ const ProductDetails = () => {
     
     // UI states
     const [showSuccessSheet, setShowSuccessSheet] = useState(false);
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [openSection, setOpenSection] = useState('about');
     const isWishlisted = wishlist.some(item => item.id === product?.id);
     const originalPrice = product?.originalPrice || product?.price || 0;
@@ -49,7 +50,8 @@ const ProductDetails = () => {
     };
 
     const handleBuyNow = () => {
-        // Direct buy flow: navigate to checkout with this product only
+        // Direct buy flow: add to cart first then navigate
+        addToCart(product);
         navigate('/checkout', { state: { directBuy: true, product: product } });
     };
 
@@ -65,33 +67,34 @@ const ProductDetails = () => {
 
     return (
         <div className="min-h-screen bg-[#FDF5F6] font-body text-[#1A1A1A] pb-12 selection:bg-[#8B4356] selection:text-white overflow-x-hidden">
-            {/* 1. Header Navigation - Compact branded header */}
-            <header className="sticky top-[48px] z-[90] bg-white border-b border-[#F5E6E8] flex items-center justify-between px-4 py-3 lg:hidden">
-                <div className="flex items-center gap-2">
-                    <button onClick={() => navigate(-1)} className="p-1"><ArrowLeft className="w-5 h-5 text-black" /></button>
-                    <div className="flex flex-col">
-                        <span className="text-[12px] font-serif font-black tracking-tighter uppercase text-[#8B4356] leading-none">HG</span>
-                        <span className="text-[5px] font-bold tracking-[.4em] uppercase text-zinc-400">ENTERPRISES</span>
+            <main className="container mx-auto px-4 lg:px-12 pt-8 lg:pt-0">
+                {/* 1. Branded Discovery Header - Matched with Shop Layout */}
+                <div className="mb-6 lg:mb-10 px-1">
+                    <div className="flex items-center gap-2 text-[7px] md:text-[8px] uppercase tracking-[0.4em] font-medium text-zinc-300 mb-2 px-1">
+                        <Link to="/" className="hover:text-[#8B4356] transition-colors">Home</Link>
+                        <span className="opacity-20">/</span>
+                        <Link to="/shop" className="hover:text-[#8B4356] transition-colors">Catalog</Link>
+                        <span className="opacity-20">/</span>
+                        <span className="text-[#8B4356]/60 tracking-[0.2em] font-black">{product.name}</span>
+                    </div>
+                    
+                    <div className="flex items-center justify-between gap-4 border-b border-zinc-100 pb-3 relative px-1">
+                        <div className="flex flex-col gap-2 flex-1">
+                            <h1 className="text-2xl md:text-3xl lg:text-4xl font-serif font-black text-black tracking-tight uppercase leading-none">{product.name}</h1>
+                            <div className="flex items-center gap-2">
+                                <div className="h-[1px] w-8 bg-[#8B4356]/20"></div>
+                                <p className="text-[7.5px] md:text-[8px] font-bold uppercase tracking-[0.6em] text-[#8B4356]/40 leading-none">Heritage Particular Selection</p>
+                            </div>
+                        </div>
+                        <button 
+                            onClick={() => setIsDrawerOpen(true)}
+                            className="w-11 h-11 rounded-full border border-zinc-100 flex items-center justify-center bg-white text-[#8B4356] shadow-md active:scale-95 transition-all hover:bg-[#8B4356] hover:text-white group"
+                        >
+                            <SlidersHorizontal className="w-5 h-5 group-hover:scale-110 transition-transform" strokeWidth={1.5} />
+                        </button>
                     </div>
                 </div>
-                <div className="flex items-center gap-3.5 text-zinc-800">
-                    <Link to="/shop" className="p-1"><Search className="w-4.5 h-4.5 text-black" strokeWidth={1.5} /></Link>
-                    <Link to="/wishlist" className="p-1"><Heart className={`w-4.5 h-4.5 ${isWishlisted ? 'fill-[#8B4356] text-[#8B4356]' : 'text-black'}`} strokeWidth={1.5} /></Link>
-                    <Link to="/profile" className="p-1"><UserCircle className="w-4.5 h-4.5 text-black" strokeWidth={1.5} /></Link>
-                    <Link to="/shop" className="p-1"><SlidersHorizontal className="w-4.5 h-4.5 rotate-90 text-black" strokeWidth={1.5} /></Link>
-                </div>
-            </header>
 
-            {/* Desktop Navigation Breadcrumbs - Compact */}
-            <div className="hidden lg:flex container mx-auto px-6 lg:px-12 py-3 items-center gap-1.5 text-[9px] uppercase font-bold tracking-widest text-zinc-300">
-                <Link to="/" className="hover:text-[#8B4356]">Home</Link>
-                <ChevronRight className="w-2.5 h-2.5" />
-                <Link to="/shop" className="hover:text-[#8B4356]">Shop</Link>
-                <ChevronRight className="w-2.5 h-2.5" />
-                <span className="text-[#8B4356] font-black">{product.name}</span>
-            </div>
-
-            <main className="container mx-auto px-0 lg:px-12 pt-12 lg:pt-0">
                 <div className="flex flex-col lg:grid lg:grid-cols-12 lg:gap-10">
                     
                     {/* 2. Left Column: Image Gallery - Compacted Spacing */}
@@ -255,7 +258,7 @@ const ProductDetails = () => {
                             <div className="hidden lg:grid grid-cols-2 gap-2">
                                 <button 
                                     onClick={handleAddToCart}
-                                    className="bg-[#FFD700] text-black h-10 rounded-xl font-black uppercase tracking-[.2em] text-[9px] flex items-center justify-center gap-1.5 shadow-sm active:scale-95 transition-all hover:bg-[#F9A825]"
+                                    className="bg-[#2a2a2a] text-white h-10 rounded-xl font-black uppercase tracking-[.2em] text-[9px] flex items-center justify-center gap-1.5 shadow-sm active:scale-95 transition-all hover:bg-black"
                                 >
                                     <ShoppingBag className="w-3.5 h-3.5" strokeWidth={2.5} /> Add to Bag
                                 </button>
@@ -291,13 +294,13 @@ const ProductDetails = () => {
             <div className="lg:hidden fixed bottom-6 left-4 right-4 h-16 bg-white/95 backdrop-blur-xl border border-[#F5E6E8] p-2.5 z-[110] flex gap-2.5 shadow-[0_20px_50px_rgba(0,0,0,0.1)] rounded-full items-center">
                 <button 
                     onClick={handleAddToCart}
-                    className="flex-1 bg-[#FFD700] text-black h-full rounded-full font-black uppercase tracking-[.2em] text-[9.5px] flex items-center justify-center gap-1.5 shadow-sm active:scale-95 transition-all"
+                    className="flex-1 bg-[#2a2a2a] text-white h-full rounded-full font-black uppercase tracking-[.2em] text-[9.5px] flex items-center justify-center gap-1.5 shadow-sm active:scale-95 transition-all"
                 >
                     <ShoppingBag className="w-3.5 h-3.5" /> Add to Bag
                 </button>
                 <button 
                     onClick={handleBuyNow}
-                    className="flex-1 bg-[#F9A825] text-white h-full rounded-full font-black uppercase tracking-[.2em] text-[9.5px] transition-all hover:bg-[#e68a00] active:scale-95 shadow-sm"
+                    className="flex-1 bg-[#8B4356] text-white h-full rounded-full font-black uppercase tracking-[.2em] text-[9.5px] transition-all hover:bg-[#7a394b] active:scale-95 shadow-sm"
                 >
                     Buy Now
                 </button>
@@ -365,11 +368,97 @@ const ProductDetails = () => {
                                     </div>
                                     <button 
                                         onClick={() => navigate('/checkout')}
-                                        className="bg-[#FFD700] text-black h-12 px-8 rounded-full font-black uppercase tracking-widest text-[9px] shadow-lg active:scale-95 transition-all"
+                                        className="bg-[#8B4356] text-white h-12 px-8 rounded-full font-black uppercase tracking-widest text-[9px] shadow-lg active:scale-95 transition-all"
                                     >
                                         Place Order
                                     </button>
                                 </div>
+                            </div>
+                        </motion.div>
+                    </>
+                )}
+            </AnimatePresence>
+            {/* Discovery Sidebar Drawer */}
+            <AnimatePresence>
+                {isDrawerOpen && (
+                    <>
+                        {/* Backdrop */}
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={() => setIsDrawerOpen(false)}
+                            className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[200]"
+                        />
+
+                        {/* Sidebar */}
+                        <motion.div
+                            initial={{ x: '100%' }}
+                            animate={{ x: 0 }}
+                            exit={{ x: '100%' }}
+                            transition={{ type: "spring", damping: 30, stiffness: 300 }}
+                            className="fixed top-0 right-0 bottom-0 w-[85%] max-w-sm bg-white z-[201] shadow-2xl flex flex-col"
+                        >
+                            <div className="p-6 border-b border-zinc-100 flex items-center justify-between">
+                                <div className="flex flex-col">
+                                    <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[#8B4356]/40 mb-1">Collections</span>
+                                    <h3 className="font-display font-black text-black text-xl tracking-tighter italic">Discovery</h3>
+                                </div>
+                                <button
+                                    onClick={() => setIsDrawerOpen(false)}
+                                    className="p-2 hover:bg-zinc-50 rounded-full transition-colors"
+                                >
+                                    <X className="w-5 h-5 text-zinc-400" />
+                                </button>
+                            </div>
+
+                            <div className="flex-1 overflow-y-auto p-6 space-y-8">
+                                {[
+                                    { 
+                                        category: "Signature Collections", 
+                                        items: [
+                                            { name: "Bridal Heritage", path: "bridal" },
+                                            { name: "Daily Minimalist", path: "minimalist" },
+                                            { name: "Vintage Charm", path: "vintage" },
+                                            { name: "Contemporary", path: "modern" }
+                                        ]
+                                    },
+                                    { 
+                                        category: "Elite Gifts", 
+                                        items: [
+                                            { name: "For Her", path: "for-her" },
+                                            { name: "For Him", path: "for-him" },
+                                            { name: "Anniversary Special", path: "anniversary" }
+                                        ]
+                                    }
+                                ].map((group, gIdx) => (
+                                    <div key={gIdx} className="space-y-4">
+                                        <h4 className="text-[9px] font-black uppercase tracking-[0.2em] text-zinc-300 border-b border-zinc-50 pb-2">{group.category}</h4>
+                                        <div className="grid grid-cols-1 gap-1">
+                                            {group.items.map((item, iIdx) => (
+                                                <Link
+                                                    key={iIdx}
+                                                    to={`/shop?filter=${item.path}`}
+                                                    onClick={() => setIsDrawerOpen(false)}
+                                                    className="flex items-center justify-between group py-3 px-4 rounded-2xl hover:bg-zinc-50 transition-all border border-transparent hover:border-zinc-100"
+                                                >
+                                                    <span className="text-xs font-bold text-zinc-800 group-hover:text-[#8B4356] transition-colors">{item.name}</span>
+                                                    <ChevronRight className="w-4 h-4 text-zinc-300 group-hover:text-[#8B4356] group-hover:translate-x-1 transition-all" />
+                                                </Link>
+                                            ))}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+
+                            <div className="p-6 border-t border-zinc-50 bg-zinc-50/50">
+                                <Link 
+                                    to="/shop" 
+                                    onClick={() => setIsDrawerOpen(false)}
+                                    className="w-full h-12 bg-black text-white rounded-2xl flex items-center justify-center font-black uppercase tracking-widest text-[10px] shadow-lg hover:shadow-black/10 active:scale-95 transition-all"
+                                >
+                                    Explore Full Catalog
+                                </Link>
                             </div>
                         </motion.div>
                     </>

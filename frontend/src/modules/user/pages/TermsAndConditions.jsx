@@ -1,19 +1,15 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { FileText, ShieldCheck, Scale, AlertCircle, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const TermsAndConditions = () => {
     const navigate = useNavigate();
 
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, []);
-
     const sections = [
         {
             title: "1. Acceptance of Terms",
             icon: <ShieldCheck className="w-6 h-6" />,
-            content: "By accessing and using Sands Ornaments, you agree to be bound by these Terms and Conditions. Our services are provided to you subject to your compliance with these terms."
+            content: "By accessing and using HG Enterprises, you agree to be bound by these Terms and Conditions. Our services are provided to you subject to your compliance with these terms."
         },
         {
             title: "2. Product Information",
@@ -44,16 +40,18 @@ const TermsAndConditions = () => {
                     Back
                 </button>
 
-                <div className="text-center mb-12 md:mb-20">
+                <div className="text-center mb-10 md:mb-16">
                     <span className="text-[#D39A9F] text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] mb-3 block">Legal Information</span>
-                    <h1 className="text-4xl md:text-6xl font-display text-black mb-6">Terms & Conditions</h1>
-                    <div className="w-16 md:w-24 h-0.5 bg-[#EBCDD0] mx-auto mb-6"></div>
-                    <p className="text-gray-400 text-xs md:text-sm font-serif italic">Last Updated: December 2025</p>
+                    <h1 className="text-3xl md:text-5xl font-serif text-black mb-4 tracking-tight font-normal">
+                        <span className="italic text-[#D39A9F]">Terms</span> & Conditions
+                    </h1>
+                    <div className="w-16 md:w-20 h-[1px] bg-[#EBCDD0] mx-auto mb-4"></div>
+                    <p className="text-gray-400 text-[10px] md:text-sm font-serif italic">Last Updated: December 2025</p>
                 </div>
 
                 <div className="bg-white rounded-[2rem] p-6 md:p-12 shadow-sm border border-[#F3F4F6]">
                     <p className="text-gray-600 mb-10 md:mb-16 leading-relaxed text-sm md:text-base font-serif text-center max-w-2xl mx-auto">
-                        Welcome to Sands Ornaments. Before you proceed with your purchase, please read these terms carefully. They outline our commitment to you and your responsibilities as a customer.
+                        Welcome to HG Enterprises. Before you proceed with your purchase, please read these terms carefully. They outline our commitment to you and your responsibilities as a customer.
                     </p>
 
                     <div className="space-y-6 md:space-y-8">
@@ -76,7 +74,7 @@ const TermsAndConditions = () => {
                             Need clarification?
                         </h4>
                         <p className="text-xs md:text-sm text-gray-500 font-serif">
-                            If you have any questions regarding our terms, please reach out to our support team at <span className="font-bold text-black border-b border-[#EBCDD0]">support@sandsornaments.com</span> or visit our help center.
+                            If you have any questions regarding our terms, please reach out to our support team at <span className="font-bold text-black border-b border-[#EBCDD0]">support@hgjewels.com</span> or visit our help center.
                         </p>
                     </div>
                 </div>

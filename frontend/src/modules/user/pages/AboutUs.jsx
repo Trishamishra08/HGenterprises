@@ -24,7 +24,7 @@ const AboutUs = () => {
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-full bg-[radial-gradient(circle_at_center,_rgba(238,202,213,0.4)_0%,_transparent_70%)] pointer-events-none z-0"></div>
 
                 {/* Desktop Version: Curated Compact Gallery */}
-                <div className="hidden md:block max-w-7xl mx-auto px-10 relative z-10 pt-10">
+                <div className="hidden md:block max-w-7xl mx-auto px-10 relative z-10 pt-14 md:pt-20">
                     <div className="grid grid-cols-12 gap-6 items-center">
                         {/* Left Column Shards */}
                         <div className="col-span-3 flex flex-col gap-4">
@@ -148,7 +148,7 @@ const AboutUs = () => {
                 </div>
 
                 {/* Mobile View: High-End Masonry Cluster (Adjusted Offset) */}
-                <div className="md:hidden w-full px-6 flex flex-col items-center relative z-10 -mt-12 pt-4">
+                <div className="md:hidden w-full px-6 flex flex-col items-center relative z-10 -mt-12 pt-12">
                     {/* Top Mosaic */}
                     <div className="grid grid-cols-3 gap-3 w-full max-w-sm mb-2">
                         {galleryItems.slice(0, 3).map((src, idx) => (
@@ -266,18 +266,28 @@ const AboutUs = () => {
                     </p>
                 </motion.div>
 
-                {/* Mobile Philosophy */}
-                <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-10 text-center">
-                    <h2 className="text-3xl font-serif text-[#4a1d1d] mb-4 italic">Our Philosophy</h2>
-                    <p className="text-lg font-serif text-[#4a1d1d]/70 italic leading-relaxed px-4">
+                {/* Mobile Philosophy Card */}
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="w-full bg-[#f0dae4]/40 backdrop-blur-xl rounded-[2.5rem] p-10 border border-white/40 shadow-2xl text-center mb-10"
+                >
+                    <h2 className="text-3xl font-serif text-[#4a1d1d] mb-6 italic">Our Philosophy</h2>
+                    <p className="text-base font-serif text-[#4a1d1d]/70 italic leading-relaxed pt-6 border-t border-[#4a1d1d]/10">
                         "Inspired by quiet, meaningful moments—the sunlit morning glow or the first touch of pure metal on skin."
                     </p>
                 </motion.div>
 
-                {/* Mobile Approach */}
-                <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-10 text-center">
-                    <h2 className="text-3xl font-serif text-[#4a1d1d] mb-4 italic">Our Approach</h2>
-                    <p className="text-lg font-serif text-[#4a1d1d]/70 italic leading-relaxed px-4">
+                {/* Mobile Approach Card */}
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="w-full bg-[#f0dae4]/40 backdrop-blur-xl rounded-[2.5rem] p-10 border border-white/40 shadow-2xl text-center mb-10"
+                >
+                    <h2 className="text-3xl font-serif text-[#4a1d1d] mb-6 italic">Our Approach</h2>
+                    <p className="text-base font-serif text-[#4a1d1d]/70 italic leading-relaxed pt-6 border-t border-[#4a1d1d]/10">
                         "Merging traditional metallurgy with modern aesthetics. No two pieces share the exact same soul."
                     </p>
                 </motion.div>

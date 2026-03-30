@@ -1,12 +1,11 @@
-import React, { useEffect } from 'react';
-import { Mail, Phone, MapPin, SearchCheck, ArrowLeft } from 'lucide-react';
+import React from 'react';
+import { Mail, Phone, MapPin, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import ChitChatSection from '../components/ChitChatSection';
 import contactImg from '../../../assets/editorial/item7.png';
 
 const ContactPage = () => {
     const navigate = useNavigate();
-    useEffect(() => { window.scrollTo(0, 0); }, []);
 
     return (
         <div className="bg-white min-h-screen selection:bg-[#D39A9F] selection:text-white">
@@ -22,7 +21,9 @@ const ContactPage = () => {
 
                         <div className="text-left mb-10">
                             <span className="text-[#D39A9F] text-[10px] font-bold uppercase tracking-[0.4em] mb-3 block">Personal Assistance</span>
-                            <h1 className="text-3xl md:text-5xl font-display text-black mb-4 tracking-tight">Contact & Concierge</h1>
+                            <h1 className="text-3xl md:text-5xl font-serif text-black mb-4 tracking-tight font-normal">
+                                Contact & <span className="italic text-[#D39A9F]">Concierge</span>
+                            </h1>
                             <p className="text-gray-400 text-xs md:text-sm italic font-serif leading-relaxed">
                                 Whether you seek styling advice or have a query about your order, our dedicated team is at your service.
                             </p>
@@ -35,7 +36,7 @@ const ContactPage = () => {
                                     <Mail className="w-4 h-4 text-[#D39A9F]" />
                                 </div>
                                 <div className="flex flex-col">
-                                    <h3 className="font-display text-[14px] text-black leading-none mb-1">Email Concierge</h3>
+                                     <h3 className="font-serif text-[14px] font-normal text-black leading-none mb-1">Email Concierge</h3>
                                     <a href="mailto:concierge@hgjewels.com" className="text-[10px] font-bold tracking-wider uppercase text-gray-500 hover:text-black transition-all">concierge@hgjewels.com</a>
                                 </div>
                             </div>
@@ -45,7 +46,7 @@ const ContactPage = () => {
                                     <Phone className="w-4 h-4 text-[#D39A9F]" />
                                 </div>
                                 <div className="flex flex-col">
-                                    <h3 className="font-display text-[14px] text-black leading-none mb-1">Direct Line</h3>
+                                     <h3 className="font-serif text-[14px] font-normal text-black leading-none mb-1">Direct Line</h3>
                                     <a href="tel:+918779007979" className="text-[10px] font-bold tracking-wider uppercase text-gray-500 hover:text-black transition-all">+91 877 900 7979</a>
                                 </div>
                             </div>
@@ -55,7 +56,7 @@ const ContactPage = () => {
                                     <MapPin className="w-4 h-4 text-[#D39A9F]" />
                                 </div>
                                 <div className="flex flex-col">
-                                    <h3 className="font-display text-[14px] text-black leading-none mb-1">Main Office</h3>
+                                     <h3 className="font-serif text-[14px] font-normal text-black leading-none mb-1">Main Office</h3>
                                     <span className="text-[10px] font-bold tracking-wider uppercase text-gray-500">Kandivali East, Mumbai</span>
                                 </div>
                             </div>
