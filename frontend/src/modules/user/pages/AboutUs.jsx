@@ -30,16 +30,32 @@ const AboutUs = () => {
                         <div className="col-span-3 flex flex-col gap-4">
                             <motion.div 
                                 initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.1 }}
+                                animate={{ 
+                                    opacity: 1, 
+                                    y: [0, -15, 0],
+                                    rotate: [0, -2, 0]
+                                }}
+                                transition={{ 
+                                    opacity: { duration: 1 },
+                                    y: { duration: 4, repeat: Infinity, ease: "easeInOut" },
+                                    rotate: { duration: 6, repeat: Infinity, ease: "easeInOut" }
+                                }}
                                 className="aspect-[3/4] w-32 mx-auto rounded-[2rem] overflow-hidden border-2 border-white shadow-lg"
                             >
                                 <img src={galleryItems[0]} alt="jewelry" className="w-full h-full object-cover" />
                             </motion.div>
                             <motion.div 
                                 initial={{ opacity: 0, y: 40 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.2 }}
+                                animate={{ 
+                                    opacity: 1, 
+                                    y: [0, 15, 0],
+                                    rotate: [-3, -5, -3]
+                                }}
+                                transition={{ 
+                                    opacity: { duration: 1, delay: 0.2 },
+                                    y: { duration: 5, repeat: Infinity, ease: "easeInOut" },
+                                    rotate: { duration: 7, repeat: Infinity, ease: "easeInOut" }
+                                }}
                                 className="aspect-[3/4] w-32 mx-auto rounded-full overflow-hidden border-2 border-white shadow-lg transform -rotate-3"
                             >
                                 <img src={galleryItems[1]} alt="jewelry" className="w-full h-full object-cover" />
@@ -59,17 +75,33 @@ const AboutUs = () => {
                             </motion.div>
                             <div className="flex gap-3 w-full justify-center">
                                 <motion.div 
-                                    initial={{ opacity: 0, s: 0.8 }}
-                                    animate={{ opacity: 1, s: 1 }}
-                                    transition={{ delay: 0.3 }}
+                                    initial={{ opacity: 0, scale: 0.8 }}
+                                    animate={{ 
+                                        opacity: 1, 
+                                        scale: 1,
+                                        y: [0, -10, 0]
+                                    }}
+                                    transition={{ 
+                                        opacity: { duration: 1, delay: 0.3 },
+                                        scale: { duration: 1, delay: 0.3 },
+                                        y: { duration: 3.5, repeat: Infinity, ease: "easeInOut" }
+                                    }}
                                     className="w-24 h-32 rounded-[1.5rem] overflow-hidden border-2 border-white shadow-xl relative z-20"
                                 >
                                     <img src={galleryItems[2]} alt="jewelry" className="w-full h-full object-cover" />
                                 </motion.div>
                                 <motion.div 
-                                    initial={{ opacity: 0, s: 0.8 }}
-                                    animate={{ opacity: 1, s: 1 }}
-                                    transition={{ delay: 0.4 }}
+                                    initial={{ opacity: 0, scale: 0.8 }}
+                                    animate={{ 
+                                        opacity: 1, 
+                                        scale: 1,
+                                        y: [0, 10, 0]
+                                    }}
+                                    transition={{ 
+                                        opacity: { duration: 1, delay: 0.4 },
+                                        scale: { duration: 1, delay: 0.4 },
+                                        y: { duration: 4.5, repeat: Infinity, ease: "easeInOut" }
+                                    }}
                                     className="w-24 h-32 rounded-[1.5rem] overflow-hidden border-2 border-white shadow-xl relative z-20"
                                 >
                                     <img src={galleryItems[3]} alt="jewelry" className="w-full h-full object-cover" />
@@ -81,16 +113,32 @@ const AboutUs = () => {
                         <div className="col-span-3 flex flex-col gap-4">
                             <motion.div 
                                 initial={{ opacity: 0, y: 40 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.5 }}
+                                animate={{ 
+                                    opacity: 1, 
+                                    y: [0, -12, 0],
+                                    rotate: [3, 5, 3]
+                                }}
+                                transition={{ 
+                                    opacity: { duration: 1, delay: 0.5 },
+                                    y: { duration: 4.2, repeat: Infinity, ease: "easeInOut" },
+                                    rotate: { duration: 5.5, repeat: Infinity, ease: "easeInOut" }
+                                }}
                                 className="aspect-[3/4] w-32 mx-auto rounded-full overflow-hidden border-2 border-white shadow-lg transform rotate-3"
                             >
                                 <img src={galleryItems[4]} alt="jewelry" className="w-full h-full object-cover" />
                             </motion.div>
                             <motion.div 
                                 initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.6 }}
+                                animate={{ 
+                                    opacity: 1, 
+                                    y: [0, 18, 0],
+                                    rotate: [0, 2, 0]
+                                }}
+                                transition={{ 
+                                    opacity: { duration: 1, delay: 0.6 },
+                                    y: { duration: 4.8, repeat: Infinity, ease: "easeInOut" },
+                                    rotate: { duration: 6.5, repeat: Infinity, ease: "easeInOut" }
+                                }}
                                 className="aspect-[3/4] w-32 mx-auto rounded-[2rem] overflow-hidden border-2 border-white shadow-lg"
                             >
                                 <img src={galleryItems[5]} alt="jewelry" className="w-full h-full object-cover" />
