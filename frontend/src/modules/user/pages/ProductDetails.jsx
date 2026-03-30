@@ -399,20 +399,23 @@ const ProductDetails = () => {
                             transition={{ type: "spring", damping: 30, stiffness: 300 }}
                             className="fixed top-0 right-0 bottom-0 w-[85%] max-w-sm bg-white z-[201] shadow-2xl flex flex-col"
                         >
-                            <div className="p-6 border-b border-zinc-100 flex items-center justify-between">
-                                <div className="flex flex-col">
-                                    <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[#8B4356]/40 mb-1">Collections</span>
-                                    <h3 className="font-display font-black text-black text-xl tracking-tighter italic">Discovery</h3>
+                            <div className="pt-5 pb-6 px-6 border-b border-zinc-50">
+                                <div className="flex items-center justify-between mb-3">
+                                    <div className="flex flex-col">
+                                        <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#8B4356] mb-1">Our World</span>
+                                        <h3 className="font-serif text-3xl md:text-3xl text-black leading-tight italic">Curated <span className="text-[#8B4356] not-italic">Discovery</span></h3>
+                                    </div>
+                                    <button
+                                        onClick={() => setIsDrawerOpen(false)}
+                                        className="p-2.5 hover:bg-zinc-50 rounded-full transition-all hover:rotate-90 group border border-transparent hover:border-zinc-100"
+                                    >
+                                        <X className="w-5 h-5 text-zinc-400 group-hover:text-black" />
+                                    </button>
                                 </div>
-                                <button
-                                    onClick={() => setIsDrawerOpen(false)}
-                                    className="p-2 hover:bg-zinc-50 rounded-full transition-colors"
-                                >
-                                    <X className="w-5 h-5 text-zinc-400" />
-                                </button>
+                                <p className="text-[10px] font-serif italic text-zinc-400 leading-relaxed">Explore our signature manifests and heritage collections carefully selected for the modern patron.</p>
                             </div>
 
-                            <div className="flex-1 overflow-y-auto p-6 space-y-8">
+                            <div className="flex-1 overflow-y-auto p-6 pt-4 space-y-6">
                                 {[
                                     { 
                                         category: "Signature Collections", 
@@ -432,18 +435,18 @@ const ProductDetails = () => {
                                         ]
                                     }
                                 ].map((group, gIdx) => (
-                                    <div key={gIdx} className="space-y-4">
+                                    <div key={gIdx} className="space-y-3">
                                         <h4 className="text-[9px] font-black uppercase tracking-[0.2em] text-zinc-300 border-b border-zinc-50 pb-2">{group.category}</h4>
-                                        <div className="grid grid-cols-1 gap-1">
+                                        <div className="grid grid-cols-1 gap-1.5">
                                             {group.items.map((item, iIdx) => (
                                                 <Link
                                                     key={iIdx}
-                                                    to={`/shop?filter=${item.path}`}
+                                                    to={`/shop?tag=${item.name.split(' ')[0]}`}
                                                     onClick={() => setIsDrawerOpen(false)}
-                                                    className="flex items-center justify-between group py-3 px-4 rounded-2xl hover:bg-zinc-50 transition-all border border-transparent hover:border-zinc-100"
+                                                    className="flex items-center justify-between group py-3.5 px-4 rounded-xl hover:bg-zinc-50 transition-all border border-transparent hover:border-zinc-100/50"
                                                 >
-                                                    <span className="text-xs font-bold text-zinc-800 group-hover:text-[#8B4356] transition-colors">{item.name}</span>
-                                                    <ChevronRight className="w-4 h-4 text-zinc-300 group-hover:text-[#8B4356] group-hover:translate-x-1 transition-all" />
+                                                    <span className="text-[13px] font-serif font-bold text-zinc-800 group-hover:text-[#8B4356] transition-colors">{item.name}</span>
+                                                    <ChevronRight className="w-3.5 h-3.5 text-zinc-200 group-hover:text-[#8B4356] group-hover:translate-x-1 transition-all" />
                                                 </Link>
                                             ))}
                                         </div>

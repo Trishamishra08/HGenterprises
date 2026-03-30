@@ -188,26 +188,26 @@ const OrderCard = ({ order, isExpanded, onToggle }) => {
                 )}
             </AnimatePresence>
 
-            {/* Order Header */}
-            <div className="p-6 md:p-8 bg-gray-50/50 flex flex-wrap items-center justify-between gap-4 border-b border-gray-100">
-                <div className="flex gap-6 md:gap-10">
+            {/* Order Header - More Compact */}
+            <div className="p-4 md:p-6 bg-gray-50/70 flex flex-wrap items-center justify-between gap-3 border-b border-gray-100">
+                <div className="flex gap-5 md:gap-8">
                     <div>
-                        <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Placed On</span>
-                        <p className="text-sm font-serif italic text-black">{new Date(order.date).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
+                        <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest block mb-0.5">Placed On</span>
+                        <p className="text-xs font-serif italic text-black">{new Date(order.date).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
                     </div>
                     <div>
-                        <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Order Reference</span>
-                        <p className="text-sm font-bold text-black">#{order.id.replace('ORD-', '')}</p>
+                        <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest block mb-0.5">Order Reference</span>
+                        <p className="text-xs font-bold text-black">#{order.id.replace('ORD-', '')}</p>
                     </div>
                 </div>
                 <div className="text-right">
-                    <span className="text-[10px] font-bold text-[#8B4356] uppercase tracking-widest block mb-1">Grand Total</span>
-                    <p className="text-lg font-serif italic text-black">₹{order.total.toLocaleString()}</p>
+                    <span className="text-[9px] font-bold text-[#8B4356] uppercase tracking-widest block mb-0.5">Grand Total</span>
+                    <p className="text-base font-serif italic text-black">₹{order.total.toLocaleString()}</p>
                 </div>
             </div>
 
-            {/* Order Content */}
-            <div className="p-6 md:p-8">
+            {/* Order Content - Compacted */}
+            <div className="p-4 md:p-6">
                 <div className="flex flex-wrap items-center justify-between gap-6">
                     <div className="flex items-center gap-4">
                         <div className="flex -space-x-4">
@@ -296,9 +296,13 @@ const Profile = () => {
         phone: user?.phone || ''
     });
 
+    const contentRef = React.useRef(null);
     useEffect(() => {
         setIsEditing(subId === 'edit');
-    }, [subId]);
+        if (window.innerWidth < 1024 && contentRef.current) {
+            contentRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }, [subId, activeTab]);
 
     if (!user) {
         return (
@@ -334,85 +338,89 @@ const Profile = () => {
 
     const legalItems = [
         { label: 'Help Concierge', icon: <HelpCircle className="w-4 h-4" />, path: '/help' },
-        { label: 'Return Policy', icon: <FileText className="w-4 h-4" />, path: '/return-policy' },
+        { label: 'Return Policy', icon: <FileText className="w-4 h-4" />, path: '/returns' },
         { label: 'Privacy Sanctum', icon: <Shield className="w-4 h-4" />, path: '/privacy' },
     ];
 
     return (
         <div className="min-h-screen bg-[#f9fafb] selection:bg-[#8B4356] selection:text-white pb-20">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 md:pt-14">
-                {/* Header Section */}
-                <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 md:pt-8">
+                {/* Header Section - Ultra Compact */}
+                <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
                     <div>
-                        <button onClick={() => navigate('/')} className="flex items-center gap-2 text-gray-400 hover:text-black transition-all group font-bold uppercase tracking-[0.3em] text-[10px] mb-6">
-                            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-                            Back to Boutique
+                        <button onClick={() => navigate('/')} className="flex items-center gap-2 text-gray-400 hover:text-black transition-all group font-bold uppercase tracking-[0.3em] text-[9px] mb-2">
+                            <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-1 transition-transform" />
+                            Exit Sanctum
                         </button>
-                        <h1 className="text-4xl md:text-6xl font-serif text-black leading-tight">My <span className="italic text-[#8B4356]">Sanctuary</span></h1>
+                        <h1 className="text-4xl md:text-5xl font-serif text-black leading-tight">My <span className="italic text-[#8B4356]">Sanctuary</span></h1>
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
+                <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
                     {/* 1. Sophisticated Sidebar */}
                     <div className="lg:col-span-1">
-                        <div className="sticky top-28 space-y-10">
+                        <div className="lg:sticky lg:top-28 space-y-6">
                             {/* User Branding */}
-                            <div className="flex items-center gap-5 px-2">
-                                <div className="w-16 h-16 bg-white rounded-full border border-gray-100 shadow-xl flex items-center justify-center relative overflow-hidden group">
-                                    <User className="w-8 h-8 text-black group-hover:scale-110 transition-transform" />
+                            <div className="flex items-center gap-4 px-2">
+                                <div className="w-14 h-14 bg-white rounded-full border border-gray-100 shadow-xl flex items-center justify-center relative overflow-hidden group">
+                                    <User className="w-7 h-7 text-black group-hover:scale-110 transition-transform" />
                                     <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                                 </div>
                                 <div className="min-w-0">
-                                    <h3 className="text-xl font-serif italic text-black truncate">{user.name}</h3>
-                                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Patron Since 2024</p>
+                                    <h3 className="text-lg font-serif italic text-black truncate">{user.name}</h3>
+                                    <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mt-1">Patron Since 2024</p>
                                 </div>
                             </div>
 
                             {/* Nav Groups */}
-                            <div className="space-y-12">
-                                <nav className="space-y-1">
+                            <div className="space-y-8">
+                                <div>
                                     <p className="px-5 text-[9px] font-bold text-gray-300 uppercase tracking-[0.4em] mb-4">Core Manifests</p>
-                                    {sidebarItems.map((item) => (
-                                        <button 
-                                            key={item.id}
-                                            onClick={() => navigate(item.path)}
-                                            className={`w-full flex items-center gap-4 px-5 py-3.5 rounded-full transition-all group ${activeTab === item.id ? 'bg-black text-white shadow-xl shadow-black/10' : 'text-gray-500 hover:bg-white hover:shadow-sm hover:text-black'}`}
-                                        >
-                                            <div className={`${activeTab === item.id ? 'text-[#8B4356]' : item.color || 'text-gray-400'} group-hover:scale-110 transition-transform`}>{item.icon}</div>
-                                            <span className="text-xs font-bold uppercase tracking-widest flex-1 text-left">{item.label}</span>
-                                            {item.count !== undefined && (
-                                                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${activeTab === item.id ? 'bg-white/10' : 'bg-gray-100 text-gray-400'}`}>{item.count}</span>
-                                            )}
-                                        </button>
-                                    ))}
-                                </nav>
+                                    <nav className="grid grid-cols-2 lg:grid-cols-1 gap-2 px-1 lg:px-0">
+                                        {sidebarItems.map((item) => (
+                                            <button 
+                                                key={item.id}
+                                                onClick={() => navigate(item.path)}
+                                                className={`flex flex-col lg:flex-row items-center lg:items-center gap-2.5 lg:gap-4 p-4 lg:px-5 lg:py-3 rounded-2xl lg:rounded-full transition-all group relative ${activeTab === item.id ? 'bg-black text-white shadow-xl shadow-black/20 z-10' : 'bg-[#FDF5F6]/40 border border-transparent text-gray-500 hover:bg-white hover:shadow-md hover:text-black hover:border-gray-200'}`}
+                                            >
+                                                <div className={`${activeTab === item.id ? 'text-[#8B4356]' : item.color || 'text-gray-400'} group-hover:scale-110 transition-transform mb-0.5 lg:mb-0`}>{item.icon}</div>
+                                                <span className="text-[10px] lg:text-xs font-bold uppercase tracking-widest flex-1 text-center lg:text-left">{item.label}</span>
+                                                {item.count !== undefined && (
+                                                    <span className={`text-[8.5px] lg:text-[10px] font-bold px-2 py-0.5 rounded-full lg:static absolute top-3 right-3 ${activeTab === item.id ? 'bg-white/10 text-white' : 'bg-gray-100 text-gray-400'}`}>{item.count}</span>
+                                                )}
+                                            </button>
+                                        ))}
+                                    </nav>
+                                </div>
 
-                                <nav className="space-y-1">
+                                <div>
                                     <p className="px-5 text-[9px] font-bold text-gray-300 uppercase tracking-[0.4em] mb-4">Registry Privacy</p>
-                                    {legalItems.map((item) => (
-                                        <button 
-                                            key={item.label}
-                                            onClick={() => navigate(item.path)}
-                                            className="w-full flex items-center gap-4 px-5 py-3.5 rounded-full text-gray-500 hover:bg-white hover:shadow-sm hover:text-black transition-all group"
-                                        >
-                                            <div className="text-gray-300 group-hover:text-black transition-colors">{item.icon}</div>
-                                            <span className="text-xs font-bold uppercase tracking-widest text-left">{item.label}</span>
-                                        </button>
-                                    ))}
-                                </nav>
+                                    <nav className="grid grid-cols-2 lg:grid-cols-1 gap-2 px-1 lg:px-0">
+                                        {legalItems.map((item) => (
+                                            <button 
+                                                key={item.label}
+                                                onClick={() => navigate(item.path)}
+                                                className="flex flex-col lg:flex-row items-center gap-2.5 lg:gap-4 p-4 lg:px-5 lg:py-3 bg-[#FDF5F6]/40 border border-transparent rounded-2xl lg:rounded-full text-gray-500 hover:bg-white hover:shadow-md hover:text-black hover:border-gray-200 transition-all group"
+                                            >
+                                                <div className="text-gray-300 group-hover:text-black transition-colors mb-0.5 lg:mb-0">{item.icon}</div>
+                                                <span className="text-[10px] lg:text-xs font-bold uppercase tracking-widest text-center lg:text-left">{item.label}</span>
+                                            </button>
+                                        ))}
+                                    </nav>
+                                </div>
 
-                                <div className="pt-6 border-t border-gray-100">
-                                    <button onClick={handleLogout} className="w-full flex items-center gap-4 px-5 py-3 rounded-full text-zinc-400 hover:text-red-500 transition-colors group">
+                                <div className="pt-4 border-t border-gray-100">
+                                    <button onClick={handleLogout} className="w-full flex items-center gap-4 px-5 py-2 rounded-full text-zinc-400 hover:text-red-500 transition-colors group">
                                         <LogOut className="w-4 h-4" />
-                                        <span className="text-[10px] font-bold uppercase tracking-[0.3em]">Surrender Session</span>
+                                        <span className="text-[9px] font-bold uppercase tracking-[0.3em]">Surrender Session</span>
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    {/* 2. Content Sanctuary */}
-                    <div className="lg:col-span-3 min-h-[60vh]">
+                    {/* 2. Content Sanctuary - Compact */}
+                    <div ref={contentRef} className="lg:col-span-3 min-h-[60vh] pt-4 lg:pt-0">
                         <AnimatePresence mode="wait">
                             {activeTab === 'profile' && (
                                 <motion.div 
@@ -569,25 +577,25 @@ const Profile = () => {
                                         </button>
                                     </div>
                                     
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
                                         {addresses.map((addr) => (
-                                            <div key={addr.id} className="bg-white p-6 md:p-8 rounded-[2rem] border border-zinc-100 shadow-sm relative group hover:border-black transition-all">
-                                                <div className="flex justify-between items-start mb-4">
-                                                    <div className="p-2.5 bg-zinc-50 rounded-xl text-black group-hover:bg-black group-hover:text-white transition-colors">
+                                            <div key={addr.id} className="bg-[#FDF5F6]/40 p-5 md:p-6 rounded-3xl border border-transparent shadow-sm relative group hover:border-[#8B4356]/20 transition-all">
+                                                <div className="flex justify-between items-start mb-3">
+                                                    <div className="p-2 bg-white rounded-xl text-black group-hover:bg-black group-hover:text-white transition-colors border border-zinc-50 shadow-sm">
                                                         <MapPin className="w-4 h-4 md:w-5 md:h-5" />
                                                     </div>
                                                     <div className="flex gap-2">
-                                                        <button onClick={() => removeAddress(addr.id)} className="p-1 px-2.5 text-[9px] font-bold uppercase tracking-widest text-zinc-300 hover:text-red-500 transition-colors">Remove</button>
+                                                        <button onClick={() => removeAddress(addr.id)} className="p-1 px-2 text-[9px] font-bold uppercase tracking-widest text-zinc-300 hover:text-red-500 transition-colors">Del</button>
                                                     </div>
                                                 </div>
-                                                <h4 className="text-[10px] font-bold text-black uppercase tracking-[0.2em] mb-3">{addr.type} Delivery</h4>
-                                                <p className="text-xs md:text-sm font-sans font-medium text-zinc-500 leading-relaxed">
+                                                <h4 className="text-[10px] font-bold text-black uppercase tracking-[0.2em] mb-2">{addr.type} Delivery</h4>
+                                                <p className="text-[11.5px] md:text-[13px] font-sans font-medium text-zinc-500 leading-relaxed">
                                                     {addr.flatNo}, {addr.area}<br />
                                                     {addr.city}, {addr.state}<br />
                                                     {addr.pincode}
                                                 </p>
                                                 {addr.isDefault && (
-                                                    <span className="absolute top-6 right-6 md:top-8 md:right-8 text-[7px] md:text-[8px] font-bold uppercase tracking-[0.3em] text-black bg-zinc-50 border border-zinc-100 px-3 py-1 rounded-full">Primary</span>
+                                                    <span className="absolute top-5 right-5 md:top-6 md:right-6 text-[7px] md:text-[8px] font-bold uppercase tracking-[0.3em] text-black bg-white border border-zinc-100 px-3 py-1 rounded-full shadow-sm">Primary</span>
                                                 )}
                                             </div>
                                         ))}

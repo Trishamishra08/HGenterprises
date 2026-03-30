@@ -119,24 +119,23 @@ const ProductCard = ({ product, isWishlistPage = false }) => {
                 </button>
             </Link>
 
-            {/* Compact Info Section */}
-            <div className="pt-2 px-1 flex flex-col gap-1.5 text-center">
-                <div className="flex flex-col items-center gap-0.5">
-                    <h3 className="font-display font-black text-[9px] md:text-[10px] uppercase text-black tracking-[0.1em] line-clamp-1 leading-none">
-                        {product.name}
-                    </h3>
+            <div className="pt-2 px-1 flex flex-col gap-1 text-center">
+                <h3 className="font-display font-black text-[9px] md:text-[10px] uppercase text-black tracking-[0.1em] line-clamp-1 leading-none">
+                    {product.name}
+                </h3>
+                
+                <div className="flex items-center justify-center gap-2 mb-0.5">
                     {product.weight && (
-                        <span className="text-[7.5px] font-black uppercase text-[#8B4356]/40 tracking-widest leading-none">
+                        <span className="text-[7.5px] md:text-[8px] font-black uppercase text-[#8B4356]/60 tracking-widest leading-none bg-[#FDF5F6] px-1.5 py-0.5 rounded-md border border-[#8B4356]/5">
                             {product.weight}
                         </span>
                     )}
-                </div>
-                
-                <div className="flex items-center justify-center gap-1.5 leading-none">
-                    <span className="text-[#8B4356] font-black text-[11px] md:text-[12px] leading-none tracking-tighter">₹{(product?.price || 0).toLocaleString()}</span>
-                    {hasDiscount && (
-                        <span className="text-zinc-300 line-through text-[7px] font-bold uppercase italic leading-none">₹{product.originalPrice.toLocaleString()}</span>
-                    )}
+                    <div className="flex items-center gap-1.5 leading-none">
+                        <span className="text-[#8B4356] font-black text-[11px] md:text-[12px] leading-none tracking-tighter">₹{(product?.price || 0).toLocaleString()}</span>
+                        {hasDiscount && (
+                            <span className="text-zinc-300 line-through text-[7px] font-bold uppercase italic leading-none">₹{product.originalPrice.toLocaleString()}</span>
+                        )}
+                    </div>
                 </div>
 
                 <div className="flex items-center justify-center gap-1.5 pt-0.5">

@@ -404,7 +404,28 @@ const Shop = () => {
                                 ))}
                             </div>
                         ) : (
-                            <div className="flex flex-col items-center justify-center py-40 text-center bg-white rounded-[4rem] border border-zinc-50 mx-2 shadow-sm"><div className="w-24 h-24 bg-[#FDF5F6]/50 rounded-full flex items-center justify-center mb-8"><Search className="w-10 h-10 text-[#8B4356]/30" /></div><h3 className="text-3xl font-serif font-bold text-black mb-5">Choice Not Found</h3><p className="text-zinc-400 font-serif italic mb-10 max-w-sm mx-auto text-base">We couldn't match your discovery parameters.</p><button onClick={() => { setSelectedCategory('Jewellery'); setSelectedSubCategory(null); setSelectedType('All'); setSelectedGender('All'); setSelectedMetal('All'); setPriceRange({ min: 0, max: 500000 }); setSortBy('Newest'); }} className="bg-[#8B4356] text-white px-10 py-5 rounded-full font-bold uppercase tracking-[0.4em] text-[10px] shadow-2xl transition-all">Reset All</button></div>
+                            <div className="flex flex-col items-center justify-center py-40 text-center bg-white rounded-[4rem] border border-zinc-50 mx-2 shadow-sm">
+                                <div className="w-24 h-24 bg-[#FDF5F6]/50 rounded-full flex items-center justify-center mb-8">
+                                    <Search className="w-10 h-10 text-[#8B4356]/30" />
+                                </div>
+                                <h3 className="text-3xl font-serif font-bold text-black mb-5">Choice Not Found</h3>
+                                <p className="text-zinc-400 font-serif italic mb-10 max-w-sm mx-auto text-base">We couldn't match your discovery parameters.</p>
+                                <button 
+                                    onClick={() => { 
+                                        setSelectedCategory('Jewellery'); 
+                                        setSelectedSubCategory(null); 
+                                        setSelectedType('All'); 
+                                        setSelectedGender('All'); 
+                                        setSelectedMetal('All'); 
+                                        setPriceRange({ min: 0, max: 500000 }); 
+                                        setSortBy('Newest'); 
+                                        navigate('/shop');
+                                    }} 
+                                    className="bg-[#8B4356] text-white px-10 py-5 rounded-full font-bold uppercase tracking-[0.4em] text-[10px] shadow-2xl transition-all"
+                                >
+                                    Reset All
+                                </button>
+                            </div>
                         )}
                     </div>
                 </main>
