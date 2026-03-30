@@ -5,7 +5,7 @@ import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { Crown, ArrowLeft } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-import logo from '../assets/hg_logo_gold.png';
+import logo from '../assets/logo_final.jpg';
 
 const Login = () => {
     const { login } = useShop();
@@ -87,28 +87,30 @@ const Login = () => {
             {/* Back Button */}
             <button
                 onClick={() => navigate('/')}
-                className="absolute top-6 left-6 z-50 text-black hover:bg-black/5 p-3 rounded-full transition-all group"
+                className="absolute top-4 left-4 z-[300] text-black p-2 rounded-full transition-all group active:bg-black/5"
             >
-                <ArrowLeft className="w-6 h-6 group-hover:-translate-x-1 transition-transform" />
+                <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
             </button>
 
             {/* Mobile View - Clean & Minimal */}
             <div className="md:hidden absolute inset-0 z-50 flex flex-col justify-center px-4">
-                <div className="bg-white/90 backdrop-blur-xl px-6 py-8 rounded-[2rem] shadow-[0_8px_32px_rgba(0,0,0,0.1)] w-full max-w-sm mx-auto border border-white/50">
+                <div className="bg-white/90 backdrop-blur-xl px-5 py-6 rounded-[2rem] shadow-[0_8px_32px_rgba(0,0,0,0.1)] w-full max-w-sm mx-auto border border-white/50">
 
                     {/* Brand */}
-                    <div className="text-center mb-8 flex flex-col items-center">
-                        <img src={logo} alt="HG Enterprises" className="w-32 h-auto object-contain mb-2 drop-shadow-sm" />
+                    <div className="text-center mb-3 flex flex-col items-center">
+                        <div className="bg-black p-2 rounded-xl shadow-lg mb-1">
+                            <img src={logo} alt="HG" className="w-16 h-auto object-contain" />
+                        </div>
                     </div>
 
-                    <div className="mb-6">
-                        <h2 className="text-2xl font-display text-black mb-1">
-                            {loginStep === 1 ? (isSignup ? 'Create Account' : 'Welcome Back') : 'Verify OTP'}
+                    <div className="mb-3">
+                        <h2 className="text-lg font-display text-black leading-none">
+                            {loginStep === 1 ? (isSignup ? 'Create Account' : 'Welcome') : 'Verify OTP'}
                         </h2>
-                        <p className="text-gray-500 text-sm font-serif italic">
+                        <p className="text-gray-400 text-[9px] font-serif italic mt-0.5">
                             {loginStep === 1
-                                ? (isSignup ? 'Begin your journey with us.' : 'Please login to continue.')
-                                : `Enter code sent to +91 ${phoneNumber}`
+                                ? (isSignup ? 'Enter details below.' : 'Login to continue.')
+                                : `Code for +91 ${phoneNumber}`
                             }
                         </p>
                     </div>
@@ -142,24 +144,24 @@ const Login = () => {
                                 </>
                             )}
                             <div className="space-y-1">
-                                <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-1">Mobile Number</label>
-                                <div className="flex bg-white border border-[#EBCDD0] rounded-xl overflow-hidden h-12 items-center focus-within:border-[#D39A9F] focus-within:ring-1 focus-within:ring-[#D39A9F] transition-all">
-                                    <div className="h-full px-4 flex items-center gap-2 text-black font-bold border-r border-[#EBCDD0]">
-                                        <span>+91</span>
+                                <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-1">Mobile Number                                </label>
+                                <div className="flex bg-white border border-[#EBCDD0] rounded-lg overflow-hidden h-9 items-center focus-within:border-[#D39A9F] transition-all">
+                                    <div className="h-full px-2.5 flex items-center gap-1.5 text-black font-bold border-r border-[#EBCDD0]">
+                                        <span className="text-[10px]">+91</span>
                                     </div>
                                     <input
                                         type="tel"
                                         value={phoneNumber}
                                         onChange={(e) => setPhoneNumber(e.target.value.replace(/\D/g, '').slice(0, 10))}
-                                        placeholder="98765 43210"
-                                        className="flex-1 h-full bg-transparent border-0 px-4 text-black font-bold text-lg placeholder:text-gray-300 focus:ring-0 outline-none"
+                                        placeholder="Mobile Number"
+                                        className="flex-1 h-full bg-transparent border-0 px-2.5 text-black font-bold text-xs placeholder:text-gray-300 focus:ring-0 outline-none"
                                         required
                                     />
                                 </div>
                             </div>
                             <button
                                 type="submit"
-                                className="w-full bg-[#EBCDD0] text-black py-4 rounded-xl font-bold uppercase tracking-widest text-xs hover:bg-[#D39A9F] hover:text-white transition-all shadow-md mt-2"
+                                className="w-full bg-[#EBCDD0] text-black py-2.5 rounded-lg font-bold uppercase tracking-widest text-[9px] hover:bg-[#D39A9F] hover:text-white transition-all shadow-md mt-0.5"
                             >
                                 Get OTP
                             </button>
@@ -213,17 +215,19 @@ const Login = () => {
                 <div className="w-full lg:w-1/2 bg-white flex flex-col justify-center items-start p-6 lg:p-8 relative">
 
                     <div className="max-w-md w-full mt-12 lg:mt-0 text-left">
-                        {/* Logo In-Flow */}
-                        <img src={logo} alt="HG Enterprises" className="block w-32 md:w-48 h-auto object-contain mb-6 -ml-3" />
+                        {/* Logo In-Flow - Premium Black Background */}
+                        <div className="w-fit bg-black p-3.5 rounded-2xl shadow-xl mb-6 -ml-2">
+                            <img src={logo} alt="HG Enterprises" className="block w-24 md:w-32 h-auto object-contain" />
+                        </div>
 
-                        <span className="text-[#D39A9F] text-xs font-bold uppercase tracking-[0.2em] mb-2 block">
-                            {isSignup ? 'Start Your Journey' : 'Welcome Back'}
+                        <span className="text-[#D39A9F] text-[10px] font-bold uppercase tracking-[0.2em] mb-1 block">
+                            {isSignup ? 'Discovery Entrance' : 'Welcome Back'}
                         </span>
-                        <h2 className="text-4xl font-display text-black mb-2">
+                        <h2 className="text-3xl font-display text-black mb-1 leading-none">
                             {isSignup ? 'Create Account' : 'Login'}
                         </h2>
 
-                        <p className="text-gray-500 font-serif italic mb-8">Timeless Elegance, Crafted for You.</p>
+                        <p className="text-gray-400 text-xs font-serif italic mb-6 leading-none">Elegant Craftsmanship, Curated for You.</p>
 
                         {loginStep === 1 ? (
                             <form onSubmit={handleSendOtp} className="space-y-6">

@@ -1,113 +1,254 @@
-import React, { useState } from 'react';
-import { useShop } from '../../../context/ShopContext';
-import { Copy, Clock, ArrowRight, Tag } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Tag, Clock, ArrowRight, Sparkles, Percent, Gift, Zap } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
-const OffersPage = () => {
-    const { getActiveCoupons } = useShop();
-    const navigate = useNavigate();
-    const activeCoupons = getActiveCoupons();
-    const [copiedId, setCopiedId] = useState(null);
+const CountdownTimer = ({ expiryDate }) => {
+    const [timeLeft, setTimeLeft] = useState({
+        hours: 0, minutes: 0, seconds: 0
+    });
 
-    const handleCopy = (code, id) => {
-        navigator.clipboard.writeText(code);
-        setCopiedId(id);
-        setTimeout(() => setCopiedId(null), 2000);
-    };
+    useEffect(() => {
+        const timer = setInterval(() => {
+            const now = new Date().getTime();
+            const distance = expiryDate - now;
+
+            if (distance < 0) {
+                clearInterval(timer);
+                return;
+            }
+
+            setTimeLeft({
+                hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+                minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
+                seconds: Math.floor((distance % (1000 * 60)) / 1000)
+            });
+        }, 1000);
+
+        return () => clearInterval(timer);
+    }, [expiryDate]);
 
     return (
-        <div className="min-h-screen bg-gray-50/50 pb-20">
-            {/* Header / Hero */}
-            <div className="bg-footerBg text-white py-16 px-6 text-center relative overflow-hidden">
-                <div className="relative z-10 max-w-2xl mx-auto space-y-4">
-                    <span className="px-4 py-1 rounded-full bg-primary/20 text-primary border border-primary/20 text-[10px] font-black uppercase tracking-widest animate-pulse">Limited Time Offers</span>
-                    <h1 className="text-4xl md:text-5xl font-black tracking-tight">Best Deals For You</h1>
-                    <p className="text-gray-400 font-medium max-w-lg mx-auto">
-                        Save big on your favorite organic goodness. Grab these exclusive coupons before they expire!
-                    </p>
+        <div className="flex gap-2 text-white font-serif">
+            <div className="flex flex-col items-center">
+                <span className="text-xl md:text-2xl font-bold">{String(timeLeft.hours).padStart(2, '0')}</span>
+                <span className="text-[8px] uppercase tracking-widest opacity-60">Hrs</span>
+            </div>
+            <span className="text-xl md:text-2xl pt-0.5">:</span>
+            <div className="flex flex-col items-center">
+                <span className="text-xl md:text-2xl font-bold">{String(timeLeft.minutes).padStart(2, '0')}</span>
+                <span className="text-[8px] uppercase tracking-widest opacity-60">Min</span>
+            </div>
+            <span className="text-xl md:text-2xl pt-0.5">:</span>
+            <div className="flex flex-col items-center">
+                <span className="text-xl md:text-2xl font-bold">{String(timeLeft.seconds).padStart(2, '0')}</span>
+                <span className="text-[8px] uppercase tracking-widest opacity-60">Sec</span>
+            </div>
+        </div>
+    );
+};
+
+const OffersPage = () => {
+    const [activeTab, setActiveTab] = useState('all');
+
+    const deals = [
+        {
+            id: 1,
+            title: "Midnight Sale",
+            discount: "30% OFF",
+            description: "Exclusive silver & midnight bands.",
+            tag: "FLASH",
+            expiry: new Date().getTime() + (8 * 60 * 60 * 1000),
+            color: "bg-zinc-950",
+            accent: "text-gold",
+            icon: <Zap className="w-4 h-4 text-gold" />,
+            category: "trending",
+            path: "/shop?offers=true&tag=Midnight"
+        },
+        {
+            id: 2,
+            title: "Lunar Series",
+            discount: "15% OFF",
+            description: "Only 50 units crafted.",
+            tag: "LIMITED",
+            expiry: new Date().getTime() + (24 * 60 * 60 * 1000),
+            color: "bg-[#4A1015]",
+            accent: "text-white",
+            icon: <Sparkles className="w-4 h-4 text-white" />,
+            category: "limited",
+            path: "/shop?offers=true&tag=Lunar"
+        },
+        {
+            id: 3,
+            title: "Traditional Deals",
+            discount: "₹5000 OFF",
+            description: "Save on heritage bundles.",
+            tag: "BUNDLE",
+            expiry: null,
+            color: "bg-zinc-800",
+            accent: "text-gold",
+            icon: <Gift className="w-4 h-4 text-gold" />,
+            category: "trending",
+            path: "/shop?offers=true&tag=Pendants" // Showing some heritage items
+        }
+    ];
+
+    const filteredDeals = activeTab === 'all' ? deals : deals.filter(d => d.category === activeTab);
+
+    return (
+        <div className="min-h-screen bg-white">
+            {/* Header Section - Compact */}
+            <div className="bg-black py-10 md:py-16 relative overflow-hidden">
+                <div className="container mx-auto px-4 relative z-10 text-center">
+                    <motion.span 
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="text-gold font-serif tracking-[0.3em] uppercase text-[10px] mb-2 block"
+                    >
+                        Exclusive Privileges
+                    </motion.span>
+                    <motion.h1 
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.1 }}
+                        className="text-white font-serif text-3xl md:text-5xl font-normal tracking-tight mb-4"
+                    >
+                        Trending <span className="italic text-gold">Offers</span>
+                    </motion.h1>
+                    <div className="h-[1px] w-12 bg-gold/30 mx-auto"></div>
                 </div>
-                {/* Decoration */}
-                <div className="absolute top-0 left-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
-                <div className="absolute bottom-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl translate-x-1/3 translate-y-1/3"></div>
             </div>
 
-            <div className="max-w-7xl mx-auto px-6 -mt-10 relative z-20">
-                {activeCoupons.length > 0 ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {activeCoupons.map((coupon) => (
-                            <div key={coupon.id} className="bg-white rounded-[2rem] overflow-hidden shadow-xl shadow-gray-200/50 border border-gray-100 flex flex-col group hover:-translate-y-1 transition-transform duration-300">
-                                {/* Image / Visual Header */}
-                                <div className="h-48 w-full bg-gray-100 relative overflow-hidden">
-                                    {coupon.image ? (
-                                        <img src={coupon.image} alt={coupon.title} className="w-full h-full object-cover" />
-                                    ) : (
-                                        <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-primary/5 to-primary/20 text-primary">
-                                            <Tag size={48} />
-                                        </div>
-                                    )}
-                                    {/* Badge */}
-                                    <div className="absolute top-4 left-4 bg-white/90 backdrop-blur text-footerBg px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest shadow-sm">
-                                        {coupon.type === 'percentage' ? `${coupon.value}% OFF` : `₹${coupon.value} OFF`}
-                                    </div>
-                                </div>
+            {/* Filter Tabs - Ultra Compact */}
+            <div className="container mx-auto px-4 -mt-5 relative z-20">
+                <div className="flex justify-center gap-2 bg-white p-1 rounded-full shadow-lg border border-gray-100 w-fit mx-auto">
+                    {['all', 'trending', 'limited'].map((tab) => (
+                        <button
+                            key={tab}
+                            onClick={() => setActiveTab(tab)}
+                            className={`px-4 py-1.5 rounded-full font-serif text-[9px] tracking-widest uppercase transition-all duration-300 ${
+                                activeTab === tab ? 'bg-black text-white' : 'text-gray-400 hover:text-black'
+                            }`}
+                        >
+                            {tab}
+                        </button>
+                    ))}
+                </div>
+            </div>            {/* Offers Grid - Compact Cards */}
+            <div className="container mx-auto px-4 py-8 md:py-12">
+                <AnimatePresence mode="popLayout">
+                    {filteredDeals.length > 0 ? (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                            {filteredDeals.map((deal, idx) => (
+                                <motion.div
+                                    key={deal.id}
+                                    layout
+                                    initial={{ opacity: 0, scale: 0.95 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    exit={{ opacity: 0, scale: 0.95 }}
+                                    transition={{ duration: 0.4, delay: idx * 0.05 }}
+                                    className="h-full"
+                                >
+                                    <Link 
+                                        to={deal.path}
+                                        className={`relative rounded-[1.5rem] overflow-hidden ${deal.color} p-4 shadow-lg border border-white/5 flex flex-col h-full group hover:shadow-2xl transition-all duration-500`}
+                                    >
+                                        {/* Subtle Gradient Glow */}
+                                        <div className="absolute top-0 right-0 w-24 h-24 bg-gold/5 blur-[40px] rounded-full group-hover:bg-gold/10 transition-all duration-700"></div>
 
-                                {/* Content */}
-                                <div className="p-6 flex-1 flex flex-col space-y-4">
-                                    <div className="space-y-1">
-                                        <h3 className="text-lg font-black text-gray-900 leading-tight">{coupon.title || 'Special Offer'}</h3>
-                                        <p className="text-xs font-bold text-primary uppercase tracking-wide">{coupon.subtitle || `Use Code: ${coupon.code}`}</p>
-                                    </div>
-
-                                    <p className="text-sm text-gray-500 font-medium leading-relaxed line-clamp-3">
-                                        {coupon.description}
-                                    </p>
-
-                                    {/* Expiry & Eligibility */}
-                                    <div className="flex flex-wrap gap-2 pt-2">
-                                        <div className="flex items-center gap-1.5 text-[10px] font-bold text-gray-400 bg-gray-50 px-2.5 py-1.5 rounded-lg">
-                                            <Clock size={12} />
-                                            Expires {new Date(coupon.validUntil).toLocaleDateString()}
-                                        </div>
-                                        {coupon.minOrderValue > 0 && (
-                                            <div className="flex items-center gap-1.5 text-[10px] font-bold text-gray-400 bg-gray-50 px-2.5 py-1.5 rounded-lg">
-                                                Min Order: ₹{coupon.minOrderValue}
+                                        <div className="relative z-10 flex flex-col h-full">
+                                            <div className="flex justify-between items-center mb-3">
+                                                <span className={`text-[7px] font-bold tracking-[0.2em] uppercase px-2 py-0.5 bg-white/10 rounded-full border border-white/10 ${deal.accent}`}>
+                                                    {deal.tag}
+                                                </span>
+                                                <div className="opacity-40 group-hover:opacity-100 transition-opacity duration-500">
+                                                    {React.cloneElement(deal.icon, { className: "w-3 h-3" })}
+                                                </div>
                                             </div>
-                                        )}
-                                    </div>
 
-                                    <div className="pt-4 border-t border-gray-50 flex items-center gap-3 mt-auto">
-                                        <div className="flex-1 bg-gray-50 border border-dashed border-gray-300 rounded-xl px-4 py-3 flex items-center justify-between group/code relative hover:bg-gray-100 transition-colors">
-                                            <span className="font-black text-footerBg tracking-widest uppercase text-sm">{coupon.code}</span>
-                                            <button
-                                                onClick={() => handleCopy(coupon.code, coupon.id)}
-                                                className="text-gray-400 hover:text-primary transition-colors"
-                                            >
-                                                {copiedId === coupon.id ? <span className="text-[10px] font-bold text-green-500">Copied!</span> : <Copy size={16} />}
-                                            </button>
+                                            <h2 className="text-base md:text-lg font-serif text-white mb-0.5 tracking-tight leading-tight group-hover:text-gold transition-colors">
+                                                {deal.title}
+                                            </h2>
+                                            
+                                            <div className={`text-xl md:text-2xl font-black mb-2 tracking-tighter italic ${deal.accent}`}>
+                                                {deal.discount}
+                                            </div>
+
+                                            <p className="text-white/30 font-serif text-[10px] mb-4 flex-grow line-clamp-2 leading-relaxed">
+                                                {deal.description}
+                                            </p>
+
+                                            {deal.expiry && (
+                                                <div className="mt-auto p-3 bg-white/5 rounded-xl border border-white/10 shadow-inner group-hover:bg-white/10 transition-colors">
+                                                    <div className="flex items-center gap-2 mb-1.5">
+                                                        <Clock className="w-2.5 h-2.5 text-gold/60" />
+                                                        <span className="text-[7px] text-zinc-500 uppercase tracking-widest font-black">Ends Soon</span>
+                                                    </div>
+                                                    <CountdownTimer expiryDate={deal.expiry} />
+                                                </div>
+                                            )}
                                         </div>
-                                        <button
-                                            onClick={() => navigate('/shop')}
-                                            className="w-12 h-12 bg-footerBg text-white rounded-xl flex items-center justify-center hover:bg-primary transition-colors shadow-lg shadow-footerBg/20"
-                                        >
-                                            <ArrowRight size={20} className="-rotate-45" />
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                ) : (
-                    <div className="bg-white rounded-3xl p-12 text-center border border-gray-100 shadow-sm">
-                        <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center text-gray-300 mx-auto mb-6">
-                            <Tag size={32} />
+                                    </Link>
+                                </motion.div>
+                            ))}
                         </div>
-                        <h3 className="text-xl font-black text-gray-900 mb-2">No Active Offers</h3>
-                        <p className="text-gray-500 max-w-sm mx-auto">We don't have any active coupons right now. Check back later or subscribe to our newsletter.</p>
+                    ) : (
+                        <motion.div 
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            className="text-center py-20 px-6 border border-zinc-50 rounded-[3rem] bg-zinc-50/30"
+                        >
+                            <Sparkles className="w-10 h-10 text-zinc-300 mx-auto mb-4" />
+                            <h3 className="text-xl font-serif text-zinc-800 mb-2">Exclusive Deals Coming</h3>
+                            <p className="text-zinc-400 text-sm font-serif italic">This tier currently has no active flash events.</p>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </div>
+
+            {/* Trust Bar - Premium Quality Assurance */}
+            <div className="container mx-auto px-4 pb-20">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 py-8 border-y border-zinc-100 italic font-serif">
+                    {[
+                        { label: "Insured Shipping", sub: "Global Discrete" },
+                        { label: "Authenticity", sub: "Lifetime Gaurantee" },
+                        { label: "Elite Packaging", sub: "Boutique Experience" },
+                        { label: "Private Concierge", sub: "Ready to Assist" }
+                    ].map((item, idx) => (
+                        <div key={idx} className="text-center">
+                            <p className="text-[10px] uppercase tracking-widest font-black text-black mb-1">{item.label}</p>
+                            <p className="text-[9px] text-zinc-400">{item.sub}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            {/* Newsletter Section - Polished */}
+            <div className="container mx-auto px-4 pb-20">
+                <div className="bg-zinc-950 rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden">
+                    <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_-20%,rgba(211,154,159,0.1),transparent)]"></div>
+                    <div className="relative z-10 max-w-xl mx-auto">
+                        <Tag className="w-8 h-8 text-gold/40 mx-auto mb-6" />
+                        <h2 className="text-3xl md:text-5xl font-serif text-white mb-4">Elite <span className="italic text-gold">Access</span></h2>
+                        <p className="text-zinc-500 font-serif text-xs md:text-sm mb-10 leading-relaxed uppercase tracking-[0.2em] font-black">
+                            Join the inner circle for private offers.
+                        </p>
+                        <div className="flex flex-col md:flex-row gap-3">
+                            <input 
+                                type="email" 
+                                placeholder="Your elite email" 
+                                className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-gold/50 transition-all font-serif"
+                            />
+                            <button className="bg-white text-black px-8 py-3 rounded-xl font-serif font-black uppercase tracking-widest text-[10px] hover:bg-gold transition-all shadow-xl">
+                                Secure Invite
+                            </button>
+                        </div>
                     </div>
-                )}
+                </div>
             </div>
         </div>
     );
 };
 
 export default OffersPage;
+;

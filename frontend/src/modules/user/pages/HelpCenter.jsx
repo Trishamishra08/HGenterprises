@@ -28,7 +28,7 @@ const SupportForm = ({ onCancel, initialOrder = '' }) => {
             <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Subject</label>
+                        <label className="block text-[10px] font-medium text-gray-500 uppercase tracking-widest mb-2">Subject</label>
                         <input
                             required
                             type="text"
@@ -39,7 +39,7 @@ const SupportForm = ({ onCancel, initialOrder = '' }) => {
                         />
                     </div>
                     <div>
-                        <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Order ID (Optional)</label>
+                        <label className="block text-[10px] font-medium text-gray-500 uppercase tracking-widest mb-2">Order ID (Optional)</label>
                         <input
                             type="text"
                             placeholder="e.g. 1735123456"
@@ -50,7 +50,7 @@ const SupportForm = ({ onCancel, initialOrder = '' }) => {
                     </div>
                 </div>
                 <div>
-                    <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Category</label>
+                        <label className="block text-[10px] font-medium text-gray-500 uppercase tracking-widest mb-2">Category</label>
                     <select
                         value={formData.category}
                         onChange={(e) => setFormData({ ...formData, category: e.target.value })}
@@ -64,7 +64,7 @@ const SupportForm = ({ onCancel, initialOrder = '' }) => {
                     </select>
                 </div>
                 <div>
-                    <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Detailed Message</label>
+                        <label className="block text-[10px] font-medium text-gray-500 uppercase tracking-widest mb-2">Detailed Message</label>
                     <textarea
                         required
                         rows="4"
@@ -170,9 +170,8 @@ const HelpCenter = () => {
             {/* Hero Section - Boutique Interior Styled */}
             <div className="py-8 md:py-16 px-4 relative z-10">
                 <div className="max-w-4xl mx-auto text-center">
-                    <span className="text-[#8B4356] text-[10px] md:text-xs font-bold uppercase tracking-[0.4em] mb-4 block">Concierge & Support</span>
-                    <h1 className="text-3xl md:text-5xl font-display font-bold mb-6 text-black tracking-tighter">
-                        How can we <span className="italic font-serif font-normal text-[#8B4356]">help you?</span>
+                    <h1 className="text-3xl md:text-6xl font-serif text-black tracking-tight leading-tight">
+                        How can we <span className="italic text-[#8B4356]">help you?</span>
                     </h1>
                     <div className="relative max-w-xl mx-auto">
                         <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
@@ -220,7 +219,7 @@ const HelpCenter = () => {
                             <div className="animate-in fade-in slide-in-from-left-4 duration-500">
                                 <div className="flex justify-between items-end mb-6 md:mb-8 border-b border-black/5 pb-4">
                                     <div>
-                                        <h2 className="text-xl md:text-2xl font-display font-bold text-black tracking-tight">Handpicked Solutions</h2>
+                                        <h2 className="text-xl md:text-2xl font-serif text-black tracking-tight">Handpicked Solutions</h2>
                                         <p className="text-[10px] md:text-xs font-serif italic text-gray-500">Most frequent inquiries and expert answers</p>
                                     </div>
                                     {activeCategory !== 'all' && (
@@ -271,9 +270,9 @@ const HelpCenter = () => {
                         {/* Contact Card - Luxury Dark Style */}
                         <div className="bg-[#0a0a0a] text-white p-6 md:p-10 rounded-[3rem] shadow-2xl relative overflow-hidden border border-white/5 group/card">
                             <div className="relative z-10">
-                                <h3 className="text-2xl md:text-3xl font-display font-bold mb-3 tracking-tight leading-tight">
+                                <h3 className="text-2xl md:text-3xl font-serif mb-3 tracking-tight leading-tight">
                                     Need closer <br className="hidden md:block" />
-                                    <span className="italic font-serif font-normal text-[#8B4356]">assistance?</span>
+                                    <span className="italic text-[#8B4356]">assistance?</span>
                                 </h3>
                                 <p className="text-zinc-400 mb-10 text-xs md:text-sm leading-relaxed font-serif">Our concierge is available daily to ensure your Harshad Gauri experience is essentially flawless.</p>
                                 

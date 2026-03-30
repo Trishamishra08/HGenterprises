@@ -21,6 +21,9 @@ import PrivacyPolicy from './modules/user/pages/PrivacyPolicy';
 import Notifications from './modules/user/pages/Notifications';
 import AnnouncementBar from './modules/user/components/AnnouncementBar';
 import BlogsPage from './modules/user/pages/BlogsPage';
+import OffersPage from './modules/user/pages/OffersPage';
+import SmoothScroll from './components/SmoothScroll';
+import { useEffect } from 'react';
 
 // Admin Imports
 import AdminLogin from './modules/admin/pages/Login';
@@ -61,107 +64,133 @@ import GlobalSettings from './modules/admin/pages/GlobalSettings';
 import SectionManagement from './modules/admin/pages/SectionManagement';
 import SectionEditor from './modules/admin/pages/SectionEditor';
 import DynamicPageEditor from './modules/admin/pages/DynamicPageEditor';
+import CancellationPolicy from './modules/user/pages/CancellationPolicy';
+import ShippingPolicy from './modules/user/pages/ShippingPolicy';
+import ContactPage from './modules/user/pages/ContactPage';
+import CareGuidePage from './modules/user/pages/CareGuidePage';
+import CraftsmanshipPage from './modules/user/pages/CraftsmanshipPage';
+import StoreLocator from './modules/user/pages/StoreLocator';
+import ReturnsPolicy from './modules/user/pages/ReturnsPolicy';
+
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+};
 
 const AppContent = () => {
   const location = useLocation();
   const isAdminPath = location.pathname.startsWith('/admin');
+  const noFooterPaths = ['/about', '/blogs', '/help', '/order-tracking', '/profile', '/offers'];
+  const hideFooter = isAdminPath || noFooterPaths.some(path => location.pathname.startsWith(path));
 
   return (
-    <div className="min-h-screen flex flex-col font-sans text-gray-900 bg-[#FDF5F6]">
-      {!isAdminPath && (
-        <>
-          <div className="fixed top-0 left-0 right-0 z-[100] w-full">
-            <AnnouncementBar />
-            <Navbar />
-          </div>
-          <div className="h-[84px] md:h-[104px] w-full"></div>
-        </>
-      )}
-      {!isAdminPath && <CategoryNav />}
-      <main className={`flex-grow ${!isAdminPath ? 'pb-16 md:pb-0' : ''}`}>
-        <Routes>
-          {/* User Routes */}
-          <Route path="/" element={<Home />} />
-          <Route path="/shop" element={<Shop />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/checkout" element={<Checkout />} />
-          <Route path="/order-success" element={<OrderSuccess />} />
-          <Route path="/order-tracking/:orderId/:view?" element={<OrderTracking />} />
-          <Route path="/product/:id" element={<ProductDetails />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Login />} />
-          <Route path="/wishlist" element={<Wishlist />} />
-          <Route path="/profile/:activeTab?/:subId?" element={<Profile />} />
-          <Route path="/notifications" element={<Notifications />} />
-          <Route path="/about" element={<AboutUs />} />
-          <Route path="/help" element={<HelpCenter />} />
-          <Route path="/terms" element={<TermsAndConditions />} />
-          <Route path="/return-policy" element={<TermsAndConditions />} />
-          <Route path="/replacement-policy" element={<TermsAndConditions />} />
-          <Route path="/privacy" element={<PrivacyPolicy />} />
-          <Route path="/new-arrivals" element={<Shop />} />
-          <Route path="/trending" element={<Shop />} />
-          <Route path="/category/:category" element={<Shop />} />
-          <Route path="/blogs" element={<BlogsPage />} />
+    <SmoothScroll>
+      <div className={`min-h-screen flex flex-col font-sans text-gray-900 ${!isAdminPath ? 'bg-[#FDF5F6]' : 'bg-gray-50'}`}>
+        <ScrollToTop />
+        {!isAdminPath && (
+          <>
+            <div className="fixed top-0 left-0 right-0 z-[100] w-full">
+              <AnnouncementBar />
+              <Navbar />
+            </div>
+            <div className="h-[84px] md:h-[104px] w-full"></div>
+            <CategoryNav />
+          </>
+        )}
+        <main className={`flex-grow ${!isAdminPath ? 'pb-16 md:pb-0' : ''}`}>
+          <Routes>
+            {/* User Routes */}
+            <Route path="/" element={<Home />} />
+            <Route path="/shop" element={<Shop />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/order-success" element={<OrderSuccess />} />
+            <Route path="/order-tracking/:orderId/:view?" element={<OrderTracking />} />
+            <Route path="/product/:id" element={<ProductDetails />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Login />} />
+            <Route path="/wishlist" element={<Wishlist />} />
+            <Route path="/profile/:activeTab?/:subId?" element={<Profile />} />
+            <Route path="/notifications" element={<Notifications />} />
+            <Route path="/about" element={<AboutUs />} />
+            <Route path="/help" element={<HelpCenter />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/returns" element={<ReturnsPolicy />} />
+            <Route path="/shipping-policy" element={<ShippingPolicy />} />
+            <Route path="/cancellation-policy" element={<CancellationPolicy />} />
+            <Route path="/care-guide" element={<CareGuidePage />} />
+            <Route path="/stores" element={<StoreLocator />} />
+            <Route path="/craft" element={<CraftsmanshipPage />} />
+            <Route path="/terms" element={<TermsAndConditions />} />
+            <Route path="/privacy" element={<PrivacyPolicy />} />
+            <Route path="/new-arrivals" element={<Shop />} />
+            <Route path="/trending" element={<Shop />} />
+            <Route path="/category/:category" element={<Shop />} />
+            <Route path="/blogs" element={<BlogsPage />} />
+            <Route path="/offers" element={<OffersPage />} />
 
-          {/* Admin Routes */}
-          <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/admin/*" element={
-            <AdminProtectedRoute>
-              <AdminLayout>
-                <Routes>
-                  <Route path="/" element={<AdminDashboard />} />
-                  <Route path="/categories" element={<CategoryPage />} />
-                  <Route path="/categories/view/:id" element={<CategoryView />} />
-                  <Route path="/categories/new" element={<ItemEditor />} />
-                  <Route path="/categories/edit/:id" element={<ItemEditor />} />
-                  <Route path="/subcategories" element={<SubcategoryManagement />} />
-                  <Route path="/subcategories/view/:id" element={<SubcategoryView />} />
-                  <Route path="/subcategories/new" element={<ItemEditor />} />
-                  <Route path="/subcategories/edit/:id" element={<ItemEditor />} />
-                  <Route path="/products" element={<ProductManagement />} />
-                  <Route path="/products/view/:id" element={<ItemEditor />} />
-                  <Route path="/products/new" element={<ItemEditor />} />
-                  <Route path="/products/edit/:id" element={<ItemEditor />} />
-                  <Route path="/coupons" element={<CouponListPage />} />
-                  <Route path="/coupons/add" element={<CouponFormPage />} />
-                  <Route path="/coupons/edit/:id" element={<CouponFormPage />} />
-                  <Route path="/orders" element={<OrderListPage />} />
-                  <Route path="/orders/:id" element={<OrderDetailPage />} />
-                  <Route path="/returns" element={<ReturnsPage />} />
-                  <Route path="/returns/:id" element={<ReturnDetailPage />} />
-                  <Route path="/replacements" element={<ReplacementsPage />} />
-                  <Route path="/replacements/:id" element={<ReplacementDetailPage />} />
-                  <Route path="/inventory" element={<InventoryPage />} />
-                  <Route path="/inventory/adjust" element={<StockAdjustmentPage />} />
-                  <Route path="/inventory/history" element={<StockHistoryPage />} />
-                  <Route path="/inventory/alerts" element={<LowStockAlertsPage />} />
-                  <Route path="/inventory/reports" element={<InventoryReportsPage />} />
-                  <Route path="/users" element={<UserManagement />} />
-                  <Route path="/users/view/:id" element={<UserView />} />
-                  <Route path="/reviews" element={<ReviewModeration />} />
-                  <Route path="/support" element={<SupportManagement />} />
-                  <Route path="/support/inquiries" element={<ContactInquiries />} />
-                  <Route path="/banners" element={<BannerManagement />} />
-                  <Route path="/notifications" element={<GlobalNotificationManager />} />
-                  <Route path="/notifications/add" element={<AddNotification />} />
-                  <Route path="/faq" element={<FAQManagement />} />
-                  <Route path="/about-us" element={<ContentManagement />} />
-                  <Route path="/blogs" element={<BlogManagement />} />
-                  <Route path="/sections" element={<SectionManagement />} />
-                  <Route path="/sections/:id" element={<SectionEditor />} />
-                  <Route path="/pages/:pageId" element={<DynamicPageEditor />} />
-                  <Route path="/settings" element={<GlobalSettings />} />
-                </Routes>
-              </AdminLayout>
-            </AdminProtectedRoute>
-          } />
+            {/* Admin Routes */}
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/admin/*" element={
+              <AdminProtectedRoute>
+                <AdminLayout>
+                  <Routes>
+                    <Route path="/" element={<AdminDashboard />} />
+                    <Route path="/categories" element={<CategoryPage />} />
+                    <Route path="/categories/view/:id" element={<CategoryView />} />
+                    <Route path="/categories/new" element={<ItemEditor />} />
+                    <Route path="/categories/edit/:id" element={<ItemEditor />} />
+                    <Route path="/subcategories" element={<SubcategoryManagement />} />
+                    <Route path="/subcategories/view/:id" element={<SubcategoryView />} />
+                    <Route path="/subcategories/new" element={<ItemEditor />} />
+                    <Route path="/subcategories/edit/:id" element={<ItemEditor />} />
+                    <Route path="/products" element={<ProductManagement />} />
+                    <Route path="/products/view/:id" element={<ItemEditor />} />
+                    <Route path="/products/new" element={<ItemEditor />} />
+                    <Route path="/products/edit/:id" element={<ItemEditor />} />
+                    <Route path="/coupons" element={<CouponListPage />} />
+                    <Route path="/coupons/add" element={<CouponFormPage />} />
+                    <Route path="/coupons/edit/:id" element={<CouponFormPage />} />
+                    <Route path="/orders" element={<OrderListPage />} />
+                    <Route path="/orders/:id" element={<OrderDetailPage />} />
+                    <Route path="/returns" element={<ReturnsPage />} />
+                    <Route path="/returns/:id" element={<ReturnDetailPage />} />
+                    <Route path="/replacements" element={<ReplacementsPage />} />
+                    <Route path="/replacements/:id" element={<ReplacementDetailPage />} />
+                    <Route path="/inventory" element={<InventoryPage />} />
+                    <Route path="/inventory/adjust" element={<StockAdjustmentPage />} />
+                    <Route path="/inventory/history" element={<StockHistoryPage />} />
+                    <Route path="/inventory/alerts" element={<LowStockAlertsPage />} />
+                    <Route path="/inventory/reports" element={<InventoryReportsPage />} />
+                    <Route path="/users" element={<UserManagement />} />
+                    <Route path="/users/view/:id" element={<UserView />} />
+                    <Route path="/reviews" element={<ReviewModeration />} />
+                    <Route path="/support" element={<SupportManagement />} />
+                    <Route path="/support/inquiries" element={<ContactInquiries />} />
+                    <Route path="/banners" element={<BannerManagement />} />
+                    <Route path="/notifications" element={<GlobalNotificationManager />} />
+                    <Route path="/notifications/add" element={<AddNotification />} />
+                    <Route path="/faq" element={<FAQManagement />} />
+                    <Route path="/about-us" element={<ContentManagement />} />
+                    <Route path="/blogs" element={<BlogManagement />} />
+                    <Route path="/sections" element={<SectionManagement />} />
+                    <Route path="/sections/:id" element={<SectionEditor />} />
+                    <Route path="/pages/:pageId" element={<DynamicPageEditor />} />
+                    <Route path="/settings" element={<GlobalSettings />} />
+                  </Routes>
+                </AdminLayout>
+              </AdminProtectedRoute>
+            } />
 
-          <Route path="*" element={<Home />} />
-        </Routes>
-      </main>
-      {!isAdminPath && <Footer />}
-    </div>
+            <Route path="*" element={<Home />} />
+          </Routes>
+        </main>
+        {!hideFooter && <Footer />}
+      </div>
+    </SmoothScroll>
   );
 };
 

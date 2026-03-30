@@ -88,8 +88,8 @@ const CatalogPage = () => {
             const isCatMatch = selectedCategory === 'all' || productCatId === selectedCategory;
 
             const matchesSubcategory = selectedSubcategory === 'all' || product.subcategory === selectedSubcategory;
-            const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                product.brand.toLowerCase().includes(searchQuery.toLowerCase());
+            const matchesSearch = (product.name || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+                (product.brand || '').toLowerCase().includes(searchQuery.toLowerCase());
             return isCatMatch && matchesSubcategory && matchesSearch;
         });
     }, [selectedCategory, selectedSubcategory, searchQuery]);

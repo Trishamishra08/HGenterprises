@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { MoveRight, ArrowRight, Menu } from 'lucide-react';
 import { useShop } from '../../../context/ShopContext';
-import { categories } from '../assets/data';
+import { categories } from '../data/data';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import navGiftWomen from '../assets/nav_gift_women.png';

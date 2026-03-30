@@ -51,7 +51,13 @@ const AnnouncementBar = () => {
                             return (
                                 <div key={idx} className="flex items-center gap-2">
                                     {item.type === 'image' && item.image ? (
-                                        <img src={item.image} alt="" className="w-5 h-5 object-contain" />
+                                        <img 
+                                            src={item.image} 
+                                            alt={item.text || "Announcement icon"} 
+                                            width={20} 
+                                            height={20} 
+                                            className="w-5 h-5 object-contain" 
+                                        />
                                     ) : (
                                         (() => {
                                             const IconComponent = iconMap[item.icon] || Tag;

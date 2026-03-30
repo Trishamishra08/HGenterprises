@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { products } from '../assets/data';
+import { products } from '../data/data';
 import { useShop } from '../../../context/ShopContext';
 import ProductCard from '../components/ProductCard';
 import { 
@@ -26,7 +26,9 @@ const ProductDetails = () => {
     // UI states
     const [openSection, setOpenSection] = useState('about');
     const isWishlisted = wishlist.some(item => item.id === product?.id);
-    const discount = product ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100) : 0;
+    const originalPrice = product?.originalPrice || product?.price || 0;
+    const currentPrice = product?.price || 0;
+    const discount = originalPrice > currentPrice ? Math.round(((originalPrice - currentPrice) / originalPrice) * 100) : 0;
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -60,8 +62,8 @@ const ProductDetails = () => {
                 <div className="flex items-center gap-2">
                     <button onClick={() => navigate(-1)} className="p-1"><ArrowLeft className="w-5 h-5 text-black" /></button>
                     <div className="flex flex-col">
-                        <span className="text-[12px] font-serif font-black tracking-tighter uppercase text-[#8B4356] leading-none">Saundarya</span>
-                        <span className="text-[5px] font-bold tracking-[.4em] uppercase text-zinc-400">SHRINAGAR</span>
+                        <span className="text-[12px] font-serif font-black tracking-tighter uppercase text-[#8B4356] leading-none">HG</span>
+                        <span className="text-[5px] font-bold tracking-[.4em] uppercase text-zinc-400">ENTERPRISES</span>
                     </div>
                 </div>
                 <div className="flex items-center gap-3.5 text-zinc-800">
@@ -150,11 +152,13 @@ const ProductDetails = () => {
                         <div className="bg-white p-5 rounded-[1.5rem] border border-[#F5E6E8] relative overflow-hidden shadow-sm">
                             <div className="flex items-center gap-4">
                                 <div className="bg-[#8B4356]/5 text-[#8B4356] px-2 px-3 py-2 rounded-xl border border-[#8B4356]/10">
-                                    <span className="text-[16px] font-black">-{discount}%</span>
+                                    <span className="text-[16px] font-black">{discount > 0 ? `-${discount}%` : 'BEST PRICE'}</span>
                                 </div>
                                 <div className="flex flex-col">
-                                    <span className="text-[30px] font-display font-black text-black tracking-tighter leading-none">₹{product.price.toLocaleString()}</span>
-                                    <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest leading-none line-through mt-1">M.R.P.: ₹{product.originalPrice.toLocaleString()}</span>
+                                    <span className="text-[30px] font-display font-black text-black tracking-tighter leading-none">₹{currentPrice.toLocaleString()}</span>
+                                    {originalPrice > currentPrice && (
+                                        <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest leading-none line-through mt-1">M.R.P.: ₹{originalPrice.toLocaleString()}</span>
+                                    )}
                                 </div>
                             </div>
                             <p className="text-[8px] font-black uppercase tracking-[.2em] text-[#8B4356] opacity-40 mt-2">Inclusive of all taxes</p>
@@ -220,11 +224,11 @@ const ProductDetails = () => {
                                     <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full"></div>
                                     <span className="text-[11px] font-black text-emerald-600 uppercase tracking-widest">In Stock</span>
                                 </div>
-                                <span className="text-[11px] font-black text-black tracking-tighter">₹{product.price.toLocaleString()}</span>
+                                <span className="text-[11px] font-black text-black tracking-tighter">₹{currentPrice.toLocaleString()}</span>
                             </div>
                             <p className="text-[9px] font-semibold text-zinc-400 leading-snug tracking-wide uppercase">FREE Delivery <span className="text-[#8B4356]">Sunday, 22 MAR</span>. Order in <span className="text-black font-black">2 hrs 56 mins</span>.</p>
                             <div className="pt-3 border-t border-zinc-50 text-[8px] font-bold text-zinc-350 uppercase tracking-[.2em] flex justify-between">
-                                <span>Ships from Saundarya</span>
+                                <span>Ships from HGenterprises</span>
                                 <span className="text-[#8B4356]/60">Official Sell</span>
                             </div>
                         </div>

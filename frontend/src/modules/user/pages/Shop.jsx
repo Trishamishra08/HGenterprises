@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import ProductCard from '../components/ProductCard';
-import { products, categories as initialCategories } from '../assets/data';
+import { products, categories as initialCategories } from '../data/data';
 import { 
     Filter, ChevronDown, ArrowUpDown, ArrowLeft, Plus, Minus, 
     UserCircle, ChevronRight, Search, X, SlidersHorizontal, Check, 
@@ -68,6 +68,22 @@ const Shop = () => {
     const filteredProducts = useMemo(() => {
         let result = [...products];
 
+        // URL Parameter Filters (from Offers Page)
+        const showOnlyOffers = searchParams.get('offers') === 'true';
+        const tagFilter = searchParams.get('tag');
+
+        if (showOnlyOffers) {
+            result = result.filter(p => p.originalPrice && p.originalPrice > p.price);
+        }
+
+        if (tagFilter) {
+            result = result.filter(p => 
+                (p.category && p.category.toLowerCase().includes(tagFilter.toLowerCase())) ||
+                (p.subCategory && p.subCategory.toLowerCase().includes(tagFilter.toLowerCase())) ||
+                (p.name && p.name.toLowerCase().includes(tagFilter.toLowerCase()))
+            );
+        }
+
         if (selectedCategory && selectedCategory !== 'All') {
             result = result.filter(p => p.category?.toLowerCase() === selectedCategory.toLowerCase());
             if (selectedSubCategory) {
@@ -90,7 +106,7 @@ const Shop = () => {
         else if (sortBy === 'Newest') result.sort((a, b) => (b.isNew === a.isNew) ? 0 : b.isNew ? 1 : -1);
 
         return result;
-    }, [selectedCategory, selectedSubCategory, selectedType, selectedGender, selectedMetal, priceRange, sortBy]);
+    }, [selectedCategory, selectedSubCategory, selectedType, selectedGender, selectedMetal, priceRange, sortBy, location.search]);
 
     const pageTitle = useMemo(() => {
         return selectedSubCategory || selectedCategory || 'Categories Master';
@@ -120,19 +136,19 @@ const Shop = () => {
                 {/* Scrollable Middle Container */}
                 <div className="flex-1 overflow-y-auto scrollbar-hide px-5 pt-6 space-y-7 pb-10">
                     <div>
-                         <h4 className="text-[7.5px] font-bold uppercase tracking-[0.5em] text-zinc-300 mb-3.5 ml-1">Archive Hub</h4>
+                         <h4 className="text-[9.5px] font-bold uppercase tracking-[0.5em] text-zinc-500 mb-3.5 ml-1">Archive Hub</h4>
                          <div className="flex flex-col gap-1.5">
                              {initialCategories.map(cat => (
-                                 <button key={cat.id} onClick={() => handleCategoryToggle(cat.name)} className={`w-full text-left px-4 py-3 rounded-xl border transition-all flex items-center justify-between group ${openCategory === cat.name ? 'border-[#8B4356] bg-[#FDF5F6]/30 text-[#8B4356]' : 'border-zinc-50 text-zinc-400 hover:border-zinc-100 hover:bg-zinc-50'}`}>
-                                     <span className="text-[9px] font-bold uppercase tracking-widest">{cat.name}</span>
-                                     <ChevronRight className={`w-3 h-3 transition-transform ${openCategory === cat.name ? 'rotate-90 text-[#8B4356]' : 'text-zinc-200 group-hover:translate-x-1'}`} />
+                                 <button key={cat.id} onClick={() => handleCategoryToggle(cat.name)} className={`w-full text-left px-4 py-3 rounded-xl border transition-all flex items-center justify-between group ${openCategory === cat.name ? 'border-[#8B4356] bg-[#FDF5F6]/30 text-[#8B4356]' : 'border-zinc-50 text-zinc-800 hover:border-zinc-100 hover:bg-zinc-50'}`}>
+                                     <span className="text-[12px] font-serif uppercase tracking-widest">{cat.name}</span>
+                                     <ChevronRight className={`w-3 h-3 transition-transform ${openCategory === cat.name ? 'rotate-90 text-[#8B4356]' : 'text-zinc-300 group-hover:translate-x-1'}`} />
                                  </button>
                              ))}
                          </div>
                     </div>
 
                     <div>
-                         <h4 className="text-[7.5px] font-bold uppercase tracking-[0.5em] text-zinc-300 mb-4 flex items-center gap-3">Discovery Map <div className="h-[1px] flex-grow bg-zinc-50"></div></h4>
+                         <h4 className="text-[9.5px] font-bold uppercase tracking-[0.5em] text-zinc-500 mb-4 flex items-center gap-3">Discovery Map <div className="h-[1px] flex-grow bg-zinc-50"></div></h4>
                          <div className="grid grid-cols-2 gap-4">
                              {currentCatData?.subcategories.map(sub => (
                                  <button key={sub.name} onClick={() => setSelectedSubCategory(sub.name === selectedSubCategory ? null : sub.name)} className={`relative group p-3 rounded-2xl border transition-all text-center flex flex-col items-center gap-2.5 ${selectedSubCategory === sub.name ? 'border-[#8B4356] bg-white shadow-[0_10px_30px_rgba(139,67,86,0.08)] scale-[1.02]' : 'border-zinc-50 bg-[#fafafa] hover:border-zinc-200'}`}>
@@ -142,7 +158,7 @@ const Shop = () => {
                                          )}
                                          <div className="hidden items-center justify-center w-full h-full text-zinc-300"><ImageLucide className="w-5 h-5" /></div>
                                      </div>
-                                     <span className={`text-[8px] font-bold uppercase tracking-widest leading-tight transition-colors ${selectedSubCategory === sub.name ? 'text-[#8B4356]' : 'text-zinc-500'}`}>{sub.name}</span>
+                                     <span className={`text-[11px] font-serif uppercase tracking-widest leading-tight transition-colors ${selectedSubCategory === sub.name ? 'text-[#8B4356] font-bold' : 'text-zinc-800'}`}>{sub.name}</span>
                                  </button>
                              ))}
                          </div>
@@ -152,13 +168,13 @@ const Shop = () => {
                          {/* DYNAMIC MATERIAL SECTION based on Category */}
                          {currentCatData?.materials && (
                             <div>
-                                <h4 className="text-[7.5px] font-bold uppercase tracking-[0.5em] text-[#8B4356] mb-4 flex items-center gap-3">
+                                <h4 className="text-[9.5px] font-bold uppercase tracking-[0.5em] text-[#8B4356] mb-4 flex items-center gap-3">
                                     {currentCatData.materialLabel || "By Material"} 
                                     <div className="h-[1px] flex-grow bg-[#FDF5F6]"></div>
                                 </h4>
                                 <div className="grid grid-cols-2 gap-2 px-1">
                                     {currentCatData.materials.map(m => (
-                                        <button key={m} onClick={() => setSelectedMetal(m === selectedMetal ? 'All' : m)} className={`py-3 rounded-xl border text-[7.5px] font-bold uppercase tracking-widest transition-all ${selectedMetal === m ? 'border-[#8B4356] bg-[#8B4356] text-white shadow-md' : 'border-zinc-100 text-zinc-400 hover:border-zinc-300'}`}>{m}</button>
+                                        <button key={m} onClick={() => setSelectedMetal(m === selectedMetal ? 'All' : m)} className={`py-3 rounded-xl border text-[11.5px] font-serif uppercase tracking-widest transition-all ${selectedMetal === m ? 'border-[#8B4356] bg-[#8B4356] text-white shadow-md font-bold' : 'border-zinc-100 text-zinc-800 border-zinc-200 hover:border-zinc-300'}`}>{m}</button>
                                     ))}
                                 </div>
                             </div>
@@ -166,11 +182,11 @@ const Shop = () => {
 
                         {/* PRICE SLIDER */}
                         <div>
-                             <h4 className="text-[7.5px] font-bold uppercase tracking-[0.5em] text-zinc-300 mb-6 flex items-center gap-3">Price Explorer <div className="h-[1px] flex-grow bg-zinc-50"></div></h4>
+                             <h4 className="text-[9.5px] font-bold uppercase tracking-[0.5em] text-zinc-500 mb-6 flex items-center gap-3">Price Explorer <div className="h-[1px] flex-grow bg-zinc-50"></div></h4>
                              <div className="px-2 space-y-4">
                                 <div className="flex justify-between items-end mb-2">
-                                    <p className="text-[7px] font-bold uppercase tracking-widest text-zinc-400">Min: ₹0</p>
-                                    <p className="text-[11px] font-bold text-[#8B4356] font-display italic">₹{priceRange.toLocaleString()}</p>
+                                    <p className="text-[9px] font-bold uppercase tracking-widest text-zinc-500">Min: ₹0</p>
+                                    <p className="text-[13px] font-bold text-[#8B4356] font-display italic">₹{priceRange.toLocaleString()}</p>
                                 </div>
                                 <input 
                                     type="range" 
@@ -182,18 +198,18 @@ const Shop = () => {
                                     className="w-full h-[3px] bg-zinc-100 rounded-lg appearance-none cursor-pointer accent-[#8B4356] transition-all hover:accent-[#7a394b]"
                                 />
                                 <div className="flex justify-between mt-1">
-                                    <span className="text-[6.5px] font-black uppercase tracking-tighter text-zinc-300">Start</span>
-                                    <span className="text-[6.5px] font-black uppercase tracking-tighter text-zinc-300">5 Lakh +</span>
+                                    <span className="text-[9px] font-black uppercase tracking-tighter text-zinc-400">Start</span>
+                                    <span className="text-[9px] font-black uppercase tracking-tighter text-zinc-400">5 Lakh +</span>
                                 </div>
                              </div>
                         </div>
 
                         {currentCatData?.popularTypes && (
                             <div>
-                                <h4 className="text-[7.5px] font-bold uppercase tracking-[0.5em] text-zinc-300 mb-4 flex items-center gap-3">Popular Options <div className="h-[1px] flex-grow bg-zinc-50"></div></h4>
+                                <h4 className="text-[9.5px] font-bold uppercase tracking-[0.5em] text-zinc-500 mb-4 flex items-center gap-3">Popular Options <div className="h-[1px] flex-grow bg-zinc-50"></div></h4>
                                 <div className="grid grid-cols-2 gap-x-4 gap-y-3 px-1">
                                     {currentCatData.popularTypes.map(type => (
-                                        <button key={type} onClick={() => setSelectedType(type === selectedType ? 'All' : type)} className={`text-left text-[8.5px] uppercase font-bold tracking-widest transition-all ${selectedType === type ? 'text-[#8B4356] translate-x-1' : 'text-zinc-400 hover:text-black hover:translate-x-1'}`}>{type}</button>
+                                        <button key={type} onClick={() => setSelectedType(type === selectedType ? 'All' : type)} className={`text-left text-[11.5px] uppercase font-serif tracking-widest transition-all ${selectedType === type ? 'text-[#8B4356] translate-x-1 font-bold' : 'text-zinc-800 hover:text-black hover:translate-x-1'}`}>{type}</button>
                                     ))}
                                 </div>
                             </div>
@@ -222,7 +238,7 @@ const Shop = () => {
                     </h5>
                     <div className="space-y-4">
                         {currentCatData?.materials?.map(m => (
-                            <button key={m} onClick={() => setSelectedMetal(m === selectedMetal ? 'All' : m)} className={`block w-full text-left text-[11px] font-bold uppercase tracking-widest transition-all hover:text-black px-4 py-2 rounded-xl border ${selectedMetal === m ? 'border-[#8B4356] bg-[#FDF5F6]/30 text-[#8B4356]' : 'border-transparent text-zinc-400 hover:bg-zinc-50'}`}>{m} Selection</button>
+                            <button key={m} onClick={() => setSelectedMetal(m === selectedMetal ? 'All' : m)} className={`block w-full text-left text-[13.5px] font-serif uppercase tracking-widest transition-all hover:text-black px-4 py-2 rounded-xl border ${selectedMetal === m ? 'border-[#8B4356] bg-[#FDF5F6]/30 text-[#8B4356] font-bold' : 'border-transparent text-zinc-800 hover:bg-zinc-50'}`}>{m} Selection</button>
                         ))}
                     </div>
                 </div>
@@ -230,7 +246,7 @@ const Shop = () => {
                     <h5 className="text-[8px] font-bold uppercase tracking-[0.5em] text-[#8B4356] mb-8 flex items-center gap-3">Top Styles <div className="h-[1px] flex-grow bg-[#FDF5F6]"></div></h5>
                     <div className="grid grid-cols-1 gap-y-4">
                         {currentCatData?.popularTypes?.map(t => (
-                            <button key={t} onClick={() => setSelectedType(t === selectedType ? 'All' : t)} className={`text-left text-[11px] font-bold uppercase tracking-widest hover:text-[#8B4356] transition-all hover:translate-x-1 ${selectedType === t ? 'text-[#8B4356] translate-x-1' : 'text-zinc-400'}`}>{t}</button>
+                            <button key={t} onClick={() => setSelectedType(t === selectedType ? 'All' : t)} className={`text-left text-[13.5px] font-serif uppercase tracking-widest hover:text-[#8B4356] transition-all hover:translate-x-1 ${selectedType === t ? 'text-[#8B4356] translate-x-1 font-bold' : 'text-zinc-800'}`}>{t}</button>
                         ))}
                     </div>
                 </div>

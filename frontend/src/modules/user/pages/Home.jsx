@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { ArrowRight, Play, ShoppingBag, ChevronDown, MoveRight, Plus, Minus, ChevronLeft, ChevronRight } from 'lucide-react';
-import { banners, categories, products } from '../assets/data';
+import { banners, categories, products } from '../data/data';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import CategoryShowcase from '../components/CategoryShowcase';
@@ -134,9 +134,7 @@ const Home = () => {
                                                 transition={{ duration: 0.8 }}
                                                 className="relative flex flex-col items-center"
                                             >
-                                                <span className="text-[10px] md:text-xs tracking-[0.4em] uppercase mb-2 block text-secondary font-serif">
-                                                    {heroSlides[currentSlide].badge}
-                                                </span>
+                                                {/* Removed redundant brand badge */}
                                                 <h1 className="font-serif uppercase leading-none mb-2 px-4">
                                                     {/* Mobile Split Title */}
                                                     <span className="md:hidden block">

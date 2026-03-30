@@ -75,9 +75,9 @@ const Footer = () => {
 
                     {/* Brand Identity Section - Synced with Navbar */}
                     <div className="lg:col-span-4 space-y-4">
-                        <Link to="/" className="flex items-center gap-4 group">
+                        <Link to="/" aria-label="Harshad Gauri Enterprises Home" className="flex items-center gap-4 group">
                             <div className="relative">
-                                <img src={hgLogoPremium} alt="HG" className="h-[50px] md:h-[60px] w-auto object-contain brightness-110" />
+                                <img src={hgLogoPremium} alt="HG Enterprises Logo" className="h-[50px] md:h-[60px] w-auto object-contain brightness-110" />
                             </div>
                             <div className="flex flex-col">
                                 <span className="text-white font-serif text-lg md:text-xl font-light tracking-wider leading-none group-hover:text-[#8B4356] transition-colors">
@@ -197,12 +197,12 @@ const Footer = () => {
                             <p className="text-[9px] uppercase tracking-[0.4em] font-bold text-zinc-500">Social Gallery</p>
                             <div className="flex gap-4">
                                 {[
-                                    { Icon: Facebook, link: settings.socialLinks?.facebook },
-                                    { Icon: Twitter, link: settings.socialLinks?.twitter },
-                                    { Icon: Instagram, link: settings.socialLinks?.instagram },
-                                    { Icon: Youtube, link: settings.socialLinks?.youtube }
+                                    { Icon: Facebook, link: settings.socialLinks?.facebook, label: "Facebook" },
+                                    { Icon: Twitter, link: settings.socialLinks?.twitter, label: "Twitter" },
+                                    { Icon: Instagram, link: settings.socialLinks?.instagram, label: "Instagram" },
+                                    { Icon: Youtube, link: settings.socialLinks?.youtube, label: "Youtube" }
                                 ].map((social, i) => (
-                                    <a key={i} href={social.link || '#'} target="_blank" rel="noreferrer" className="w-9 h-9 border border-zinc-800 rounded-lg flex items-center justify-center text-zinc-400 hover:border-[#8B4356] hover:bg-[#8B4356] hover:text-white hover:-translate-y-1 transition-all duration-500 shadow-xl">
+                                    <a key={i} href={social.link || '#'} target="_blank" rel="noreferrer" aria-label={`Follow us on ${social.label}`} className="w-9 h-9 border border-zinc-800 rounded-lg flex items-center justify-center text-zinc-400 hover:border-[#8B4356] hover:bg-[#8B4356] hover:text-white hover:-translate-y-1 transition-all duration-500 shadow-xl">
                                         <social.Icon className="w-4 h-4" />
                                     </a>
                                 ))}

@@ -5,7 +5,7 @@ import { useShop } from '../../../context/ShopContext';
 import hgLogo from '../assets/hg_logo_gold.png';
 import hgLogoPremium from '../assets/logo_final.jpg';
 import { motion, AnimatePresence } from 'framer-motion';
-import { categories } from '../assets/data';
+import { categories } from '../data/data';
 
 const Navbar = () => {
     const { cart, wishlist, user, userNotifications, isMenuOpen, toggleMenu } = useShop();
@@ -21,6 +21,7 @@ const Navbar = () => {
             { name: "Shop All", path: "/shop" }
         ],
         support: [
+            { name: "Offers", path: "/offers" },
             { name: "Track Order", path: "/profile/orders" },
             { name: "About Us", path: "/about" },
             { name: "Contact Us", path: "/help" },
@@ -42,20 +43,20 @@ const Navbar = () => {
                 <div className="hidden md:block bg-gray-50/50 border-b border-gray-100 py-1">
                     <div className="container mx-auto px-6 flex justify-between items-center text-[10px] font-bold text-gray-400 uppercase tracking-widest">
                         <div className="flex items-center gap-6">
-                            <span className="flex items-center gap-1.5 hover:text-primary cursor-pointer transition-colors">
+                            <Link to="/help" className="flex items-center gap-1.5 hover:text-primary cursor-pointer transition-colors">
                                 <span className="w-1.5 h-1.5 bg-primary rounded-full"></span>
                                 Easy Returns & Refunds
-                            </span>
+                            </Link>
                         </div>
                         <div className="flex items-center gap-6 divide-x divide-gray-200">
-                            <div className="flex items-center gap-1.5 hover:text-primary cursor-pointer transition-colors px-4 group">
+                            <Link to="/profile" className="flex items-center gap-1.5 hover:text-primary cursor-pointer transition-colors px-4 group">
                                 <Bell className="w-3 h-3 group-hover:scale-110 transition-transform" />
                                 <span>Notifications</span>
-                            </div>
-                            <div className="flex items-center gap-1.5 hover:text-primary cursor-pointer transition-colors px-4 group">
+                            </Link>
+                            <Link to="/about" className="flex items-center gap-1.5 hover:text-primary cursor-pointer transition-colors px-4 group">
                                 <Store className="w-3 h-3 group-hover:scale-110 transition-transform" />
                                 <span>Find A Store</span>
-                            </div>
+                            </Link>
                             <div className="flex items-center gap-4 pl-4 lowercase">
                                 <Link to="/login" className="hover:text-primary transition-colors hover:underline">Login</Link>
                                 <span className="text-gray-200">|</span>
@@ -90,10 +91,10 @@ const Navbar = () => {
                             </motion.div>
                             
                             <div className="flex flex-col">
-                                <span className="text-white font-serif text-lg md:text-xl font-light tracking-wider leading-none group-hover:text-primary transition-colors">
+                                <span className="text-white font-serif text-lg md:text-xl font-light tracking-wider leading-none group-hover:text-[#EBCDD0] transition-colors">
                                     Harshad Gauri
                                 </span>
-                                <span className="text-primary font-serif italic text-[9px] md:text-[11px] tracking-[0.25em] pb-1 transition-colors group-hover:text-white">
+                                <span className="text-[#FDF5F6]/80 font-serif italic text-[9px] md:text-[11px] tracking-[0.25em] pb-1 transition-colors group-hover:text-white">
                                     enterprises
                                 </span>
                             </div>
@@ -113,12 +114,12 @@ const Navbar = () => {
 
                         {/* Icons */}
                         <div className="flex items-center gap-2 md:gap-5">
-                            <Link to="/notifications" className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/10 relative group transition-colors">
+                            <Link to="/notifications" aria-label="View notifications" className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/10 relative group transition-colors">
                                 <Bell className="w-5 h-5 text-white/90 group-hover:text-primary transition-colors" />
                                 <span className="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full border-2 border-black"></span>
                             </Link>
 
-                            <Link to="/wishlist" className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/10 relative group transition-colors">
+                            <Link to="/wishlist" aria-label="View wishlist" className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/10 relative group transition-colors">
                                 <Heart className="w-5 h-5 text-white/90 group-hover:text-primary transition-colors" />
                                 {wishlist?.length > 0 && (
                                     <span className="absolute top-2 right-2 bg-primary text-white text-[8px] w-3.5 h-3.5 flex items-center justify-center rounded-full font-bold">
@@ -127,7 +128,7 @@ const Navbar = () => {
                                 )}
                             </Link>
                             
-                            <Link to="/cart" className="w-10 h-10 flex items-center justify-center hover:bg-white/10 rounded-full group transition-colors relative">
+                            <Link to="/cart" aria-label="View shopping bag" className="w-10 h-10 flex items-center justify-center hover:bg-white/10 rounded-full group transition-colors relative">
                                 <ShoppingBag className="w-5 h-5 text-white/90 group-hover:text-primary transition-colors" />
                                 {cart?.length > 0 && (
                                     <span className="absolute top-2 right-2 bg-primary text-white text-[8px] w-3.5 h-3.5 flex items-center justify-center rounded-full font-bold">
@@ -136,7 +137,7 @@ const Navbar = () => {
                                 )}
                             </Link>
 
-                            <Link to="/profile" className="hidden md:flex w-10 h-10 items-center justify-center rounded-full hover:bg-white/10 group transition-colors">
+                            <Link to="/profile" aria-label="View profile" className="hidden md:flex w-10 h-10 items-center justify-center rounded-full hover:bg-white/10 group transition-colors">
                                 <User className="w-5 h-5 text-white/90 group-hover:text-primary transition-colors" />
                             </Link>
                         </div>
@@ -151,7 +152,7 @@ const Navbar = () => {
 
                             {/* Categories Interaction - Two-Step Mega Menu */}
                             <div className="relative group/mega">
-                                <button className="flex items-center gap-1 text-[11px] font-serif font-bold text-black hover:text-primary transition-all tracking-[0.3em] uppercase border-b-2 border-transparent hover:border-primary pb-0.5 cursor-pointer">
+                                <button aria-label="Open categories menu" className="flex items-center gap-1 text-[11px] font-serif font-bold text-black hover:text-primary transition-all tracking-[0.3em] uppercase border-b-2 border-transparent hover:border-primary pb-0.5 cursor-pointer">
                                     Categories
                                     <ChevronDown className="w-3.5 h-3.5 transition-transform group-hover/mega:rotate-180" />
                                 </button>
@@ -165,6 +166,7 @@ const Navbar = () => {
                                                 <button 
                                                     key={idx}
                                                     onMouseEnter={() => setActiveMegaCategory(cat)}
+                                                    aria-label={`View ${cat.name} category`}
                                                     className={`text-[12px] font-serif font-bold tracking-[0.25em] uppercase transition-all pb-1.5 border-b-2 ${activeMegaCategory?.id === cat.id ? 'text-primary border-primary' : 'text-gray-400 border-transparent hover:text-black'}`}
                                                 >
                                                     {cat.name}
@@ -199,6 +201,7 @@ const Navbar = () => {
                                                         
                                                         <Link 
                                                             to={`/category/${activeMegaCategory?.id}`} 
+                                                            aria-label={`View all ${activeMegaCategory?.name} products`}
                                                             className="text-[10px] font-serif font-bold text-black group flex items-center gap-3 tracking-[0.3em] uppercase hover:text-primary transition-colors"
                                                         >
                                                             View All
@@ -218,6 +221,7 @@ const Navbar = () => {
                                                                 <Link 
                                                                     key={idx} 
                                                                     to={`/category/${activeMegaCategory?.id}/${sub.path}`}
+                                                                    aria-label={`Show ${sub.name}`}
                                                                     className="flex flex-col items-center gap-4 group/sub"
                                                                 >
                                                                     <div className="relative w-24 h-24 rounded-full border border-gray-100 p-0.5 transition-all duration-700 group-hover/sub:border-primary/40 group-hover/sub:shadow-lg bg-white overflow-hidden">
@@ -246,6 +250,7 @@ const Navbar = () => {
                             {[
                                 { name: "ABOUT", path: "/about" },
                                 { name: "BLOG", path: "/blogs" },
+                                { name: "OFFERS", path: "/offers" },
                                 { name: "SHOP", path: "/shop" },
                                 { name: "CONTACT US", path: "/help" },
                                 { name: "TRACK ORDER", path: "/profile/orders" }
@@ -253,6 +258,7 @@ const Navbar = () => {
                                 <Link 
                                     key={idx} 
                                     to={nav.path} 
+                                    aria-label={`Go to ${nav.name}`}
                                     className="text-[11px] font-serif font-bold text-black hover:text-primary transition-all tracking-[0.3em] uppercase border-b-2 border-transparent hover:border-primary pb-0.5"
                                 >
                                     {nav.name}
@@ -283,7 +289,7 @@ const Navbar = () => {
                         >
                             <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50/30">
                                 <span className="font-display text-sm font-black tracking-widest text-black uppercase">Main Menu</span>
-                                <button onClick={() => toggleMenu(false)} className="p-2 hover:bg-white rounded-full transition-all hover:rotate-90">
+                                <button aria-label="Close menu" onClick={() => toggleMenu(false)} className="p-2 hover:bg-white rounded-full transition-all hover:rotate-90">
                                     <X className="w-5 h-5 text-black" />
                                 </button>
                             </div>
@@ -294,6 +300,7 @@ const Navbar = () => {
                                         <Link 
                                             key={idx}
                                             to={item.path} 
+                                            aria-label={`Go to ${item.name}`}
                                             onClick={() => toggleMenu(false)}
                                             className="flex items-center justify-between p-4 rounded-xl hover:bg-gray-50 group transition-all"
                                         >
@@ -310,6 +317,7 @@ const Navbar = () => {
                                         <Link 
                                             key={idx}
                                             to={item.path} 
+                                            aria-label={`Go to ${item.name}`}
                                             onClick={() => toggleMenu(false)}
                                             className="block text-[10px] font-serif uppercase tracking-widest text-gray-400 hover:text-primary transition-colors py-2"
                                         >
@@ -322,6 +330,7 @@ const Navbar = () => {
                             <div className="p-6 bg-gray-50 border-t border-gray-100">
                                 <Link 
                                     to="/login" 
+                                    aria-label="Proceed to login"
                                     onClick={() => toggleMenu(false)}
                                     className="w-full bg-black text-white py-4 rounded-xl font-display font-black text-[10px] uppercase tracking-[0.3em] text-center block hover:bg-primary transition-all shadow-lg"
                                 >
@@ -335,20 +344,20 @@ const Navbar = () => {
 
             {/* Bottom Nav (Mobile) */}
             <div className="md:hidden fixed bottom-6 left-6 right-6 h-16 bg-white border border-gray-100 rounded-2xl flex items-center justify-around z-[100] shadow-[0_10px_30px_rgba(0,0,0,0.1)] px-4">
-                <Link to="/" className="flex flex-col items-center gap-1 group">
+                <Link to="/" aria-label="Go to home" className="flex flex-col items-center gap-1 group">
                     <Home className="w-5 h-5 text-gray-400 group-active:scale-90 transition-all group-[.active]:text-primary" />
                     <span className="text-[8px] font-bold uppercase tracking-tighter text-gray-400">Home</span>
                 </Link>
-                <button onClick={() => toggleMenu(true)} className="flex flex-col items-center gap-1 group">
+                <button aria-label="Open mobile menu" onClick={() => toggleMenu(true)} className="flex flex-col items-center gap-1 group">
                     <Menu className="w-5 h-5 text-gray-400 group-active:scale-90 transition-all" />
                     <span className="text-[8px] font-bold uppercase tracking-tighter text-gray-400">Menu</span>
                 </button>
-                <Link to="/wishlist" className="flex flex-col items-center gap-1 group relative">
+                <Link to="/wishlist" aria-label="View wishlist" className="flex flex-col items-center gap-1 group relative">
                     <Heart className="w-5 h-5 text-gray-400 group-active:scale-90 transition-all" />
                     {wishlist?.length > 0 && <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-primary rounded-full border-2 border-white"></span>}
                     <span className="text-[8px] font-bold uppercase tracking-tighter text-gray-400">Favs</span>
                 </Link>
-                <Link to="/profile" className="flex flex-col items-center gap-1 group">
+                <Link to="/profile" aria-label="View profile" className="flex flex-col items-center gap-1 group">
                     <User className="w-5 h-5 text-gray-400 group-active:scale-90 transition-all" />
                     <span className="text-[8px] font-bold uppercase tracking-tighter text-gray-400">Me</span>
                 </Link>

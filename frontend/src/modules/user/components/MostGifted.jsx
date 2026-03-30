@@ -66,7 +66,7 @@ const MostGifted = () => {
                                 to="/shop"
                                 className="mt-4 md:mt-8 inline-flex items-center gap-3 bg-white/20 border border-white/30 text-white px-6 md:px-8 py-2.5 md:py-3 rounded-full hover:bg-white hover:text-primary transition-all duration-500 w-fit group/btn backdrop-blur-md"
                             >
-                                <span className="font-serif font-normal text-xs md:text-sm">Explore Collection</span>
+                                <span className="font-serif italic font-normal text-xs md:text-sm tracking-widest">Explore Collection</span>
                                 <ArrowRight className="w-3 h-3 md:w-4 md:h-4 group-hover/btn:translate-x-1 transition-transform" />
                             </Link>
                         </div>

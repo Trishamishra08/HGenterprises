@@ -193,8 +193,8 @@ const BlogsPage = () => {
             </div>
 
             {/* Articles List */}
-            <div className="max-w-4xl mx-auto px-4 sm:px-6 relative z-10">
-                <div className="flex flex-col gap-16 md:gap-32">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-y-20 md:gap-x-12">
                     {filteredBlogs.length > 0 ? (
                         filteredBlogs.map((blog, idx) => (
                             <motion.article
@@ -205,8 +205,8 @@ const BlogsPage = () => {
                                 transition={{ duration: 0.8 }}
                                 className="group flex flex-col items-center text-center w-full"
                             >
-                                <div className="w-full relative mb-8 md:mb-12 overflow-hidden rounded-[2.5rem] md:rounded-[4rem] shadow-2xl border border-white/40 group bg-white/50 backdrop-blur-sm">
-                                    <div className="aspect-[1.1] md:aspect-[1.3] overflow-hidden relative bounce-in">
+                                <div className="w-full relative mb-8 md:mb-8 overflow-hidden rounded-[2.5rem] md:rounded-[3rem] shadow-2xl border border-white/40 group bg-white/50 backdrop-blur-sm">
+                                    <div className="aspect-[1.1] md:aspect-square overflow-hidden relative bounce-in">
                                         <img 
                                             src={blog.image} 
                                             alt={blog.title} 
@@ -219,16 +219,16 @@ const BlogsPage = () => {
                                     </div>
                                 </div>
 
-                                <div className="max-w-3xl px-6">
-                                    <div className="flex items-center justify-center gap-3 text-[10px] md:text-xs font-bold text-[#8B4356] uppercase tracking-[0.3em] mb-4 opacity-70">
+                                <div className="w-full px-4">
+                                    <div className="flex items-center justify-center gap-3 text-[10px] md:text-[10px] font-bold text-[#8B4356] uppercase tracking-[0.3em] mb-3 opacity-70">
                                         <span>{blog.date}</span>
                                         <span className="opacity-30">|</span>
                                         <span>{blog.readTime}</span>
                                     </div>
-                                    <h2 className="text-2xl md:text-5xl font-display font-bold text-black mb-6 tracking-tight leading-[1.1] group-hover:text-[#8B4356] transition-colors duration-500 uppercase">
+                                    <h2 className="text-xl md:text-2xl font-display font-bold text-black mb-4 tracking-tight leading-[1.2] group-hover:text-[#8B4356] transition-colors duration-500 uppercase">
                                         {blog.title}
                                     </h2>
-                                    <p className="text-sm md:text-lg text-gray-500 font-serif italic mb-10 leading-relaxed max-w-xl mx-auto">
+                                    <p className="text-sm md:text-sm text-gray-500 font-serif italic mb-8 leading-relaxed max-w-sm mx-auto">
                                         {blog.description}
                                     </p>
                                     <div className="flex justify-center">

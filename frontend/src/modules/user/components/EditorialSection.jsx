@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 // Import all premium local editorial assets
 import feature1 from '../../../assets/editorial/clean_feature1.png';
@@ -53,9 +54,9 @@ const EditorialSection = () => {
                         />
                         <div className="absolute inset-0 bg-black/10"></div>
                         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 w-fit">
-                            <button className="bg-white text-dark px-4 py-1.5 rounded-sm text-[8px] md:text-xs font-bold uppercase tracking-widest whitespace-nowrap shadow-md">
+                            <Link to="/shop" className="bg-white text-dark px-4 py-1.5 rounded-sm text-[8px] md:text-xs font-bold uppercase tracking-widest whitespace-nowrap shadow-md hover:bg-primary hover:text-white transition-colors">
                                 Shop Now
-                            </button>
+                            </Link>
                         </div>
                     </motion.div>
 
@@ -104,9 +105,9 @@ const EditorialSection = () => {
                         />
                         <div className="absolute inset-0 bg-black/10"></div>
                         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 w-fit">
-                            <button className="bg-white text-dark px-4 py-1.5 rounded-sm text-[8px] md:text-xs font-bold uppercase tracking-widest whitespace-nowrap shadow-md">
+                            <Link to="/shop" className="bg-white text-dark px-4 py-1.5 rounded-sm text-[8px] md:text-xs font-bold uppercase tracking-widest whitespace-nowrap shadow-md hover:bg-primary hover:text-white transition-colors">
                                 Shop Now
-                            </button>
+                            </Link>
                         </div>
                     </motion.div>
 

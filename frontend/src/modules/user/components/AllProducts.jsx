@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ShoppingBag } from 'lucide-react';
-import { products } from '../assets/data';
+import { products } from '../data/data';
 import ProductCard from './ProductCard';
 
 const AllProducts = () => {

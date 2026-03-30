@@ -1,7 +1,22 @@
 import React from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useShop } from '../../../context/ShopContext';
-import { ChevronRight, Package, ArrowLeft, RefreshCw, Check, CheckCircle, Clock } from 'lucide-react';
+import { 
+    ChevronRight, 
+    Package, 
+    ArrowLeft, 
+    RefreshCw, 
+    Check, 
+    CheckCircle, 
+    Clock, 
+    MapPin, 
+    Truck, 
+    Calendar, 
+    HelpCircle,
+    ShoppingBag,
+    Phone
+} from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const OrderTracking = () => {
     const { orderId, view } = useParams();
@@ -12,58 +27,24 @@ const OrderTracking = () => {
     const order = orders.find(o => o.id === orderId || o.id === `ORD-${orderId}` || o.id.replace('ORD-', '') === orderId);
 
     // --- MOCK STATES ---
-    const [returnRequest, setReturnRequest] = React.useState(null);
-    const [mockReturnStep, setMockReturnStep] = React.useState(2);
-
-    // Standard Delivery Progress State
     const [currentStepIndex, setCurrentStepIndex] = React.useState(() => {
         const savedStep = localStorage.getItem(`tracking_step_${orderId}`);
-        return savedStep ? parseInt(savedStep, 10) : 5; // Default to delivered for demo
+        return savedStep ? parseInt(savedStep, 10) : 2; // Default to 'Dispatched' for demo
     });
-
-    React.useEffect(() => {
-        if (order) {
-            // DEMO: Simulate an EXCHANGE request for visualization
-            // Switch to 'type: exchange' to demo the exchange flow
-            setReturnRequest({
-                id: `EXC-${order.id}`,
-                type: 'exchange', // CHANGED TO 'exchange' for demo
-                status: 'pickup_scheduled',
-                date: new Date(Date.now() - 172800000).toISOString(),
-                items: order.items.slice(0, 1)
-            });
-        }
-    }, [order]);
-
-    React.useEffect(() => {
-        // Animate Delivery Steps (if not delivered)
-        const deliveryInterval = setInterval(() => {
-            setCurrentStepIndex(prev => {
-                if (prev < 5) return prev + 1;
-                return prev;
-            });
-        }, 10000);
-
-        // DEMO: Animate Return/Exchange Steps to show progress
-        const returnInterval = setInterval(() => {
-            setMockReturnStep(prev => {
-                const maxSteps = returnRequest?.type === 'exchange' ? 4 : 3;
-                if (prev < maxSteps) return prev + 1;
-                return prev; // Stop at completion, don't loop
-            });
-        }, 3000); // Updates every 3 seconds
-
-        return () => {
-            clearInterval(deliveryInterval);
-            clearInterval(returnInterval);
-        };
-    }, [returnRequest]);
 
     if (!order) {
         return (
-            <div className="min-h-screen pt-32 pb-12 px-4 flex flex-col items-center justify-center bg-white">
-                <h2 className="text-2xl font-display text-black mb-4">Order Not Found</h2>
-                <Link to="/profile" className="text-black underline hover:text-[#D39A9F]">Back to Profile</Link>
+            <div className="min-h-screen pt-32 pb-12 px-4 flex flex-col items-center justify-center bg-[#fdf2f8]">
+                <div className="bg-white/40 backdrop-blur-xl p-10 rounded-[2.5rem] border border-white/50 shadow-2xl text-center max-w-md">
+                    <div className="w-20 h-20 bg-[#8B4356]/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <Package className="w-10 h-10 text-[#8B4356]" />
+                    </div>
+                    <h2 className="text-3xl font-serif text-black mb-4 tracking-tight">Order Not Found</h2>
+                    <p className="text-gray-500 font-serif italic mb-8">We couldn't locate any record for order #{orderId}. Please check the ID and try again.</p>
+                    <Link to="/profile/orders" className="inline-block bg-[#8B4356] text-white px-8 py-3.5 rounded-full font-bold uppercase tracking-widest text-[10px] hover:bg-[#a64e66] transition-all shadow-lg">
+                        Back to My Orders
+                    </Link>
+                </div>
             </div>
         );
     }
@@ -72,260 +53,179 @@ const OrderTracking = () => {
         return new Date(dateTimestamp).toLocaleString('en-US', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
     };
 
-    // --- DELIVERY TIMELINE CALCULATION ---
+    // --- DELIVERY TIMELINE ---
     const deliveryBaseDate = new Date(order.date).getTime();
-    const deliveryStepsRaw = [
-        { status: 'Order Placed', date: formatDateTime(deliveryBaseDate) },
-        { status: 'Processing', date: formatDateTime(deliveryBaseDate + 3600000) },
-        { status: 'Dispatched', date: formatDateTime(deliveryBaseDate + 86400000) },
-        { status: 'In Transit', date: formatDateTime(deliveryBaseDate + 172800000) },
-        { status: 'Out For Delivery', date: formatDateTime(deliveryBaseDate + 259200000) },
-        { status: 'Delivered', date: formatDateTime(deliveryBaseDate + 266400000), isLast: true }
+    const deliverySteps = [
+        { status: 'Order Placed', date: formatDateTime(deliveryBaseDate), icon: <ShoppingBag className="w-5 h-5" /> },
+        { status: 'Confirmed', date: formatDateTime(deliveryBaseDate + 3600000), icon: <CheckCircle className="w-5 h-5" /> },
+        { status: 'Dispatched', date: formatDateTime(deliveryBaseDate + 86400000), icon: <Package className="w-5 h-5" /> },
+        { status: 'In Transit', date: formatDateTime(deliveryBaseDate + 172800000), icon: <Truck className="w-5 h-5" /> },
+        { status: 'Delivered', date: formatDateTime(deliveryBaseDate + 266400000), icon: <Check className="w-5 h-5" />, isLast: true }
     ];
 
-    const deliverySteps = deliveryStepsRaw.map((step, index) => ({
-        ...step,
-        completed: index <= currentStepIndex,
-        current: index === currentStepIndex
-    }));
-    const currentDeliveryStatus = deliverySteps[currentStepIndex];
+    const currentStatus = deliverySteps[currentStepIndex];
 
-    // --- RETURN / EXCHANGE TIMELINE CALCULATION ---
-    const returnBaseDate = returnRequest ? new Date(returnRequest.date).getTime() : Date.now();
-
-    // Distinct paths for Return vs Exchange
-    let returnStepsRaw = [];
-
-    if (returnRequest && returnRequest.type === 'exchange') {
-        // Exchange Flow: Application -> Pickup -> Dispatch Replacement -> Deliver Replacement
-        returnStepsRaw = [
-            { status: 'Exchange Requested', date: formatDateTime(returnBaseDate) },
-            { status: 'Pickup Scheduled', date: formatDateTime(returnBaseDate + 86400000) },
-            { status: 'Picked Up', date: 'Pending', isFuture: true },
-            { status: 'Replacement Dispatched', date: 'Pending', isFuture: true },
-            { status: 'Exchange Completed', date: 'Pending', isFuture: true, isLast: true }
-        ];
-    } else {
-        // Return Flow: Application -> Pickup -> Refund
-        returnStepsRaw = [
-            { status: 'Return Requested', date: formatDateTime(returnBaseDate) },
-            { status: 'Pickup Scheduled', date: formatDateTime(returnBaseDate + 86400000) },
-            { status: 'Picked Up', date: 'Pending', isFuture: true },
-            { status: 'Refund Processed', date: 'Pending', isFuture: true, isLast: true }
-        ];
-    }
-
-    const returnSteps = returnStepsRaw.map((step, index) => {
-        const isCompleted = index <= mockReturnStep;
-
-        let displayDate = step.date;
-        if (step.isFuture && isCompleted) {
-            displayDate = formatDateTime(returnBaseDate + (index * 86400000));
-        }
-
-        return {
-            ...step,
-            completed: isCompleted,
-            current: index === mockReturnStep,
-            date: displayDate
-        };
-    });
-    const currentReturnStatus = returnSteps[Math.min(mockReturnStep, returnSteps.length - 1)] || returnSteps[0];
-
-
-    // --- VIEW LOGIC ---
-    const isReturnView = view === 'return';
-    const isDetailView = view === 'detail';
-
-    const activeTimelineSteps = isReturnView ? returnSteps : deliverySteps;
-    const activeTitle = isReturnView ? (returnRequest?.type === 'exchange' ? 'Exchange Status' : 'Return Status') : 'Tracking Details';
-    const activeStatusObj = isReturnView ? currentReturnStatus : currentDeliveryStatus;
-
-    // --- RENDER HELPERS ---
-    const RenderTimeline = ({ steps }) => (
-        <div className="space-y-0 relative pl-2 md:pl-0">
-            {steps.map((step, index) => (
-                <div key={index} className="flex gap-4 md:gap-6 relative pb-8 last:pb-0">
-                    {/* Connecting Line */}
-                    {index !== steps.length - 1 && (
-                        <div className={`absolute left-[5px] md:left-[11px] top-4 md:top-6 bottom-0 w-0.5 z-0 transition-colors duration-500 ${step.completed && steps[index + 1]?.completed ? 'bg-black' : 'bg-gray-200'}`}></div>
-                    )}
-
-                    {/* Dot/Icon */}
-                    <div className="relative z-10 flex-shrink-0 mt-0.5 md:mt-1">
-                        <div className={`w-3 h-3 md:w-6 md:h-6 rounded-full flex items-center justify-center transition-all duration-500 ${step.completed ? 'bg-black md:shadow-md' : 'bg-gray-200'} ${step.current ? 'ring-4 ring-black/10 scale-110' : ''}`}>
-                            <span className="hidden md:block">
-                                {step.completed && <Check className="w-3.5 h-3.5 text-white" />}
-                            </span>
-                        </div>
-                    </div>
-
-                    {/* Content */}
-                    <div className="flex-1 -mt-1 md:mt-0">
-                        <h4 className={`text-xs md:text-lg font-display font-bold transition-colors duration-500 ${step.completed || step.current ? 'text-black' : 'text-gray-400'}`}>
-                            {step.status}
-                        </h4>
-                        {step.date && <p className="text-[10px] md:text-sm text-gray-500 font-medium mt-0.5 md:mt-1 font-serif">{step.date}</p>}
-                    </div>
-                </div>
-            ))}
-        </div>
-    );
-
-    // --- DETAILED VIEW ---
-    if (view) {
-        return (
-            <div className="min-h-screen bg-white font-sans pt-0 md:pt-12 pb-12 selection:bg-[#D39A9F] selection:text-white">
-                <div className="md:hidden bg-white shadow-sm p-4 sticky top-0 z-20 flex items-center gap-4">
-                    <button onClick={() => navigate(`/order-tracking/${orderId}`)} className="p-2 -ml-2 text-black">
-                        <ArrowLeft className="w-5 h-5" />
-                    </button>
-                    <h1 className="text-lg font-bold font-display text-black">{activeTitle}</h1>
-                </div>
-
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-0">
-                    <div className="hidden md:block mb-6">
-                        <button onClick={() => navigate(`/order-tracking/${orderId}`)} className="inline-flex items-center text-sm font-medium text-gray-500 hover:text-black transition-colors group uppercase tracking-widest font-bold text-[10px]">
-                            <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
-                            Back to Summary
-                        </button>
-                    </div>
-
-                    <div className="bg-white p-6 md:p-10 rounded-xl shadow-sm border border-gray-100 min-h-[50vh]">
-                        <div className="mb-8 md:mb-12 border-b border-gray-100 pb-6">
-                            <span className="block text-[10px] md:text-xs text-[#D39A9F] uppercase tracking-widest font-bold mb-2">Current Activity</span>
-                            <h2 className="text-2xl md:text-4xl font-display font-bold text-black mb-2">{activeStatusObj.status}</h2>
-                            <p className="text-sm md:text-base text-gray-500 font-serif">{activeStatusObj.date}</p>
-                        </div>
-
-                        <RenderTimeline steps={activeTimelineSteps} />
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
-    // --- SUMMARY VIEW ---
     return (
-        <div className="min-h-screen bg-white font-sans pt-0 md:pt-12 pb-12 selection:bg-[#D39A9F] selection:text-white">
-            <div className="md:hidden bg-white shadow-sm p-4 sticky top-0 z-20 flex items-center gap-4">
-                <Link to="/profile" className="p-2 -ml-2 text-black">
-                    <ArrowLeft className="w-5 h-5" />
-                </Link>
-                <h1 className="text-lg font-bold font-display text-black">Order #{order.id.replace('ORD-', '')}</h1>
+        <div className="min-h-screen bg-zinc-50 pb-16 selection:bg-[#3E2723] selection:text-white relative overflow-hidden">
+            {/* Background Aesthetics */}
+            <div className="absolute top-0 left-0 w-full h-full pointer-events-none z-0">
+                <div className="absolute top-[10%] left-[-10%] w-[50%] h-[50%] bg-white rounded-full blur-[120px]"></div>
+                <div className="absolute bottom-[10%] right-[-10%] w-[50%] h-[50%] bg-zinc-100 rounded-full blur-[100px]"></div>
             </div>
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-0">
-                <div className="hidden md:block mb-6">
-                    <Link to="/profile" className="inline-flex items-center text-sm font-medium text-gray-500 hover:text-black transition-colors group uppercase tracking-widest font-bold text-[10px]">
-                        <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
-                        Back to Orders
-                    </Link>
+            {/* Sticky Header */}
+            <div className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-zinc-100 px-4 py-3 md:py-4">
+                <div className="max-w-7xl mx-auto flex items-center justify-between">
+                    <button 
+                        onClick={() => navigate('/profile/orders')}
+                        className="flex items-center gap-2 text-zinc-400 hover:text-black transition-all group font-bold uppercase tracking-[0.3em] text-[9px]"
+                    >
+                        <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-1 transition-transform" />
+                        <span className="hidden sm:inline">Return</span>
+                    </button>
+                    <div className="text-center">
+                        <h1 className="text-sm md:text-lg font-serif text-black tracking-widest uppercase">Track Your <span className="italic text-zinc-500">Treasure</span></h1>
+                    </div>
+                    <div className="w-10 md:w-20"></div>
                 </div>
+            </div>
 
-                <h2 className="text-xl md:text-2xl font-display font-bold text-black mb-6 flex items-center gap-2">
-                    <Clock className="w-5 h-5 md:w-6 md:h-6 text-[#D39A9F]" />
-                    Order Journey
-                </h2>
-
-                <div className="space-y-8">
-                    {/* 1. Return/Exchange Request Card (Latest Activity First) */}
-                    {returnRequest && (
-                        <div className="bg-white border border-gray-100 rounded-xl shadow-sm overflow-hidden group hover:shadow-md transition-shadow relative z-10">
-
-                            <div className="p-3 md:p-5 border-b border-gray-50 bg-gray-50 flex justify-between items-center">
-                                <div className="flex items-center gap-2.5">
-                                    {/* Icon Logic: Spin if processing, Green Check if complete */}
-                                    {mockReturnStep >= (returnRequest?.type === 'exchange' ? 4 : 3) ? (
-                                        <div className="bg-green-50 text-green-600 p-1.5 rounded-full">
-                                            <Check className="w-3.5 h-3.5" />
-                                        </div>
-                                    ) : (
-                                        <div className="bg-blue-50 text-blue-600 p-1.5 rounded-full">
-                                            <RefreshCw className="w-3.5 h-3.5 animate-spin" />
-                                        </div>
-                                    )}
-                                    <div>
-                                        <span className="text-[9px] md:text-[10px] font-bold text-gray-400 uppercase tracking-widest block">
-                                            {returnRequest.type === 'exchange' ? 'Exchange Request' : 'Return Request'}
-                                        </span>
-                                        <h3 className="text-xs md:text-sm font-bold text-black mt-0.5">{currentReturnStatus.status}</h3>
-                                    </div>
-                                </div>
-                                <button
-                                    onClick={() => navigate(`/order-tracking/${orderId}/return`)}
-                                    className="bg-white border border-gray-200 text-black px-3 py-1.5 rounded-lg text-[9px] md:text-[10px] font-bold uppercase tracking-wider hover:bg-black hover:text-white transition-colors"
-                                >
-                                    Track Detail
-                                </button>
+            <div className="max-w-3xl mx-auto px-4 pt-6 md:pt-10 relative z-10">
+                {/* 1. Main Status Card */}
+                <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="bg-white rounded-[2rem] border border-zinc-100 shadow-sm p-6 md:p-10 mb-8 overflow-hidden relative"
+                >
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
+                        <div>
+                            <span className="text-zinc-300 text-[8px] md:text-[10px] font-bold uppercase tracking-[0.4em] mb-2 block">Leger ID #{order.id.replace('ORD-', '')}</span>
+                            <h2 className="text-2xl md:text-4xl font-serif text-black tracking-tight mb-1 italic">
+                                {currentStatus.status}
+                            </h2>
+                            <p className="text-zinc-400 font-serif italic text-xs md:text-sm">Expected arrival: {formatDateTime(deliveryBaseDate + 300000000)}</p>
+                        </div>
+                        <div className="flex-shrink-0">
+                            <div className="w-16 h-16 md:w-24 md:h-24 bg-black rounded-full flex items-center justify-center text-white shadow-xl relative">
+                                <div className="absolute inset-0 bg-black/10 rounded-full animate-ping"></div>
+                                {React.cloneElement(currentStatus.icon, { className: "w-6 h-6 md:w-8 md:h-8" })}
                             </div>
-                            <div className="p-3 md:p-5 bg-white">
-                                <div className="flex gap-3 items-center">
-                                    {returnRequest.items.map((item, idx) => (
-                                        <div key={idx} className="relative">
-                                            <img src={item.image} className="w-12 h-12 md:w-14 md:h-14 rounded-lg object-cover border border-gray-100 grayscale-[0.2]" alt="" />
-                                            {/* Badge for status */}
-                                            <div className="absolute -top-1.5 -right-1.5 bg-amber-500 text-white text-[8px] px-1 py-0.5 rounded-full font-bold shadow-sm">Old</div>
-                                        </div>
-                                    ))}
+                        </div>
+                    </div>
 
-                                    {/* Arrow indicating exchange */}
-                                    {returnRequest.type === 'exchange' && (
-                                        <div className="text-gray-400">
-                                            <RefreshCw className="w-4 h-4" />
-                                        </div>
-                                    )}
+                    {/* Progress Bar */}
+                    <div className="mt-8 md:mt-12 relative px-2">
+                        <div className="absolute top-1/2 -translate-y-1/2 left-4 right-4 h-0.5 md:h-1 bg-zinc-50 rounded-full overflow-hidden">
+                            <motion.div 
+                                initial={{ width: 0 }}
+                                animate={{ width: `${(currentStepIndex / (deliverySteps.length - 1)) * 100}%` }}
+                                transition={{ duration: 1.5, ease: "easeOut" }}
+                                className="h-full bg-black"
+                            ></motion.div>
+                        </div>
+                        <div className="relative flex justify-between">
+                            {deliverySteps.map((step, idx) => (
+                                <div key={idx} className="flex flex-col items-center">
+                                    <div className={`w-2.5 h-2.5 md:w-4 md:h-4 rounded-full border-2 border-white z-10 transition-all duration-500 ${idx <= currentStepIndex ? 'bg-black scale-110 shadow-md' : 'bg-zinc-100'}`}></div>
+                                    <span className={`text-[7px] md:text-[9px] font-bold uppercase tracking-widest mt-3 transition-colors duration-500 ${idx <= currentStepIndex ? 'text-black' : 'text-zinc-300'}`}>
+                                        {step.status}
+                                    </span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </motion.div>
 
-                                    {/* New Item (Simulated for Exchange) */}
-                                    {returnRequest.type === 'exchange' && returnRequest.items.map((item, idx) => (
-                                        <div key={`new-${idx}`} className="relative">
-                                            <img src={item.image} className="w-12 h-12 md:w-14 md:h-14 rounded-lg object-cover border border-green-200" alt="" />
-                                            <div className="absolute -top-1.5 -right-1.5 bg-green-600 text-white text-[8px] px-1 py-0.5 rounded-full font-bold shadow-sm">New</div>
-                                        </div>
-                                    ))}
-
-                                    <div className="flex flex-col justify-center pl-1">
-                                        <p className="text-xs font-bold text-black">ID: {returnRequest.id}</p>
-                                        {returnRequest.type === 'exchange' ? (
-                                            <p className="text-[10px] text-gray-500 font-bold mt-0.5">Size Changed: <span className="text-black">M</span></p>
-                                        ) : (
-                                            <p className="text-[10px] text-gray-500 mt-0.5">Refund Method: Original Source</p>
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
+                    {/* 2. Detailed Checklist Area */}
+                    <div className="lg:col-span-2 space-y-6">
+                        <div className="bg-white rounded-[2rem] border border-zinc-100 p-6 md:p-8 shadow-sm">
+                            <h3 className="text-lg md:text-xl font-serif text-black mb-6 md:mb-8 tracking-tight italic">The Logistics <span className="text-zinc-400 not-italic">Journal</span></h3>
+                            <div className="space-y-0 relative">
+                                {deliverySteps.map((step, idx) => (
+                                    <div key={idx} className="flex gap-6 relative pb-6 last:pb-0">
+                                        {idx !== deliverySteps.length - 1 && (
+                                            <div className={`absolute left-[9px] top-6 bottom-0 w-0.5 transition-colors duration-500 ${idx < currentStepIndex ? 'bg-black' : 'bg-zinc-50'}`}></div>
                                         )}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* 2. Original Order Card */}
-                    <div className="bg-white border border-gray-100 rounded-xl shadow-sm overflow-hidden group hover:shadow-md transition-shadow relative">
-                        {/* Connecting line to show flow (Upwards to Return if exists) */}
-                        {returnRequest && <div className="absolute top-[-24px] left-8 w-0.5 h-6 bg-gray-100 z-0"></div>}
-
-                        <div className="p-3 md:p-5 border-b border-gray-50 bg-gray-50 flex justify-between items-center">
-                            <div>
-                                <span className="text-[9px] md:text-[10px] font-bold text-gray-400 uppercase tracking-widest block">Original Delivery</span>
-                                <h3 className="text-xs md:text-sm font-bold text-black mt-0.5">{currentDeliveryStatus.status}</h3>
-                            </div>
-                            <button
-                                onClick={() => navigate(`/order-tracking/${orderId}/detail`)}
-                                className="bg-white border border-gray-200 text-black px-3 py-1.5 rounded-lg text-[9px] md:text-[10px] font-bold uppercase tracking-wider hover:bg-black hover:text-white transition-colors"
-                            >
-                                Track Detail
-                            </button>
-                        </div>
-                        <div className="p-3 md:p-5">
-                            <div className="flex gap-4 overflow-x-auto pb-1 scrollbar-hide">
-                                {order.items.map((item, idx) => (
-                                    <div key={idx} className="flex-shrink-0 w-12 md:w-14">
-                                        <img src={item.image} className="w-12 h-12 md:w-14 md:h-14 rounded-lg object-cover border border-gray-100" alt="" />
+                                        <div className={`w-5 h-5 rounded-full border border-white flex items-center justify-center z-10 transition-all duration-500 ${idx <= currentStepIndex ? 'bg-black text-white shadow-sm' : 'bg-zinc-50 text-zinc-300'}`}>
+                                            {idx < currentStepIndex ? <Check className="w-3 h-3" strokeWidth={3} /> : (idx === currentStepIndex ? <div className="w-1.5 h-1.5 bg-white rounded-full"></div> : null)}
+                                        </div>
+                                        <div>
+                                            <h4 className={`text-sm font-serif italic mb-0.5 transition-colors duration-500 ${idx <= currentStepIndex ? 'text-black' : 'text-zinc-300'}`}>{step.status}</h4>
+                                            <p className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest">{step.date}</p>
+                                            {idx === 2 && currentStepIndex >= 2 && (
+                                                <div className="mt-3 p-3 bg-zinc-50 rounded-xl border border-zinc-100 text-[10px] text-zinc-500 font-serif italic">
+                                                    Registry updated: Package handed to logistics. Tracking: <strong>AWB900823</strong>
+                                                </div>
+                                            )}
+                                        </div>
                                     </div>
                                 ))}
-                                <div className="flex flex-col justify-center pl-1">
-                                    <p className="text-xs font-bold text-black">{order.items.length} Items</p>
-                                    <p className="text-[10px] text-gray-500 mt-0.5">Total: ₹{order.total.toLocaleString()}</p>
-                                </div>
                             </div>
+                        </div>
+
+                        {/* Order Items Section */}
+                        <div className="bg-white rounded-[2rem] border border-zinc-100 p-6 md:p-8 shadow-sm">
+                            <h3 className="text-lg md:text-xl font-serif text-black mb-6 md:mb-8 tracking-tight italic">Order <span className="text-zinc-400 not-italic">Manifest</span></h3>
+                            <div className="space-y-4">
+                                {order.items.map((item, idx) => (
+                                    <div key={idx} className="flex items-center gap-4 group">
+                                        <div className="w-16 h-16 bg-zinc-50 rounded-xl overflow-hidden border border-zinc-100 p-1 flex-shrink-0">
+                                            <img src={item.image} className="w-full h-full object-cover rounded-lg" alt={item.name} />
+                                        </div>
+                                        <div className="flex-grow">
+                                            <h4 className="text-sm font-serif text-black italic line-clamp-1">{item.name}</h4>
+                                            <p className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest mt-0.5">Qty: {item.quantity || 1}</p>
+                                            <p className="text-xs font-bold text-black mt-1">₹{item.price.toLocaleString()}</p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="mt-6 pt-5 border-t border-zinc-50 flex justify-between items-center">
+                                <span className="font-serif italic text-zinc-400 text-sm">Consignment Total</span>
+                                <span className="text-xl font-serif text-black">₹{order.total.toLocaleString()}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* 3. Support & Details Sidebar */}
+                    <div className="space-y-6">
+                        {/* Delivery Address */}
+                        <div className="bg-black text-white p-6 md:p-8 rounded-[2.5rem] shadow-sm relative overflow-hidden">
+                            <div className="relative z-10">
+                                <MapPin className="w-6 h-6 text-zinc-500 mb-4" />
+                                <h4 className="text-[9px] font-bold uppercase tracking-[0.4em] mb-3 text-zinc-500">Destination Point</h4>
+                                <p className="text-xs md:text-sm font-serif italic text-zinc-300 leading-relaxed">
+                                    {order.shippingAddress.flatNo}, {order.shippingAddress.area}<br />
+                                    {order.shippingAddress.city}, {order.shippingAddress.state}<br />
+                                    {order.shippingAddress.pincode}
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Contact Support Card */}
+                        <div className="bg-white p-6 md:p-8 rounded-[2.5rem] border border-zinc-100 shadow-sm text-center">
+                            <h4 className="text-base font-serif italic text-black mb-2 antialiased">Concierge Support</h4>
+                            <p className="text-[10px] text-zinc-400 font-serif leading-relaxed mb-6">Available for your shipment queries.</p>
+                            <div className="space-y-3">
+                                <a href="tel:+919008381564" className="flex items-center justify-center gap-2 w-full py-3 rounded-full border border-zinc-100 text-black font-bold text-[9px] uppercase tracking-widest hover:bg-zinc-50 transition-all">
+                                    <Phone className="w-3 h-3 text-zinc-400" />
+                                    Direct Line
+                                </a>
+                                <Link to="/help" className="flex items-center justify-center gap-2 w-full py-3 rounded-full bg-black text-white font-bold text-[9px] uppercase tracking-widest hover:bg-zinc-900 transition-all">
+                                    <HelpCircle className="w-3 h-3" />
+                                    Help Registry
+                                </Link>
+                            </div>
+                        </div>
+
+                        {/* Extra Info */}
+                        <div className="p-4 text-center">
+                            <Calendar className="w-4 h-4 text-zinc-200 mx-auto mb-2" />
+                            <p className="text-[9px] text-zinc-400 font-bold uppercase tracking-widest leading-loose">
+                                Scheduled Registry Window<br />
+                                <span className="text-black font-serif italic">{formatDateTime(deliveryBaseDate + 259200000)} — {formatDateTime(deliveryBaseDate + 432000000)}</span>
+                            </p>
                         </div>
                     </div>
                 </div>

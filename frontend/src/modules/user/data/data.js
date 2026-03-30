@@ -1,12 +1,15 @@
 // Product Data for Discovery Experience
-import catRingsRuby from './cat_rings_ruby.jpg';
-import catEarringsTrad from './cat_earrings_trad.jpg';
-import catNecklaceEmerald from './cat_necklaces_emerald.jpg';
+import catRingsRuby from '../assets/cat_rings_ruby.jpg';
+import catEarringsTrad from '../assets/cat_earrings_trad.jpg';
+import catNecklaceEmerald from '../assets/cat_necklaces_emerald.jpg';
+import goldOfficeWearEarrings from '../assets/gold_office_wear_earrings.png';
+import jewelleryMagnifier from '../assets/jewellery_magnifier.png';
+import ultrasonicCleaner from '../assets/ultrasonic_jewellery_cleaner.png';
 
 export const products = [
     {
         id: 'r1',
-        name: "Emerald Solitaire Ring",
+        name: "Midnight Emerald Solitaire",
         price: 85000,
         originalPrice: 95000,
         category: "Jewellery",
@@ -20,7 +23,7 @@ export const products = [
     },
     {
         id: 'r2',
-        name: "Platinum Wedding Band",
+        name: "Lunar Platinum Band",
         price: 32000,
         originalPrice: 35000,
         category: "Jewellery",
@@ -33,22 +36,23 @@ export const products = [
     },
     {
         id: 'r3',
-        name: "Gold Office Wear Ring",
+        name: "Midnight Gold Earrings",
         price: 25000,
         originalPrice: 28000,
         category: "Jewellery",
-        subCategory: "Rings",
+        subCategory: "Earrings",
         type: "Office Wear",
         metal: "Gold",
         gender: "Women",
-        image: "https://images.unsplash.com/photo-1627250329059-84ee594ef36b?auto=format&fit=crop&q=80&w=800",
+        image: goldOfficeWearEarrings,
         rating: 4.9,
         isNew: true
     },
     {
         id: 'e1',
-        name: "Ruby Drop Earrings",
+        name: "Midnight Ruby Drops",
         price: 45000,
+        originalPrice: 48000,
         category: "Jewellery",
         subCategory: "Earrings",
         metal: "Diamond",
@@ -58,8 +62,9 @@ export const products = [
     },
     {
         id: 'p1',
-        name: "Classic Diamond Pendant",
+        name: "Lunar Diamond Pendant",
         price: 55000,
+        originalPrice: 62000,
         category: "Jewellery",
         subCategory: "Pendants",
         metal: "Diamond",
@@ -69,8 +74,9 @@ export const products = [
     },
     {
         id: 'n1',
-        name: "Grand Wedding Necklace",
+        name: "Grand Lunar Necklace",
         price: 135000,
+        originalPrice: 150000,
         category: "Jewellery",
         subCategory: "Necklaces",
         metal: "Gold",
@@ -85,7 +91,7 @@ export const products = [
         category: "Tools",
         subCategory: "Measurement",
         metal: "Optical Grade",
-        image: "https://images.unsplash.com/photo-1588444833098-4205565e248b?auto=format&fit=crop&q=80&w=400",
+        image: jewelleryMagnifier,
         rating: 4.6
     },
     {
@@ -95,7 +101,7 @@ export const products = [
         category: "Machines",
         subCategory: "Cleaning",
         metal: "Stainless Steel",
-        image: "https://images.unsplash.com/photo-1506459225024-1428097a7e18?auto=format&fit=crop&q=80&w=400",
+        image: ultrasonicCleaner,
         rating: 4.3
     }
 ];

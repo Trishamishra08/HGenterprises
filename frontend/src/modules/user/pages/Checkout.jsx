@@ -193,21 +193,21 @@ const Checkout = () => {
                         {loginStep === 1 ? (
                             <form onSubmit={handleSendOtp} className="space-y-6">
                                 <div className="flex border border-gray-200 rounded-xl overflow-hidden transition-all focus-within:ring-1 focus-within:ring-black focus-within:border-black bg-gray-50/50">
-                                    <div className="bg-gray-50 px-5 flex items-center border-r border-gray-200">
+                                    <div className="bg-gray-50 px-4 flex items-center border-r border-gray-200">
                                         <span className="text-gray-500 font-bold text-sm">+91</span>
                                     </div>
                                     <input
                                         type="tel"
                                         value={phoneNumber}
                                         onChange={(e) => setPhoneNumber(e.target.value.replace(/\D/g, '').slice(0, 10))}
-                                        className="flex-1 py-4 px-4 text-base outline-none bg-transparent placeholder-gray-400 font-medium"
+                                        className="flex-1 py-3 px-4 text-sm outline-none bg-transparent placeholder-gray-400 font-medium"
                                         placeholder="Enter Phone Number"
                                         required
                                     />
                                 </div>
                                 <button
                                     type="submit"
-                                    className="w-full bg-black text-white py-4 rounded-xl font-bold tracking-widest uppercase text-sm hover:bg-[#D39A9F] transition-all shadow-lg shadow-black/10 active:scale-95 transform"
+                                    className="w-full bg-black text-white py-3.5 rounded-xl font-bold tracking-widest uppercase text-xs hover:bg-[#D39A9F] transition-all shadow-lg shadow-black/10 active:scale-95 transform"
                                 >
                                     Send OTP
                                 </button>
@@ -229,7 +229,7 @@ const Checkout = () => {
                                 </div>
                                 <button
                                     type="submit"
-                                    className="w-full bg-black text-white py-4 rounded-xl font-bold tracking-widest uppercase text-sm hover:bg-[#D39A9F] transition-all shadow-lg shadow-black/10 active:scale-95 transform"
+                                    className="w-full bg-black text-white py-3.5 rounded-xl font-bold tracking-widest uppercase text-xs hover:bg-[#D39A9F] transition-all shadow-lg shadow-black/10 active:scale-95 transform"
                                 >
                                     Verify & Proceed
                                 </button>
@@ -331,123 +331,123 @@ const Checkout = () => {
                             </div>
                         )}
 
-                        <form id="checkout-form" onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6 bg-gray-50/50 p-4 md:p-6 rounded-2xl border border-gray-100">
+                        <form id="checkout-form" onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-3 bg-gray-50/50 p-3 md:p-5 rounded-2xl border border-gray-100">
                             <div className="md:col-span-2">
                                 <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">
                                     {addressSelection === 'new' || addresses.length === 0 ? 'Delivery Address' : 'Selected Address Details'}
                                 </p>
                             </div>
-                            <div className="space-y-1.5">
-                                <label className="text-xs font-bold text-gray-700 uppercase tracking-widest">First Name</label>
+                            <div className="space-y-1">
+                                <label className="text-[10px] font-bold text-gray-600 uppercase tracking-widest">First Name</label>
                                 <input
                                     required
                                     type="text"
                                     name="firstName"
                                     value={formData.firstName}
                                     onChange={handleInputChange}
-                                    className="w-full border border-gray-200 rounded-lg px-4 py-3 focus:border-black focus:ring-1 focus:ring-black outline-none transition-all text-sm bg-white"
+                                    className="w-full border border-gray-200 rounded-lg px-4 py-2 focus:border-black focus:ring-1 focus:ring-black outline-none transition-all text-sm bg-white"
                                 />
                             </div>
-                            <div className="space-y-1.5">
-                                <label className="text-xs font-bold text-gray-700 uppercase tracking-widest">Last Name</label>
+                            <div className="space-y-1">
+                                <label className="text-[10px] font-bold text-gray-600 uppercase tracking-widest">Last Name</label>
                                 <input
                                     required
                                     type="text"
                                     name="lastName"
                                     value={formData.lastName}
                                     onChange={handleInputChange}
-                                    className="w-full border border-gray-200 rounded-lg px-4 py-3 focus:border-black focus:ring-1 focus:ring-black outline-none transition-all text-sm bg-white"
+                                    className="w-full border border-gray-200 rounded-lg px-4 py-2 focus:border-black focus:ring-1 focus:ring-black outline-none transition-all text-sm bg-white"
                                 />
                             </div>
 
-                            <div className="space-y-1.5">
-                                <label className="text-xs font-bold text-gray-700 uppercase tracking-widest">Email Address</label>
+                            <div className="space-y-1">
+                                <label className="text-[10px] font-bold text-gray-600 uppercase tracking-widest">Email Address</label>
                                 <input
                                     required
                                     type="email"
                                     name="email"
                                     value={formData.email}
                                     onChange={handleInputChange}
-                                    className="w-full border border-gray-200 rounded-lg px-4 py-3 focus:border-black focus:ring-1 focus:ring-black outline-none transition-all text-sm bg-white"
+                                    className="w-full border border-gray-200 rounded-lg px-4 py-2 focus:border-black focus:ring-1 focus:ring-black outline-none transition-all text-sm bg-white"
                                 />
                             </div>
-                            <div className="space-y-1.5">
-                                <label className="text-xs font-bold text-gray-700 uppercase tracking-widest">Phone Number</label>
+                            <div className="space-y-1">
+                                <label className="text-[10px] font-bold text-gray-600 uppercase tracking-widest">Phone Number</label>
                                 <input
                                     required
                                     type="tel"
                                     name="phone"
                                     value={formData.phone}
                                     onChange={handleInputChange}
-                                    className="w-full border border-gray-200 rounded-lg px-4 py-3 focus:border-black focus:ring-1 focus:ring-black outline-none transition-all text-sm bg-white"
+                                    className="w-full border border-gray-200 rounded-lg px-4 py-2 focus:border-black focus:ring-1 focus:ring-black outline-none transition-all text-sm bg-white"
                                 />
                             </div>
 
-                            <div className="space-y-1.5">
-                                <label className="text-xs font-bold text-gray-700 uppercase tracking-widest">Flat / House / Building</label>
+                            <div className="space-y-1">
+                                <label className="text-[10px] font-bold text-gray-600 uppercase tracking-widest">Flat / House / Building</label>
                                 <input
                                     required
                                     type="text"
                                     name="flatNo"
                                     value={formData.flatNo}
                                     onChange={handleInputChange}
-                                    className="w-full border border-gray-200 rounded-lg px-4 py-3 focus:border-black focus:ring-1 focus:ring-black outline-none transition-all text-sm bg-white"
+                                    className="w-full border border-gray-200 rounded-lg px-4 py-2 focus:border-black focus:ring-1 focus:ring-black outline-none transition-all text-sm bg-white"
                                 />
                             </div>
-                            <div className="space-y-1.5">
-                                <label className="text-xs font-bold text-gray-700 uppercase tracking-widest">Area / Street / Sector</label>
+                            <div className="space-y-1">
+                                <label className="text-[10px] font-bold text-gray-600 uppercase tracking-widest">Area / Street / Sector</label>
                                 <input
                                     required
                                     type="text"
                                     name="area"
                                     value={formData.area}
                                     onChange={handleInputChange}
-                                    className="w-full border border-gray-200 rounded-lg px-4 py-3 focus:border-black focus:ring-1 focus:ring-black outline-none transition-all text-sm bg-white"
+                                    className="w-full border border-gray-200 rounded-lg px-4 py-2 focus:border-black focus:ring-1 focus:ring-black outline-none transition-all text-sm bg-white"
                                 />
                             </div>
 
-                            <div className="space-y-1.5">
-                                <label className="text-xs font-bold text-gray-700 uppercase tracking-widest">City</label>
+                            <div className="space-y-1">
+                                <label className="text-[10px] font-bold text-gray-600 uppercase tracking-widest">City</label>
                                 <input
                                     required
                                     type="text"
                                     name="city"
                                     value={formData.city}
                                     onChange={handleInputChange}
-                                    className="w-full border border-gray-200 rounded-lg px-4 py-3 focus:border-black focus:ring-1 focus:ring-black outline-none transition-all text-sm bg-white"
+                                    className="w-full border border-gray-200 rounded-lg px-4 py-2 focus:border-black focus:ring-1 focus:ring-black outline-none transition-all text-sm bg-white"
                                 />
                             </div>
-                            <div className="space-y-1.5">
-                                <label className="text-xs font-bold text-gray-700 uppercase tracking-widest">District</label>
+                            <div className="space-y-1">
+                                <label className="text-[10px] font-bold text-gray-600 uppercase tracking-widest">District</label>
                                 <input
                                     required
                                     type="text"
                                     name="district"
                                     value={formData.district}
                                     onChange={handleInputChange}
-                                    className="w-full border border-gray-200 rounded-lg px-4 py-3 focus:border-black focus:ring-1 focus:ring-black outline-none transition-all text-sm bg-white"
+                                    className="w-full border border-gray-200 rounded-lg px-4 py-2 focus:border-black focus:ring-1 focus:ring-black outline-none transition-all text-sm bg-white"
                                 />
                             </div>
-                            <div className="space-y-1.5">
-                                <label className="text-xs font-bold text-gray-700 uppercase tracking-widest">State</label>
+                            <div className="space-y-1">
+                                <label className="text-[10px] font-bold text-gray-600 uppercase tracking-widest">State</label>
                                 <input
                                     required
                                     type="text"
                                     name="state"
                                     value={formData.state}
                                     onChange={handleInputChange}
-                                    className="w-full border border-gray-200 rounded-lg px-4 py-3 focus:border-black focus:ring-1 focus:ring-black outline-none transition-all text-sm bg-white"
+                                    className="w-full border border-gray-200 rounded-lg px-4 py-2 focus:border-black focus:ring-1 focus:ring-black outline-none transition-all text-sm bg-white"
                                 />
                             </div>
-                            <div className="space-y-1.5">
-                                <label className="text-xs font-bold text-gray-700 uppercase tracking-widest">Pincode</label>
+                            <div className="space-y-1">
+                                <label className="text-[10px] font-bold text-gray-600 uppercase tracking-widest">Pincode</label>
                                 <input
                                     required
                                     type="text"
                                     name="pincode"
                                     value={formData.pincode}
                                     onChange={handleInputChange}
-                                    className="w-full border border-gray-200 rounded-lg px-4 py-3 focus:border-black focus:ring-1 focus:ring-black outline-none transition-all text-sm bg-white"
+                                    className="w-full border border-gray-200 rounded-lg px-4 py-2 focus:border-black focus:ring-1 focus:ring-black outline-none transition-all text-sm bg-white"
                                 />
                             </div>
                             {(addressSelection === 'new' || addresses.length === 0) && (

@@ -44,9 +44,9 @@ const LatestDrop = () => {
                         // Dynamic Product Lookup
                         const product = products.find(p => p.id === item.productId);
                         // If it's a real product, use its data, otherwise fallback to item (legacy/manual)
-                        const name = product ? product.name : item.name;
-                        const image = product ? (product.images[0] || item.image) : item.image;
-                        const price = product ? `₹${product.variants[0]?.price}` : (item.price || '');
+                        const name = product ? (product.name || item.name) : item.name;
+                        const image = product ? (product.image || item.image) : item.image;
+                        const price = product ? `₹${product.price?.toLocaleString() || ''}` : (item.price || '');
                         const path = product ? `/product/${product.id}` : item.path;
 
                         return (
@@ -106,10 +106,10 @@ const LatestDrop = () => {
                 <div className="mt-6 flex justify-center md:hidden">
                     <Link
                         to="/shop?sort=newest"
-                        className="inline-flex items-center gap-2 text-primary font-bold border-b border-primary pb-1"
+                        className="inline-flex items-center gap-2 text-primary font-serif italic tracking-wider border-b border-primary pb-0.5 text-sm md:text-base group"
                     >
-                        Explore Collection
-                        <ArrowRight className="w-4 h-4" />
+                        <span className="font-serif italic font-normal text-xs md:text-sm tracking-wider">Explore Collection</span>
+                        <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                     </Link>
                 </div>
 

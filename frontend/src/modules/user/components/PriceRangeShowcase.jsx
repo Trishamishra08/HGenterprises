@@ -34,18 +34,16 @@ const PriceRangeShowcase = () => {
     const displayItems = sectionData?.items && sectionData.items.length > 0 ? sectionData.items : priceRanges;
 
     return (
-        <section className="pt-20 md:pt-32 pb-0 bg-bg-light overflow-hidden">
+        <section className="pt-8 md:pt-14 pb-0 bg-bg-light overflow-hidden">
             <div className="container mx-auto px-4">
-                <div className="text-center mb-6 md:mb-10">
-                    <motion.h2
-                        initial={{ opacity: 0, y: 10 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
-                        className="text-2xl md:text-4xl font-serif font-normal text-footerBg tracking-tight"
-                    >
+                <div className="text-center mb-6 md:mb-8">
+                    <span className="text-secondary font-serif tracking-[0.2em] font-normal italic text-[10px] md:text-sm mb-1 block">
+                        Curated Selection
+                    </span>
+                    <h2 className="font-serif text-3xl md:text-4xl font-normal text-dark tracking-tight">
                         {sectionData?.label || "Luxury In Range"}
-                    </motion.h2>
-                    <div className="h-[1px] w-12 bg-primary mx-auto opacity-30 mt-3"></div>
+                    </h2>
+                    <div className="h-[1px] w-12 bg-primary mx-auto opacity-30 mt-2"></div>
                 </div>
             </div>
 
@@ -101,8 +99,8 @@ const PriceRangeShowcase = () => {
                                                     Exclusive Range
                                                 </span>
                                                 <h3 className="text-2xl md:text-5xl font-serif font-normal text-white leading-tight drop-shadow-2xl">
-                                                    {itemLabel.split(' ')[0]} <br />
-                                                    <span className="italic text-xl md:text-4xl text-white/90 font-light">{itemLabel.split(' ').slice(1).join(' ')}</span>
+                                                    {(itemLabel || '').split(' ')[0]} <br />
+                                                    <span className="italic text-xl md:text-4xl text-white/90 font-light">{(itemLabel || '').split(' ').slice(1).join(' ')}</span>
                                                 </h3>
                                                 <div className="pt-3 md:pt-6 flex items-center gap-4">
                                                     <div className="h-[1px] w-10 md:w-20 bg-white/50"></div>

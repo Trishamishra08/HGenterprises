@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Heart, Star } from 'lucide-react';
+import { Heart, Star, ShoppingBag } from 'lucide-react';
 import { useShop } from '../../../context/ShopContext';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -8,8 +8,21 @@ const ProductCard = ({ product, isWishlistPage = false }) => {
     const { addToCart, addToWishlist, removeFromWishlist, wishlist } = useShop();
     const [flying, setFlying] = useState(false);
     const [flyingType, setFlyingType] = useState('cart');
+    const [timeLeft, setTimeLeft] = useState({ min: 59, sec: 59 });
+
+    React.useEffect(() => {
+        const timer = setInterval(() => {
+            setTimeLeft(prev => {
+                if (prev.sec > 0) return { ...prev, sec: prev.sec - 1 };
+                if (prev.min > 0) return { min: prev.min - 1, sec: 59 };
+                return { min: 59, sec: 59 }; // Reset or stop
+            });
+        }, 1000);
+        return () => clearInterval(timer);
+    }, []);
 
     const isWishlisted = wishlist.some(item => item.id === product.id);
+    const hasDiscount = product.originalPrice && product.originalPrice > product.price;
 
     const handleAddToCart = (e) => {
         e.preventDefault();
@@ -65,15 +78,31 @@ const ProductCard = ({ product, isWishlistPage = false }) => {
                 <img
                     src={product.image}
                     alt={product.name}
+                    width={400}
+                    height={400}
                     className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
                 />
 
                 {/* Compact Badges */}
-                {product.isNew && (
-                    <span className="absolute top-2.5 left-2.5 bg-[#8B4356] text-white text-[6.5px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full z-20">
-                        NEW
-                    </span>
-                )}
+                <div className="absolute top-2 left-2 flex flex-col gap-1 z-20">
+                    {product.isNew && (
+                        <span className="bg-black text-white text-[6px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded-full inline-block">
+                            NEW
+                        </span>
+                    )}
+                    {hasDiscount && (
+                        <div className="flex flex-col gap-1">
+                            <span className="bg-[#8B4356] text-white text-[6px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded-full inline-block shadow-lg animate-pulse">
+                                SALE
+                            </span>
+                            <div className="bg-gold/90 backdrop-blur-sm text-black text-[6px] font-black uppercase tracking-tighter px-1.5 py-0.5 rounded-full inline-block shadow-sm flex items-center gap-1">
+                                <span>{Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}% OFF</span>
+                                <span className="opacity-40">|</span>
+                                <span className="text-[5px] tabular-nums">{String(timeLeft.min).padStart(2, '0')}:{String(timeLeft.sec).padStart(2, '0')}</span>
+                            </div>
+                        </div>
+                    )}
+                </div>
 
                 {/* Rating Overlay */}
                 <div className="absolute bottom-2.5 left-2.5 bg-white/70 backdrop-blur-sm px-1.5 py-0.5 rounded-lg flex items-center gap-1 z-20 border border-white/50">
@@ -91,15 +120,15 @@ const ProductCard = ({ product, isWishlistPage = false }) => {
             </Link>
 
             {/* Compact Info Section */}
-            <div className="pt-3.5 px-1.5 flex flex-col gap-1.5 text-center">
-                <h3 className="font-display font-black text-[10px] md:text-[11px] lg:text-[12px] uppercase text-black tracking-widest line-clamp-1 leading-none">
+            <div className="pt-2.5 px-1 flex flex-col gap-1 text-center">
+                <h3 className="font-display font-black text-[9px] md:text-[10px] uppercase text-black tracking-[0.2em] line-clamp-1 leading-none">
                     {product.name}
                 </h3>
                 
-                <div className="flex items-center justify-center gap-2">
-                    <span className="text-[#8B4356] font-black text-[12px] md:text-[13px] leading-none">₹{product.price.toLocaleString()}</span>
-                    {product.originalPrice > product.price && (
-                        <span className="text-zinc-300 line-through text-[8px] font-bold uppercase italic leading-none">₹{product.originalPrice.toLocaleString()}</span>
+                <div className="flex items-center justify-center gap-1.5">
+                    <span className="text-[#8B4356] font-black text-[11px] md:text-[12px] leading-none tracking-tighter">₹{(product?.price || 0).toLocaleString()}</span>
+                    {hasDiscount && (
+                        <span className="text-zinc-300 line-through text-[7px] font-bold uppercase italic leading-none">₹{product.originalPrice.toLocaleString()}</span>
                     )}
                 </div>
 

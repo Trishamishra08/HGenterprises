@@ -1,13 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { categories } from '../assets/data';
+import { categories } from '../data/data';
 
 const CategoryShowcase = () => {
     const [activeTab, setActiveTab] = React.useState('jewellery');
     
     // Filter subcategories based on active tab
-    const filteredSubcats = categories.find(cat => cat.id.toLowerCase() === activeTab.toLowerCase())?.subcategories || [];
+    const filteredSubcats = (categories || []).find(cat => cat.id?.toLowerCase() === activeTab?.toLowerCase())?.subcategories || [];
     
     return (
         <section className="pt-12 pb-0 bg-white overflow-hidden">
