@@ -126,10 +126,10 @@ const Shop = () => {
         return (
             <div className="flex flex-col h-full bg-white font-body overflow-hidden relative">
                 {/* Fixed Header */}
-                <div className="p-3.5 bg-[#0a0a0a] text-white shrink-0 border-b border-white/5 z-[70] shadow-sm">
+                <div className="p-2 bg-[#0a0a0a] text-white shrink-0 border-b border-white/5 z-[70] shadow-sm">
                     <div className="flex items-center gap-3">
-                        <UserCircle className="w-8 h-8 text-[#8B4356]" />
-                        <span className="text-[12px] font-bold tracking-[0.25em] font-serif italic text-white/90">Curated Categories</span>
+                        <UserCircle className="w-7 h-7 text-[#8B4356]" />
+                        <span className="text-[11px] font-bold tracking-[0.25em] font-serif italic text-white/90">Curated Categories</span>
                     </div>
                 </div>
 
@@ -289,11 +289,11 @@ const Shop = () => {
     return (
         <div className="min-h-screen bg-white font-body selection:bg-[#8B4356] selection:text-white pb-32 md:pb-10 overflow-hidden">
             <div className="flex max-w-[1700px] mx-auto min-h-screen">
-                <aside className="hidden lg:block w-[280px] shrink-0 border-r border-zinc-100 sticky top-[55px] h-[calc(100vh-55px)] z-20 overflow-hidden bg-white shadow-sm"><SidebarContent /></aside>
+                <aside className="hidden lg:block w-[280px] shrink-0 border-r border-zinc-100 sticky top-[48px] h-[calc(100vh-48px)] z-20 overflow-hidden bg-white shadow-sm"><SidebarContent /></aside>
                 <main className="flex-grow min-w-0 bg-[#fdf2f8]/5">
-                    <div className="p-4 md:p-8 lg:px-16 lg:pt-0 lg:pb-6">
-                        <div className="mb-2 lg:mb-2">
-                             <div className="flex items-center gap-2 text-[8px] uppercase tracking-[0.5em] font-bold text-zinc-300 mb-2 px-1">
+                    <div className="p-0 md:p-4 lg:px-16 lg:pt-0 lg:pb-6">
+                        <div className="mb-0 lg:mb-1">
+                             <div className="flex items-center gap-2 text-[8px] uppercase tracking-[0.5em] font-bold text-zinc-300 mb-1 px-1">
                                 <Link to="/" className="hover:text-[#8B4356] transition-colors">Home</Link>
                                 <span className="opacity-20">/</span>
                                 <span className="text-zinc-400">Categories</span>
@@ -311,9 +311,9 @@ const Shop = () => {
                                 )}
                             </div>
                             
-                            <div className="flex flex-col md:flex-row md:items-end justify-between items-start gap-4 border-b border-zinc-100 pb-3 relative px-1">
+                            <div className="flex flex-col md:flex-row md:items-end justify-between items-start gap-4 border-b border-zinc-100 pb-1 relative px-1">
                                 <div className="flex items-start justify-between w-full relative">
-                                    <div className="flex flex-col gap-2">
+                                    <div className="flex flex-col gap-1">
                                         <motion.h1 key={pageTitle} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="text-4xl md:text-6xl lg:text-5xl font-display font-medium text-black tracking-tighter lowercase italic leading-none">{pageTitle}</motion.h1>
                                         <div className="flex items-center gap-4">
                                             <div className="h-[1px] w-12 bg-[#8B4356]/20"></div>
