@@ -18,42 +18,85 @@ const AboutUs = () => {
         <div className="bg-[#fdf2f8] min-h-screen relative overflow-hidden flex flex-col items-center pb-0">
 
             {/* Gallery Wrapper with High-End Depth Background */}
-            <div className="w-full relative py-20 lg:py-40 bg-gradient-to-b from-[#fdf2f8] via-[#eecad5] to-[#fdf2f8] overflow-hidden">
+            <div className="w-full relative py-6 lg:py-8 bg-gradient-to-b from-[#fdf2f8] via-[#eecad5] to-[#fdf2f8] overflow-hidden">
 
                 {/* Subtle Radial Glow */}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-full bg-[radial-gradient(circle_at_center,_rgba(238,202,213,0.4)_0%,_transparent_70%)] pointer-events-none z-0"></div>
 
-                {/* Desktop Only: Scrutinized Floating Gallery */}
-                <div className="hidden md:block absolute inset-0 z-0">
-                    {galleryItems.map((src, index) => (
-                        <motion.div
-                            key={`desktop-${index}`}
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{
-                                opacity: 1,
-                                scale: 1,
-                                y: [0, -20, 0],
-                            }}
-                            transition={{
-                                opacity: { duration: 1, delay: index * 0.1 },
-                                scale: { duration: 1, delay: index * 0.1 },
-                                y: {
-                                    duration: 5 + index,
-                                    repeat: Infinity,
-                                    ease: "easeInOut",
-                                    delay: index * 0.2
-                                }
-                            }}
-                            className={`absolute overflow-hidden shadow-2xl border-4 border-white rounded-[2.5rem] w-64 h-80`}
-                            style={{
-                                top: `${15 + (index * 12) % 65}%`,
-                                left: index % 2 === 0 ? `${10 + (index * 4)}%` : 'auto',
-                                right: index % 2 !== 0 ? `${10 + (index * 4)}%` : 'auto'
-                            }}
-                        >
-                            <img src={src} alt="Gallery" className="w-full h-full object-cover" />
-                        </motion.div>
-                    ))}
+                {/* Desktop Version: Curated Compact Gallery */}
+                <div className="hidden md:block max-w-7xl mx-auto px-10 relative z-10 pt-10">
+                    <div className="grid grid-cols-12 gap-6 items-center">
+                        {/* Left Column Shards */}
+                        <div className="col-span-3 flex flex-col gap-4">
+                            <motion.div 
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.1 }}
+                                className="aspect-[3/4] w-32 mx-auto rounded-[2rem] overflow-hidden border-2 border-white shadow-lg"
+                            >
+                                <img src={galleryItems[0]} alt="jewelry" className="w-full h-full object-cover" />
+                            </motion.div>
+                            <motion.div 
+                                initial={{ opacity: 0, y: 40 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.2 }}
+                                className="aspect-[3/4] w-32 mx-auto rounded-full overflow-hidden border-2 border-white shadow-lg transform -rotate-3"
+                            >
+                                <img src={galleryItems[1]} alt="jewelry" className="w-full h-full object-cover" />
+                            </motion.div>
+                        </div>
+
+                        {/* Center Piece (Typography + Focus Images) */}
+                        <div className="col-span-6 flex flex-col items-center">
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                className="text-center mb-6"
+                            >
+                                <h1 className="font-serif italic text-5xl lg:text-[5rem] text-[#4a1d1d]/90 tracking-tighter leading-none select-none drop-shadow-lg">
+                                    Our Story
+                                </h1>
+                            </motion.div>
+                            <div className="flex gap-3 w-full justify-center">
+                                <motion.div 
+                                    initial={{ opacity: 0, s: 0.8 }}
+                                    animate={{ opacity: 1, s: 1 }}
+                                    transition={{ delay: 0.3 }}
+                                    className="w-24 h-32 rounded-[1.5rem] overflow-hidden border-2 border-white shadow-xl relative z-20"
+                                >
+                                    <img src={galleryItems[2]} alt="jewelry" className="w-full h-full object-cover" />
+                                </motion.div>
+                                <motion.div 
+                                    initial={{ opacity: 0, s: 0.8 }}
+                                    animate={{ opacity: 1, s: 1 }}
+                                    transition={{ delay: 0.4 }}
+                                    className="w-24 h-32 rounded-[1.5rem] overflow-hidden border-2 border-white shadow-xl relative z-20"
+                                >
+                                    <img src={galleryItems[3]} alt="jewelry" className="w-full h-full object-cover" />
+                                </motion.div>
+                            </div>
+                        </div>
+
+                        {/* Right Column Shards */}
+                        <div className="col-span-3 flex flex-col gap-4">
+                            <motion.div 
+                                initial={{ opacity: 0, y: 40 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.5 }}
+                                className="aspect-[3/4] w-32 mx-auto rounded-full overflow-hidden border-2 border-white shadow-lg transform rotate-3"
+                            >
+                                <img src={galleryItems[4]} alt="jewelry" className="w-full h-full object-cover" />
+                            </motion.div>
+                            <motion.div 
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.6 }}
+                                className="aspect-[3/4] w-32 mx-auto rounded-[2rem] overflow-hidden border-2 border-white shadow-lg"
+                            >
+                                <img src={galleryItems[5]} alt="jewelry" className="w-full h-full object-cover" />
+                            </motion.div>
+                        </div>
+                    </div>
                 </div>
 
                 {/* Mobile View: High-End Masonry Cluster (Adjusted Offset) */}
@@ -110,66 +153,87 @@ const AboutUs = () => {
                     </div>
                 </div>
 
-                {/* Desktop Typography */}
+
+            </div>
+
+            {/* Compact Narrative Grid: Desktop Side-by-Side */}
+            <div className="hidden md:grid md:grid-cols-3 gap-6 max-w-[95%] lg:max-w-7xl px-8 mb-16 relative z-10">
+                {/* Heritage */}
                 <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="hidden md:flex relative z-10 flex-col items-center text-center mt-20"
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="bg-white/40 backdrop-blur-xl rounded-[2rem] p-8 border border-white/40 shadow-xl text-center flex flex-col items-center"
                 >
-                    <h1 className="font-serif italic text-6xl md:text-[10rem] text-[#4a1d1d]/90 tracking-tighter mix-blend-multiply select-none drop-shadow-md">
-                        Our Story
-                    </h1>
+                    <h2 className="text-2xl font-serif text-[#4a1d1d] mb-4 italic tracking-tight leading-none">The Heritage</h2>
+                    <div className="h-[1px] w-12 bg-[#4a1d1d]/10 mb-6"></div>
+                    <p className="text-sm font-serif text-[#4a1d1d]/70 leading-relaxed italic">
+                        "At HG Enterprises, we believe luxury lies in pure craftsmanship. Our journey is a tribute to silver's timeless beauty."
+                    </p>
+                </motion.div>
+
+                {/* Philosophy */}
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.1 }}
+                    className="bg-white/40 backdrop-blur-xl rounded-[2rem] p-8 border border-white/40 shadow-xl text-center flex flex-col items-center"
+                >
+                    <h2 className="text-2xl font-serif text-[#4a1d1d] mb-4 italic tracking-tight leading-none">Our Philosophy</h2>
+                    <div className="h-[1px] w-12 bg-[#4a1d1d]/10 mb-6"></div>
+                    <p className="text-sm font-serif text-[#4a1d1d]/70 leading-relaxed italic">
+                        "My work is inspired by quiet, meaningful moments—the sunlit morning glow or the touch of pure metal on skin."
+                    </p>
+                </motion.div>
+
+                {/* Approach */}
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.2 }}
+                    className="bg-white/40 backdrop-blur-xl rounded-[2rem] p-8 border border-white/40 shadow-xl text-center flex flex-col items-center"
+                >
+                    <h2 className="text-2xl font-serif text-[#4a1d1d] mb-4 italic tracking-tight leading-none">Our Approach</h2>
+                    <div className="h-[1px] w-12 bg-[#4a1d1d]/10 mb-6"></div>
+                    <p className="text-sm font-serif text-[#4a1d1d]/70 leading-relaxed italic">
+                        "We marry traditional Indian metallurgy with modern aesthetic sensibilities. Each piece ensures no two ornaments share the same soul."
+                    </p>
                 </motion.div>
             </div>
 
-            {/* Heritage Card - Fully Restored */}
-            <motion.div
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="w-full max-w-[95%] md:max-w-xl px-4 relative z-20 mb-12"
-            >
-                <div className="bg-[#f0dae4]/40 backdrop-blur-xl rounded-[2.5rem] p-10 md:p-14 border border-white/40 shadow-2xl relative overflow-hidden text-center">
-                    <h2 className="text-3xl md:text-5xl font-serif text-[#4a1d1d] mb-6 italic tracking-tight leading-none">
-                        The Heritage
-                    </h2>
-                    <p className="text-base md:text-xl font-serif text-[#4a1d1d]/70 leading-relaxed italic pt-6 border-t border-[#4a1d1d]/10">
-                        "At HG Enterprises, we believe that true luxury lies in the pure essence of craftsmanship. Our journey is a tribute to the timeless beauty of silver."
+            {/* Mobile View: Vertical Narrative Stack (Legacy Support) */}
+            <div className="md:hidden w-full flex flex-col items-center px-6">
+                {/* Mobile Heritage Card */}
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="w-full bg-[#f0dae4]/40 backdrop-blur-xl rounded-[2.5rem] p-10 border border-white/40 shadow-2xl text-center mb-10"
+                >
+                    <h2 className="text-3xl font-serif text-[#4a1d1d] mb-6 italic">The Heritage</h2>
+                    <p className="text-base font-serif text-[#4a1d1d]/70 italic leading-relaxed pt-6 border-t border-[#4a1d1d]/10">
+                        "At HG Enterprises, we believe that true luxury lies in the pure essence of craftsmanship. Our journey is a tribute to silver."
                     </p>
-                </div>
-            </motion.div>
+                </motion.div>
 
-            {/* Our Philosophy Section */}
-            <motion.div
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="w-full max-w-[90%] md:max-w-2xl px-6 mb-12 flex flex-col items-center"
-            >
-                <h2 className="text-3xl md:text-5xl font-serif text-[#4a1d1d] mb-8 italic tracking-tight text-center">
-                    Our Philosophy
-                </h2>
-                <div className="h-[1px] w-24 bg-[#4a1d1d]/10 mb-8"></div>
-                <p className="text-lg md:text-2xl font-serif text-[#4a1d1d]/70 leading-relaxed italic text-center px-4">
-                    "My work is inspired by the belief that true luxury lies in moments that are quiet, meaningful, and deeply personal—the gentle glow of a sunlit morning or the first touch of a pure metal on skin."
-                </p>
-            </motion.div>
+                {/* Mobile Philosophy */}
+                <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-10 text-center">
+                    <h2 className="text-3xl font-serif text-[#4a1d1d] mb-4 italic">Our Philosophy</h2>
+                    <p className="text-lg font-serif text-[#4a1d1d]/70 italic leading-relaxed px-4">
+                        "Inspired by quiet, meaningful moments—the sunlit morning glow or the first touch of pure metal on skin."
+                    </p>
+                </motion.div>
 
-            {/* Our Approach Section */}
-            <motion.div
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="w-full max-w-[90%] md:max-w-2xl px-6 mb-4 flex flex-col items-center"
-            >
-                <h2 className="text-3xl md:text-5xl font-serif text-[#4a1d1d] mb-8 italic tracking-tight text-center">
-                    Our Approach
-                </h2>
-                <div className="h-[1px] w-24 bg-[#4a1d1d]/10 mb-8"></div>
-                <p className="text-lg md:text-2xl font-serif text-[#4a1d1d]/70 leading-relaxed italic text-center px-4">
-                    "We marry traditional Indian metallurgy with modern aesthetic sensibilities. Each piece is a testament to the hands that forged it, ensuring that no two ornaments ever share the exact same soul."
-                </p>
-            </motion.div>
+                {/* Mobile Approach */}
+                <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-10 text-center">
+                    <h2 className="text-3xl font-serif text-[#4a1d1d] mb-4 italic">Our Approach</h2>
+                    <p className="text-lg font-serif text-[#4a1d1d]/70 italic leading-relaxed px-4">
+                        "Merging traditional metallurgy with modern aesthetics. No two pieces share the exact same soul."
+                    </p>
+                </motion.div>
+            </div>
         </div>
     );
 };

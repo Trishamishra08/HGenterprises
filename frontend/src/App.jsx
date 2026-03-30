@@ -96,7 +96,7 @@ const AppContent = () => {
               <AnnouncementBar />
               <Navbar />
             </div>
-            <div className="h-[84px] md:h-[104px] w-full"></div>
+            <div className="h-[60px] md:h-[80px] w-full"></div>
             <CategoryNav />
           </>
         )}

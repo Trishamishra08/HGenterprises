@@ -113,9 +113,9 @@ const ProductCard = ({ product, isWishlistPage = false }) => {
                 {/* Heart Button Overlay */}
                 <button
                     onClick={handleWishlist}
-                    className={`absolute top-2.5 right-2.5 z-30 w-8 h-8 rounded-full flex items-center justify-center transition-all bg-white/70 backdrop-blur-md border border-white/50 hover:bg-white active:scale-90 ${isWishlisted ? 'text-[#8B4356]' : 'text-zinc-200'}`}
+                    className={`absolute top-2.5 right-2.5 z-30 w-8 h-8 rounded-full flex items-center justify-center transition-all bg-white shadow-md border border-zinc-100 hover:bg-[#FDF5F6] active:scale-90 ${isWishlisted ? 'text-[#8B4356]' : 'text-[#8B4356]/80'}`}
                 >
-                    <Heart className={`w-3.5 h-3.5 ${isWishlisted ? 'fill-[#8B4356]' : ''}`} />
+                    <Heart className={`w-4 h-4 ${isWishlisted ? 'fill-[#8B4356]' : ''}`} strokeWidth={2} />
                 </button>
             </Link>
 

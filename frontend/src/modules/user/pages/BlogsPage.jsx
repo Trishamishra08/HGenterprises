@@ -205,30 +205,30 @@ const BlogsPage = () => {
                                 transition={{ duration: 0.8 }}
                                 className="group flex flex-col items-center text-center w-full"
                             >
-                                <div className="w-full relative mb-8 md:mb-8 overflow-hidden rounded-[2.5rem] md:rounded-[3rem] shadow-2xl border border-white/40 group bg-white/50 backdrop-blur-sm">
-                                    <div className="aspect-[1.1] md:aspect-square overflow-hidden relative bounce-in">
+                                <div className="w-full relative mb-4 md:mb-6 overflow-hidden rounded-[2rem] md:rounded-[2.5rem] shadow-xl border border-white/40 group bg-white/50 backdrop-blur-sm transition-all duration-500 hover:shadow-2xl">
+                                    <div className="aspect-[1.1] md:aspect-[1.4/1] overflow-hidden relative">
                                         <img 
                                             src={blog.image} 
                                             alt={blog.title} 
                                             className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" 
                                             onError={(e) => e.target.src = 'https://images.unsplash.com/photo-1616150638538-ffb0679a3fc4?auto=format&fit=crop&q=80&w=1200'}
                                         />
-                                        <div className="absolute top-6 left-6 md:top-10 md:left-10 bg-[#8B4356]/90 backdrop-blur-md text-white px-5 py-2 rounded-lg text-[9px] font-bold uppercase tracking-[0.2em] shadow-lg">
+                                        <div className="absolute top-4 left-4 md:top-6 md:left-6 bg-[#8B4356]/90 backdrop-blur-md text-white px-4 py-1.5 rounded-md text-[8px] font-bold uppercase tracking-[0.2em] shadow-lg">
                                             {blog.category}
                                         </div>
                                     </div>
                                 </div>
 
                                 <div className="w-full px-4">
-                                    <div className="flex items-center justify-center gap-3 text-[10px] md:text-[10px] font-bold text-[#8B4356] uppercase tracking-[0.3em] mb-3 opacity-70">
+                                    <div className="flex items-center justify-center gap-3 text-[9px] font-bold text-[#8B4356] uppercase tracking-[0.3em] mb-2 opacity-70">
                                         <span>{blog.date}</span>
                                         <span className="opacity-30">|</span>
                                         <span>{blog.readTime}</span>
                                     </div>
-                                    <h2 className="text-xl md:text-2xl font-display font-bold text-black mb-4 tracking-tight leading-[1.2] group-hover:text-[#8B4356] transition-colors duration-500 uppercase">
+                                    <h2 className="text-xl md:text-xl font-display font-bold text-black mb-3 tracking-tight leading-[1.2] group-hover:text-[#8B4356] transition-colors duration-500 uppercase">
                                         {blog.title}
                                     </h2>
-                                    <p className="text-sm md:text-sm text-gray-500 font-serif italic mb-8 leading-relaxed max-w-sm mx-auto">
+                                    <p className="text-xs md:text-xs text-gray-500 font-serif italic mb-6 leading-relaxed max-w-sm mx-auto">
                                         {blog.description}
                                     </p>
                                     <div className="flex justify-center">

@@ -56,7 +56,7 @@ const ProductDetails = () => {
     };
 
     return (
-        <div className="min-h-screen bg-[#FDF5F6] font-body text-[#1A1A1A] pb-24 selection:bg-[#8B4356] selection:text-white overflow-x-hidden">
+        <div className="min-h-screen bg-[#FDF5F6] font-body text-[#1A1A1A] pb-12 selection:bg-[#8B4356] selection:text-white overflow-x-hidden">
             {/* 1. Header Navigation - Compact branded header */}
             <header className="sticky top-0 z-[100] bg-white border-b border-[#F5E6E8] flex items-center justify-between px-4 py-3 lg:hidden">
                 <div className="flex items-center gap-2">
@@ -75,7 +75,7 @@ const ProductDetails = () => {
             </header>
 
             {/* Desktop Navigation Breadcrumbs - Compact */}
-            <div className="hidden lg:flex container mx-auto px-12 py-4 items-center gap-1.5 text-[9px] uppercase font-bold tracking-widest text-zinc-300">
+            <div className="hidden lg:flex container mx-auto px-6 lg:px-12 py-3 items-center gap-1.5 text-[9px] uppercase font-bold tracking-widest text-zinc-300">
                 <Link to="/" className="hover:text-[#8B4356]">Home</Link>
                 <ChevronRight className="w-2.5 h-2.5" />
                 <Link to="/shop" className="hover:text-[#8B4356]">Shop</Link>
@@ -84,10 +84,10 @@ const ProductDetails = () => {
             </div>
 
             <main className="container mx-auto px-0 lg:px-12">
-                <div className="flex flex-col lg:grid lg:grid-cols-2 lg:gap-12">
+                <div className="flex flex-col lg:grid lg:grid-cols-12 lg:gap-10">
                     
                     {/* 2. Left Column: Image Gallery - Compacted Spacing */}
-                    <div className="relative">
+                    <div className="relative lg:col-span-5">
                         <div className="lg:hidden px-4 py-3 flex items-center gap-1.5 text-[8px] font-bold uppercase tracking-widest text-zinc-300">
                             <span>Shop</span> <ChevronRight className="w-2 h-2" /> 
                             <span className="text-zinc-500 font-black">{product.name}</span>
@@ -129,13 +129,13 @@ const ProductDetails = () => {
                     </div>
 
                     {/* 3. Right Column: Product Detail Info - Compact Spacing */}
-                    <div className="px-5 lg:px-0 lg:pt-2 space-y-6">
-                        <div className="space-y-3">
+                    <div className="px-5 lg:px-0 lg:pt-0 lg:col-span-7 space-y-4">
+                        <div className="space-y-2">
                             <div className="flex items-center gap-1.5">
                                 <Zap className="w-3 h-3 fill-[#FFD700] text-[#FFD700]" />
                                 <span className="text-[8.5px] font-black uppercase font-serif italic tracking-[.4em] text-[#8B4356]/60">Premium Selection</span>
                             </div>
-                            <h1 className="text-[26px] md:text-4xl lg:text-5xl font-display font-black leading-[1.1] text-black tracking-tight uppercase">{product.name}</h1>
+                            <h1 className="text-[24px] md:text-3xl lg:text-3xl font-display font-black leading-tight text-black tracking-tight uppercase">{product.name}</h1>
                             
                             <div className="flex items-center gap-3">
                                 <div className="flex items-center gap-1 bg-white border border-[#F5E6E8] px-2 py-1 rounded-full shadow-sm">
@@ -149,19 +149,19 @@ const ProductDetails = () => {
                         </div>
 
                         {/* Pricing Section - Compact */}
-                        <div className="bg-white p-5 rounded-[1.5rem] border border-[#F5E6E8] relative overflow-hidden shadow-sm">
+                        <div className="bg-white p-4 lg:p-4 rounded-[1.2rem] border border-[#F5E6E8] relative overflow-hidden shadow-sm">
                             <div className="flex items-center gap-4">
-                                <div className="bg-[#8B4356]/5 text-[#8B4356] px-2 px-3 py-2 rounded-xl border border-[#8B4356]/10">
-                                    <span className="text-[16px] font-black">{discount > 0 ? `-${discount}%` : 'BEST PRICE'}</span>
+                                <div className="bg-[#8B4356]/5 text-[#8B4356] px-2.5 py-1.5 rounded-lg border border-[#8B4356]/10">
+                                    <span className="text-[14px] font-black">{discount > 0 ? `-${discount}%` : 'LIVE'}</span>
                                 </div>
                                 <div className="flex flex-col">
-                                    <span className="text-[30px] font-display font-black text-black tracking-tighter leading-none">₹{currentPrice.toLocaleString()}</span>
+                                    <span className="text-[24px] lg:text-[28px] font-display font-black text-black tracking-tighter leading-none">₹{currentPrice.toLocaleString()}</span>
                                     {originalPrice > currentPrice && (
-                                        <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest leading-none line-through mt-1">M.R.P.: ₹{originalPrice.toLocaleString()}</span>
+                                        <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest leading-none line-through mt-0.5">M.R.P.: ₹{originalPrice.toLocaleString()}</span>
                                     )}
                                 </div>
                             </div>
-                            <p className="text-[8px] font-black uppercase tracking-[.2em] text-[#8B4356] opacity-40 mt-2">Inclusive of all taxes</p>
+                            <p className="text-[7px] font-black uppercase tracking-[.2em] text-[#8B4356] opacity-40 mt-1.5">Inclusive of all taxes</p>
                         </div>
 
                         {/* Offers Section - Compact Card Stying */}
@@ -172,11 +172,11 @@ const ProductDetails = () => {
                                     { tag: "BANK OFFER", title: "Bank Offer", desc: "Flat ₹100 Off on SBI..." },
                                     { tag: "CASHBACK", title: "Reward Hub", desc: "5% Unlimited Reward..." }
                                 ].map((offer, oIdx) => (
-                                    <div key={oIdx} className="shrink-0 w-[180px] bg-white p-4 rounded-2xl border border-[#F5E6E8] shadow-sm relative group">
-                                         <div className="absolute top-0 right-0 px-2 py-1 bg-[#FDF5F6] rounded-bl-xl text-[6px] font-black text-[#8B4356]">{offer.tag}</div>
-                                         <h5 className="text-[10px] font-bold text-black mb-0.5">{offer.title}</h5>
-                                         <p className="text-[9px] text-zinc-400 mb-2">{offer.desc}</p>
-                                         <button className="text-[7.5px] font-black text-[#8B4356] uppercase tracking-widest border-b border-[#8B4356]/30">Explore</button>
+                                    <div key={oIdx} className="shrink-0 w-[150px] bg-white p-3 rounded-xl border border-[#F5E6E8] shadow-sm relative group">
+                                         <div className="absolute top-0 right-0 px-2 py-0.5 bg-[#FDF5F6] rounded-bl-lg text-[5px] font-black text-[#8B4356]">{offer.tag}</div>
+                                         <h5 className="text-[9px] font-bold text-black mb-0.5">{offer.title}</h5>
+                                         <p className="text-[8px] text-zinc-400 mb-1.5">{offer.desc}</p>
+                                         <button className="text-[7px] font-black text-[#8B4356] uppercase tracking-widest border-b border-[#8B4356]/30">Explore</button>
                                     </div>
                                 ))}
                             </div>
@@ -217,19 +217,33 @@ const ProductDetails = () => {
                             </ul>
                         </div>
 
-                        {/* Stock & Delivery - Compact Card */}
-                        <div className="bg-white p-5 rounded-[1.5rem] border border-[#F5E6E8] space-y-3 shadow-sm">
-                            <div className="flex items-center justify-between">
+                        {/* Stock & Delivery - Ultra Compact Card with Desktop Actions */}
+                        <div className="bg-white p-3 lg:p-4 rounded-[1rem] border border-[#F5E6E8] shadow-sm space-y-3">
+                            <div className="flex items-center justify-between px-1">
                                 <div className="flex items-center gap-2">
-                                    <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full"></div>
-                                    <span className="text-[11px] font-black text-emerald-600 uppercase tracking-widest">In Stock</span>
+                                    <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></div>
+                                    <span className="text-[9.5px] font-black text-emerald-600 uppercase tracking-widest">In Stock Now</span>
                                 </div>
-                                <span className="text-[11px] font-black text-black tracking-tighter">₹{currentPrice.toLocaleString()}</span>
+                                <span className="text-[12px] font-black text-black tracking-tighter">₹{currentPrice.toLocaleString()}</span>
                             </div>
-                            <p className="text-[9px] font-semibold text-zinc-400 leading-snug tracking-wide uppercase">FREE Delivery <span className="text-[#8B4356]">Sunday, 22 MAR</span>. Order in <span className="text-black font-black">2 hrs 56 mins</span>.</p>
-                            <div className="pt-3 border-t border-zinc-50 text-[8px] font-bold text-zinc-350 uppercase tracking-[.2em] flex justify-between">
-                                <span>Ships from HGenterprises</span>
-                                <span className="text-[#8B4356]/60">Official Sell</span>
+                            
+                            <div className="hidden lg:grid grid-cols-2 gap-2">
+                                <button 
+                                    onClick={handleAddToCart}
+                                    className="bg-[#FFD700] text-black h-10 rounded-xl font-black uppercase tracking-[.2em] text-[9px] flex items-center justify-center gap-1.5 shadow-sm active:scale-95 transition-all hover:bg-[#F9A825]"
+                                >
+                                    <ShoppingBag className="w-3.5 h-3.5" strokeWidth={2.5} /> Add to Bag
+                                </button>
+                                <button 
+                                    onClick={handleBuyNow}
+                                    className="bg-[#8B4356] text-white h-10 rounded-xl font-black uppercase tracking-[.2em] text-[9px] transition-all hover:bg-[#7a394b] active:scale-95 shadow-sm"
+                                >
+                                    Buy Now
+                                </button>
+                            </div>
+
+                            <div className="pt-2 border-t border-zinc-50">
+                                <p className="text-[8px] font-semibold text-zinc-400 leading-snug tracking-wide uppercase px-1">FREE Delivery by <span className="text-[#8B4356]">Sunday</span>. Order in <span className="text-black font-black">2 hrs 56 mins</span>.</p>
                             </div>
                         </div>
                     </div>
