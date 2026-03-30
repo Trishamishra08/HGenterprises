@@ -47,7 +47,8 @@ const ProductDetails = () => {
 
     const handleBuyNow = () => {
         addToCart(product);
-        navigate('/checkout');
+        // Using state to inform Checkout that this is a direct buy flow to prevent premature empty-cart redirects
+        navigate('/checkout', { state: { directBuy: true, buyNowProduct: product } });
     };
 
     const handleWishlist = () => {

@@ -2,10 +2,13 @@ import React, { useState } from 'react';
 import { useShop } from '../../../context/ShopContext';
 import { useNavigate } from 'react-router-dom';
 import { Truck, CreditCard, Banknote, ShieldCheck, Lock, Plus, Check, MapPin, ChevronRight, LayoutDashboard, Gift, ArrowRight, X, Tag } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
 
 const Checkout = () => {
     const { cart, placeOrder, user, login, addresses, addAddress, defaultAddressId, coupons } = useShop();
     const navigate = useNavigate();
+    const location = useLocation();
+    const isDirectBuy = location.state?.directBuy;
 
     // Login State
     const [loginStep, setLoginStep] = useState(1); // 1: Phone, 2: OTP
@@ -101,6 +104,12 @@ const Checkout = () => {
     };
 
     // --- Checkout Handler ---
+    const handleBuyNow = (product) => {
+        addToCart(product);
+        // Using state to inform Checkout that this is a direct buy flow to prevent premature empty-cart redirects
+        navigate('/checkout', { state: { directBuy: true, buyNowProduct: product } });
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
         setLoading(true);
@@ -160,10 +169,11 @@ const Checkout = () => {
     }, [user, addresses, defaultAddressId]);
 
     React.useEffect(() => {
-        if (cart.length === 0) {
+        // Only redirect to cart if the cart is genuinely empty AND we aren't in a direct-buy flow
+        if (cart.length === 0 && !isDirectBuy) {
             navigate('/cart');
         }
-    }, [cart, navigate]);
+    }, [cart, navigate, isDirectBuy]);
 
     if (cart.length === 0) {
         return null; // Or redirect
@@ -532,7 +542,7 @@ const Checkout = () => {
                 {/* Right Column: Order Summary */}
                 <div className="lg:col-span-1">
                     <div className="bg-[#FDFBF7] p-6 md:p-8 rounded-2xl border border-[#EBCDD0] sticky top-24 shadow-sm">
-                        <h2 className="font-display font-bold text-xl text-black mb-6 uppercase tracking-widest border-b border-[#EBCDD0] pb-4">Order Summary</h2>
+                        <h2 className="font-display font-bold text-xl text-black mb-6 uppercase tracking-widest border-b border-[#EBCDD0] pb-4">Order Process</h2>
 
                         {/* Mini Cart in Summary */}
                         <div className="max-h-60 overflow-y-auto mb-6 pr-2 space-y-5 custom-scrollbar">
