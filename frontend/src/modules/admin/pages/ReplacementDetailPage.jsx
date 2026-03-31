@@ -20,7 +20,8 @@ import {
     AlertTriangle,
     Archive,
     Calendar,
-    PenTool
+    PenTool,
+    Plus
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import ringImg from '../../../assets/diamond_ring.png';
@@ -187,103 +188,98 @@ const ReplacementDetailPage = () => {
     if (!currentData) return <div className="p-10 text-center">Loading...</div>;
 
     return (
-        <div className="space-y-6 pb-20 text-left font-['Inter']">
-            {/* Header */}
-            <div className="flex items-center justify-between">
-                <button onClick={() => navigate('/admin/replacements')} className="flex items-center gap-2 text-gray-500 hover:text-footerBg font-bold text-xs uppercase tracking-widest transition-colors">
-                    <ArrowLeft size={16} /> Back to Replacements
-                </button>
-                <div className="flex gap-2">
-                    <button className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg text-xs font-bold uppercase tracking-widest text-black hover:border-footerBg transition-all shadow-sm">
-                        <Download size={14} /> Download
+        <div className="space-y-4 pb-12 text-left font-outfit animate-in fade-in duration-500 max-w-[1400px] mx-auto px-4 md:px-0">
+            {/* Navigation Header */}
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-black/5 pb-6">
+                <div>
+                    <button onClick={() => navigate('/admin/replacements')} className="flex items-center gap-2 text-gray-400 hover:text-black font-black text-[9px] uppercase tracking-widest transition-all group mb-2">
+                        <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" /> Back to Log
                     </button>
-                    <button className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 text-black rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-gray-50 transition-all shadow-sm">
-                        <Printer size={14} /> Print Slip
+                    <h1 className="text-2xl font-serif font-black text-black tracking-tight leading-none uppercase">Replacement Protocol</h1>
+                    <p className="text-[9px] font-black text-gray-400 uppercase tracking-[0.4em] mt-2">Internal Verification & Logistics Management</p>
+                </div>
+                <div className="flex gap-2">
+                    <button className="flex items-center gap-2 px-4 py-3 bg-[#FDF5F6] border border-black/5 rounded-none text-[9px] font-black uppercase tracking-widest text-black hover:bg-gold transition-all">
+                        <Download size={14} /> Data Export
+                    </button>
+                    <button className="flex items-center gap-2 px-4 py-3 bg-black text-white rounded-none text-[9px] font-black uppercase tracking-widest hover:bg-gold hover:text-black transition-all">
+                        <Printer size={14} /> Slip Protocol
                     </button>
                 </div>
             </div>
 
-            {/* 1. REPLACEMENT SUMMARY */}
-            {/* 1. REPLACEMENT SUMMARY */}
-            <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm grid grid-cols-2 md:grid-cols-4 gap-6">
-                <div>
-                    <p className="text-[10px] font-bold text-footerBg uppercase tracking-widest mb-1">Replacement ID</p>
-                    <p className="text-lg font-medium text-black select-all">REP-{currentData.id}</p>
+            {/* 1. REPLACEMENT SUMMARY - High Density Geometric */}
+            <div className="bg-white p-3 rounded-none border border-black/5 shadow-sm grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="border-r border-black/5 pr-4">
+                    <p className="text-[8px] font-black text-gray-400 uppercase tracking-widest mb-0.5">Reference ID</p>
+                    <p className="text-sm font-serif font-black text-black tracking-tighter tabular-nums">REP-{currentData.id}</p>
                 </div>
-                <div>
-                    <p className="text-[10px] font-bold text-footerBg uppercase tracking-widest mb-1">Original Order</p>
-                    <p className="text-sm font-medium text-primary cursor-pointer hover:underline">{currentData.orderId}</p>
+                <div className="border-r border-black/5 pr-4 pl-2">
+                    <p className="text-[8px] font-black text-gray-400 uppercase tracking-widest mb-0.5">Origin Order</p>
+                    <p className="text-[10px] font-black text-gold uppercase tracking-widest cursor-pointer hover:underline tabular-nums">{currentData.orderId}</p>
                 </div>
-                <div>
-                    <p className="text-[10px] font-bold text-footerBg uppercase tracking-widest mb-1">Request Date</p>
-                    <p className="text-lg font-medium text-black">{currentData.requestDate}</p>
+                <div className="border-r border-black/5 pr-4 pl-2">
+                    <p className="text-[8px] font-black text-gray-400 uppercase tracking-widest mb-0.5">Chronology</p>
+                    <p className="text-[11px] font-serif font-black text-black">{currentData.requestDate}</p>
                 </div>
-                <div>
-                    <p className="text-[10px] font-bold text-footerBg uppercase tracking-widest mb-1">Status</p>
-                    <span className={`inline-block px-2.5 py-1 rounded-md text-[10px] font-medium uppercase tracking-widest border ${getStatusColor(currentData.status)}`}>
+                <div className="pl-2">
+                    <p className="text-[8px] font-black text-gray-400 uppercase tracking-widest mb-1.5">Protocol State</p>
+                    <span className={`inline-block px-3 py-0.5 rounded-none text-[8px] font-black uppercase tracking-widest border ${getStatusColor(currentData.status)}`}>
                         {currentData.status}
                     </span>
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-                {/* LEFT COLUMN (2/3) - Items, Evidence, Logistics */}
-                <div className="lg:col-span-2 space-y-6">
-
-                    {/* 3. ORIGINAL ITEM DETAILS */}
-                    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden p-6">
-                        <h3 className="text-xs font-black text-footerBg uppercase tracking-widest mb-4 flex items-center gap-2">
-                            <RotateCcw size={16} /> Original Item Details (To Be Returned)
-                        </h3>
-                        <div className="bg-red-50/50 rounded-xl border border-red-100 overflow-hidden">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                {/* LEFT CONTENT */}
+                <div className="lg:col-span-2 space-y-4">
+                    {/* Items Section (Original & Replacement) - Unified Geometric Table */}
+                    <div className="bg-white rounded-none border border-black/5 shadow-sm overflow-hidden">
+                        <div className="p-3 border-b border-black/5 bg-[#FDF5F6]/50">
+                            <h3 className="text-[9px] font-black text-black uppercase tracking-widest flex items-center gap-2">
+                                <RotateCcw size={14} className="text-gold" /> Inventory Flux (Old vs New)
+                            </h3>
+                        </div>
+                        <div className="overflow-x-auto">
                             <table className="w-full text-left">
-                                <thead className="bg-red-50 text-[10px] uppercase font-black text-red-400 tracking-wider">
+                                <thead className="bg-[#FDF5F6]/30 text-[8px] uppercase font-black text-gold tracking-[0.2em] border-b border-black/5">
                                     <tr>
-                                        <th className="px-4 py-3">Product</th>
-                                        <th className="px-4 py-3">Qty</th>
-                                        <th className="px-4 py-3 text-right">Paid Price</th>
+                                        <th className="px-5 py-2.5">Nomenclature</th>
+                                        <th className="px-5 py-2.5 text-center">Qty</th>
+                                        <th className="px-5 py-2.5 text-right">Valuation</th>
                                     </tr>
                                 </thead>
-                                <tbody className="text-sm">
+                                <tbody className="text-[10px]">
+                                    {/* Original Item */}
                                     {currentData.originalItems.map((item, i) => (
-                                        <tr key={i} className="border-b border-red-100 last:border-0">
-                                            <td className="px-4 py-3 font-bold text-footerBg flex items-center gap-3">
-                                                <img src={item.image} className="w-8 h-8 rounded border border-gray-200" alt="" />
-                                                {item.name}
+                                        <tr key={`orig-${i}`} className="bg-red-50/20 border-b border-black/5 group">
+                                            <td className="px-5 py-2.5 flex items-center gap-3">
+                                                <div className="w-10 h-10 rounded-none border border-black/5 bg-white overflow-hidden shrink-0 shadow-sm">
+                                                    <img src={item.image} className="w-full h-full object-cover" alt="" />
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <span className="font-black text-black uppercase">{item.name}</span>
+                                                    <span className="text-[7px] text-red-400 font-bold uppercase tracking-widest mt-0.5">To Be Returned</span>
+                                                </div>
                                             </td>
-                                            <td className="px-4 py-3 font-bold">{item.qty}</td>
-                                            <td className="px-4 py-3 text-right font-bold text-footerBg">₹{item.price}</td>
+                                            <td className="px-5 py-2.5 text-center font-serif font-black">{item.qty}</td>
+                                            <td className="px-5 py-2.5 text-right font-serif font-black text-black">₹{item.price.toLocaleString()}</td>
                                         </tr>
                                     ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    {/* 4. REPLACEMENT ITEM DETAILS */}
-                    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden p-6">
-                        <h3 className="text-xs font-black text-footerBg uppercase tracking-widest mb-4 flex items-center gap-2">
-                            <Box size={16} /> Replacement Item Details (New Shipment)
-                        </h3>
-                        <div className="bg-green-50/50 rounded-xl border border-green-100 overflow-hidden">
-                            <table className="w-full text-left">
-                                <thead className="bg-green-50 text-[10px] uppercase font-black text-green-600 tracking-wider">
-                                    <tr>
-                                        <th className="px-4 py-3">Product</th>
-                                        <th className="px-4 py-3">Qty</th>
-                                        <th className="px-4 py-3 text-right">Price</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="text-sm">
+                                    {/* Replacement Item */}
                                     {currentData.replacementItems.map((item, i) => (
-                                        <tr key={i} className="border-b border-green-100 last:border-0">
-                                            <td className="px-4 py-3 font-bold text-footerBg flex items-center gap-3">
-                                                <img src={item.image} className="w-8 h-8 rounded border border-gray-200" alt="" />
-                                                {item.name}
+                                        <tr key={`rep-${i}`} className="bg-emerald-50/20 group">
+                                            <td className="px-5 py-2.5 flex items-center gap-3">
+                                                <div className="w-10 h-10 rounded-none border border-black/5 bg-white overflow-hidden shrink-0 shadow-sm">
+                                                    <img src={item.image} className="w-full h-full object-cover" alt="" />
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <span className="font-black text-black uppercase">{item.name}</span>
+                                                    <span className="text-[7px] text-emerald-500 font-bold uppercase tracking-widest mt-0.5">New Shipment (Gratis)</span>
+                                                </div>
                                             </td>
-                                            <td className="px-4 py-3 font-bold">{item.qty}</td>
-                                            <td className="px-4 py-3 text-right font-bold text-green-600">₹0 <span className="text-[9px] text-gray-400 font-normal uppercase">(Free Replacement)</span></td>
+                                            <td className="px-5 py-2.5 text-center font-serif font-black">{item.qty}</td>
+                                            <td className="px-5 py-2.5 text-right font-serif font-black text-emerald-600">FREE</td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -291,318 +287,102 @@ const ReplacementDetailPage = () => {
                         </div>
                     </div>
 
-                    {/* 5. REASON & EVIDENCE */}
-                    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-                        <h3 className="text-xs font-black text-footerBg uppercase tracking-widest mb-4 flex items-center gap-2">
-                            <AlertCircle size={16} /> Reason & Evidence
+                    {/* Evidence & Logic */}
+                    <div className="bg-white rounded-none border border-black/5 shadow-sm p-3">
+                        <h3 className="text-[9px] font-black text-black uppercase tracking-widest mb-3 flex items-center gap-2">
+                            <AlertCircle size={14} className="text-gold" /> Discrepancy Evidence
                         </h3>
-                        <div className="space-y-4">
-                            <div className="bg-gray-50 p-4 rounded-xl border border-gray-100">
-                                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Customer Reason</p>
-                                <div className="flex justify-between items-center">
-                                    <span className="font-bold text-footerBg text-sm">{currentData.evidence.reason}</span>
-                                    <span className="text-xs text-gray-500 italic">"{currentData.evidence.comment}"</span>
+                        <div className="bg-[#FDF5F6]/50 p-3 border border-black/5">
+                            <p className="text-[8px] font-black text-gray-400 uppercase tracking-widest mb-1">Customer Testimony</p>
+                            <div className="flex flex-col gap-1">
+                                <span className="font-black text-black text-[10px] uppercase">{currentData.evidence.reason}</span>
+                                <span className="text-[10px] text-gray-500 italic font-serif">"{currentData.evidence.comment}"</span>
+                            </div>
+                        </div>
+                        {currentData.evidence.images.length > 0 && (
+                            <div className="mt-3">
+                                <p className="text-[8px] font-black text-gray-400 uppercase tracking-widest mb-2">Visual Verification</p>
+                                <div className="flex gap-2">
+                                    {currentData.evidence.images.map((img, i) => (
+                                        <img key={i} src={img} alt="Proof" className="w-16 h-16 object-cover rounded-none border border-black/5 grayscale hover:grayscale-0 transition-all cursor-pointer" />
+                                    ))}
                                 </div>
                             </div>
-                            {currentData.evidence.images.length > 0 && (
-                                <div>
-                                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Uploaded Proof</p>
-                                    <div className="flex gap-4">
-                                        {currentData.evidence.images.map((img, i) => (
-                                            <img key={i} src={img} alt="Proof" className="w-20 h-20 object-cover rounded-lg border border-gray-200 cursor-pointer hover:shadow-md" />
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
-                        </div>
+                        )}
                     </div>
-
-                    {/* 7. PICKUP DETAILS */}
-                    {/* Show when Picked Up Scheduled or later */}
-                    {(['Pickup Scheduled', 'Pickup Completed', 'Replacement Shipped', 'Shipped', 'Delivered', 'Closed'].includes(currentData.status)) && currentData.pickup && (
-                        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-                            <h3 className="text-xs font-black text-footerBg uppercase tracking-widest mb-4 flex items-center gap-2">
-                                <Truck size={16} /> Pickup Details (Old Item)
-                            </h3>
-                            <div className="flex justify-between items-center bg-gray-50 p-4 rounded-xl border border-gray-100">
-                                <div>
-                                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Courier & AWB</p>
-                                    <p className="text-sm font-bold text-footerBg">{currentData.pickup.partner} | {currentData.pickup.awb}</p>
-                                </div>
-                                <div>
-                                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Scheduled Date</p>
-                                    <p className="text-sm font-bold text-gray-600 flex items-center gap-1">
-                                        <Calendar size={12} /> {currentData.pickup.date}
-                                    </p>
-                                </div>
-                                <div className="text-right">
-                                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Pickup Status</p>
-                                    <span className="px-2 py-1 bg-white border border-gray-200 rounded text-xs font-bold text-footerBg">{currentData.pickup.status}</span>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* 8. REPLACEMENT SHIPMENT DETAILS */}
-                    {(['Replacement Shipped', 'Shipped', 'Delivered', 'Closed'].includes(currentData.status)) && currentData.shipment && (
-                        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 border-l-4 border-l-primary">
-                            <h3 className="text-xs font-black text-footerBg uppercase tracking-widest mb-4 flex items-center gap-2">
-                                <Package size={16} /> Replacement Shipment (New Item)
-                            </h3>
-                            <div className="flex justify-between items-center">
-                                <div>
-                                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Shipment AWB</p>
-                                    <p className="text-sm font-bold text-footerBg">{currentData.shipment.partner} - {currentData.shipment.awb}</p>
-                                </div>
-                                <div className="text-right">
-                                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Status</p>
-                                    <span className="px-2 py-1 bg-green-50 text-green-600 border border-green-100 rounded text-xs font-black uppercase tracking-widest">{currentData.shipment.status}</span>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-
                 </div>
 
-                {/* RIGHT COLUMN (1/3) - Actions, Customer, Timeline */}
-                <div className="space-y-6">
-
-                    {/* 6. ADMIN ACTION PANEL */}
+                {/* RIGHT COLUMN - Actions & Protocol */}
+                <div className="space-y-4">
+                    {/* Admin Actions Panel - Ultra Compact */}
                     {(currentData.status === 'Pending' || currentData.status === 'Requested') && (
-                        <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm space-y-3">
-                            <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 flex items-center gap-2">
-                                <Shield size={14} /> Admin Actions
+                        <div className="bg-white p-3 rounded-none border border-black/5 shadow-sm space-y-3">
+                            <h3 className="text-[9px] font-black text-black uppercase tracking-widest flex items-center gap-2">
+                                <Shield size={14} className="text-gold" /> Decision Protocol
                             </h3>
 
                             <div className="space-y-3">
                                 <div>
-                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5 block">Replacement Mode</label>
-                                    <div className="flex gap-2">
-                                        <button
-                                            onClick={() => setReplacementMode('after_pickup')}
-                                            className={`flex-1 py-1.5 px-3 rounded-lg text-[10px] font-bold border transition-all ${replacementMode === 'after_pickup' ? 'bg-black text-white border-black' : 'bg-white text-gray-500 border-gray-200'}`}
-                                        >
-                                            After Pickup
-                                        </button>
-                                        <button
-                                            onClick={() => setReplacementMode('immediate')}
-                                            className={`flex-1 py-1.5 px-3 rounded-lg text-[10px] font-bold border transition-all ${replacementMode === 'immediate' ? 'bg-black text-white border-black' : 'bg-white text-gray-500 border-gray-200'}`}
-                                        >
-                                            Immediate
-                                        </button>
+                                    <p className="text-[8px] font-black text-gray-400 uppercase tracking-widest mb-1.5">Replacement Mode</p>
+                                    <div className="flex gap-1">
+                                        {['after_pickup', 'immediate'].map(mode => (
+                                            <button
+                                                key={mode}
+                                                onClick={() => setReplacementMode(mode)}
+                                                className={`flex-1 py-1.5 px-2 rounded-none text-[8px] font-black uppercase tracking-widest border transition-all ${replacementMode === mode ? 'bg-black text-white border-black' : 'bg-white text-gray-400 border-black/5'}`}
+                                            >
+                                                {mode.replace('_', ' ')}
+                                            </button>
+                                        ))}
                                     </div>
                                 </div>
 
                                 <textarea
-                                    className="w-full bg-gray-50 border border-gray-200 rounded-xl p-3 text-xs font-medium outline-none focus:border-primary min-h-[80px] resize-none"
-                                    placeholder="Add internal comment..."
+                                    className="w-full bg-[#FDF5F6]/40 border border-black/5 rounded-none p-3 text-[10px] font-black uppercase tracking-widest outline-none focus:border-gold min-h-[70px] placeholder-gray-300"
+                                    placeholder="Internal Log Comment..."
                                     value={adminComment}
                                     onChange={(e) => setAdminComment(e.target.value)}
                                 ></textarea>
 
-                                <div className="grid grid-cols-2 gap-3">
+                                <div className="flex flex-col gap-2">
                                     <button
                                         onClick={() => updateStatusMutation.mutate({ status: 'Approved', comment: adminComment, mode: replacementMode })}
-                                        disabled={updateStatusMutation.isPending}
-                                        className="flex items-center justify-center gap-2 bg-emerald-600 text-white py-3 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-200 disabled:opacity-50"
+                                        className="w-full flex items-center justify-center gap-2 bg-black text-white py-2.5 rounded-none font-black text-[10px] uppercase tracking-widest hover:bg-gold hover:text-black transition-all shadow-md active:scale-95"
                                     >
-                                        {updateStatusMutation.isPending ? 'Processing...' : <><CheckCircle2 size={16} /> Approve</>}
+                                        {updateStatusMutation.isPending ? 'STAGING...' : <><Plus size={14} /> AUTHORIZE RETURN</>}
                                     </button>
                                     <button
                                         onClick={() => updateStatusMutation.mutate({ status: 'Rejected', comment: adminComment })}
-                                        disabled={updateStatusMutation.isPending}
-                                        className="flex items-center justify-center gap-2 bg-white text-red-500 border border-red-100 py-3 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-red-50 transition-all disabled:opacity-50"
+                                        className="w-full flex items-center justify-center gap-2 bg-white text-red-500 border border-red-100 py-2 rounded-none font-black text-[9px] uppercase tracking-widest hover:bg-red-50 transition-all active:scale-95"
                                     >
-                                        {updateStatusMutation.isPending ? 'Processing...' : 'Reject'}
+                                        DISMISS REQUEST
                                     </button>
                                 </div>
                             </div>
                         </div>
                     )}
 
-                    {/* Step 3 Action: Verify & Ship (If Pickup Completed) */}
-                    {currentData.status === 'Pickup Completed' && (
-                        <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm space-y-3 border-l-4 border-l-orange-400">
-                            <h3 className="text-[10px] font-black text-orange-600 uppercase tracking-widest mb-1 flex items-center gap-2">
-                                <AlertTriangle size={14} /> Action: Verify Old Item
-                            </h3>
-                            <div className="space-y-4 pt-2">
-                                <div>
-                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5 block">Item Condition</label>
-                                    <div className="flex gap-2">
-                                        <button
-                                            onClick={() => setItemCondition('Good')}
-                                            className={`flex-1 py-1.5 px-3 rounded-lg text-[10px] font-bold border transition-all ${itemCondition === 'Good' ? 'bg-green-100 text-green-700 border-green-200' : 'bg-white text-gray-500 border-gray-200'}`}
-                                        >
-                                            Good Condition
-                                        </button>
-                                        <button
-                                            onClick={() => setItemCondition('Damaged')}
-                                            className={`flex-1 py-1.5 px-3 rounded-lg text-[10px] font-bold border transition-all ${itemCondition === 'Damaged' ? 'bg-red-50 text-red-700 border-red-200' : 'bg-white text-gray-500 border-gray-200'}`}
-                                        >
-                                            Damaged
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5 block">Inventory Action</label>
-                                    <div className="flex gap-2">
-                                        <button
-                                            onClick={() => setStockAction('Restock')}
-                                            className={`flex-1 py-1.5 px-3 rounded-lg text-[10px] font-bold border transition-all ${stockAction === 'Restock' ? 'bg-blue-100 text-blue-700 border-blue-200' : 'bg-white text-gray-500 border-gray-200'}`}
-                                        >
-                                            <Archive size={12} className="inline mr-1" /> Restock
-                                        </button>
-                                        <button
-                                            onClick={() => setStockAction('Discard')}
-                                            className={`flex-1 py-1.5 px-3 rounded-lg text-[10px] font-bold border transition-all ${stockAction === 'Discard' ? 'bg-gray-100 text-gray-700 border-gray-300' : 'bg-white text-gray-500 border-gray-200'}`}
-                                        >
-                                            Discard
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <button
-                                    onClick={() => updateStatusMutation.mutate({ status: 'Replacement Shipped', condition: itemCondition, stock: stockAction })}
-                                    disabled={updateStatusMutation.isPending}
-                                    className="w-full bg-footerBg text-white py-3 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-black transition-all shadow-lg shadow-gray-200 flex items-center justify-center gap-2 disabled:opacity-50"
-                                >
-                                    {updateStatusMutation.isPending ? 'Processing...' : <><Package size={16} /> Process & Ship New Item</>}
-                                </button>
+                    {/* Customer Logistics Card */}
+                    <div className="bg-white p-4 rounded-none border border-black/5 shadow-sm space-y-4">
+                        <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 bg-[#FDF5F6] border border-black/5 rounded-none flex items-center justify-center font-serif font-black text-sm text-gold">
+                                {currentData.customer.name?.charAt(0)}
+                            </div>
+                            <div className="min-w-0">
+                                <h3 className="font-serif font-black text-black text-sm uppercase leading-tight tabular-nums tracking-tight">{currentData.customer.name}</h3>
+                                <p className="text-[8px] font-black text-gray-400 uppercase tracking-widest mt-0.5">{currentData.customer.phone}</p>
                             </div>
                         </div>
-                    )}
-
-                    {/* REJECTION REASON (If Rejected) */}
-                    {currentData.status === 'Rejected' && (
-                        <div className="bg-red-50 p-4 rounded-2xl border border-red-100 shadow-sm">
-                            <h3 className="text-[10px] font-black text-red-500 uppercase tracking-widest mb-2 flex items-center gap-1">
-                                <AlertCircle size={12} /> Rejection Reason
-                            </h3>
-                            <p className="text-xs font-bold text-red-700 leading-relaxed">
-                                {currentData.logs?.find(l => l.action === 'Rejected')?.comment || adminComment || "No reason provided."}
-                            </p>
-                        </div>
-                    )}
-
-                    {/* APPROVAL & PICKUP INFO (If Approved) */}
-                    {(['Approved', 'Pickup Scheduled', 'Pickup Completed', 'Replacement Shipped', 'Shipped', 'Delivered', 'Closed'].includes(currentData.status)) && (
-                        <div className="space-y-3">
-                            <div className="bg-emerald-50 p-4 rounded-2xl border border-emerald-100 shadow-sm">
-                                <h3 className="text-[10px] font-black text-emerald-600 uppercase tracking-widest mb-2 flex items-center gap-1">
-                                    <CheckCircle2 size={12} /> Approved
-                                </h3>
-                                <p className="text-xs font-bold text-emerald-800 leading-relaxed">
-                                    {currentData.logs?.find(l => l.action === 'Approved')?.comment || "Replacement Approved. Pickup Generated."}
-                                </p>
-                            </div>
-
-                            {/* Courier Info Card (Matches Screenshot Design) */}
-                            {currentData.pickup && (
-                                <div className="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm border-l-4 border-l-blue-600">
-                                    <h3 className="text-xs font-black text-footerBg uppercase tracking-widest mb-5 flex items-center gap-2">
-                                        <Truck size={16} /> Return Pickup Details
-                                    </h3>
-
-                                    <div className="space-y-4">
-                                        <div className="flex justify-between items-center text-xs">
-                                            <span className="text-gray-500 font-medium">Partner</span>
-                                            <span className="font-bold text-footerBg text-right">{currentData.pickup.partner}</span>
-                                        </div>
-                                        <div className="flex justify-between items-center text-xs">
-                                            <span className="text-gray-500 font-medium">Return AWB</span>
-                                            <span className="font-black text-footerBg text-right">{currentData.pickup.awb}</span>
-                                        </div>
-                                        <div className="flex justify-between items-center text-xs">
-                                            <span className="text-gray-500 font-medium">Pickup Scheduled</span>
-                                            <span className="font-bold text-footerBg text-right">{currentData.pickup.date}</span>
-                                        </div>
-                                        <div className="flex justify-between items-center text-xs">
-                                            <span className="text-gray-500 font-medium">Pickup Status</span>
-                                            <span className="px-2 py-1 bg-blue-50 text-blue-600 rounded text-[10px] font-black uppercase tracking-widest">
-                                                {currentData.pickup.status}
-                                            </span>
-                                        </div>
-                                    </div>
-
-                                    <button className="w-full mt-6 bg-blue-50 text-blue-600 py-3 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-blue-100 transition-colors">
-                                        Track Status
-                                    </button>
-                                </div>
-                            )}
-                        </div>
-                    )}
-
-                    {/* 2. Customer & Pickup Details (Exact Match) */}
-                    <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-6">
-
-                        {/* Customer Info */}
-                        <div>
-                            <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4 flex items-center gap-2">
-                                <User size={14} /> Customer
-                            </h3>
-                            <div className="flex items-center gap-4 p-2 -ml-2 rounded-xl transition-all">
-                                <div className="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center font-black text-sm text-gray-400 uppercase border border-gray-200 shrink-0">
-                                    {currentData.customer.name?.charAt(0)}
-                                </div>
-                                <div className="min-w-0 flex-1">
-                                    <h3 className="font-bold text-footerBg text-sm truncate">{currentData.customer.name}</h3>
-                                    <p className="text-xs text-gray-500 flex items-center gap-1.5 mt-1 truncate">
-                                        <Phone size={12} /> {currentData.customer.phone}
-                                    </p>
-                                    <p className="text-xs text-gray-500 flex items-center gap-1.5 mt-0.5 truncate">
-                                        <Mail size={12} /> {currentData.customer.email}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="w-full h-px bg-gray-50"></div>
-
-                        {/* Pickup Address */}
-                        <div>
-                            <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4 flex items-center gap-2">
-                                <MapPin size={14} /> Pickup Address
-                            </h3>
-                            <div className="bg-gray-50 p-4 rounded-xl border border-gray-100 space-y-2">
-                                <p className="text-xs text-gray-600 leading-relaxed font-medium">
-                                    {currentData.addresses.pickup.line1}<br />
-                                    <span className="block mt-1 font-bold text-gray-700">
-                                        {currentData.addresses.pickup.city}, {currentData.addresses.pickup.state} - {currentData.addresses.pickup.pincode}
-                                    </span>
-                                </p>
-                                <p className="text-[9px] font-bold text-blue-400 mt-2 flex items-center gap-1">
-                                    <Truck size={10} /> Shiprocket API Integration
-                                </p>
+                        <div className="pt-3 border-t border-black/5">
+                            <p className="text-[8px] font-black text-gray-400 uppercase tracking-widest mb-2 flex items-center gap-1.5"><MapPin size={10} /> Logistics Point</p>
+                            <div className="bg-[#FDF5F6]/40 p-3 border border-black/5 text-[10px] font-black text-black uppercase tracking-tight leading-relaxed">
+                                {currentData.addresses.pickup.line1}<br />
+                                <span className="text-gold">{currentData.addresses.pickup.city}, {currentData.addresses.pickup.state} - {currentData.addresses.pickup.pincode}</span>
                             </div>
                         </div>
                     </div>
 
-                    {/* 10. TIMELINE */}
-                    <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
-                        <h3 className="text-xs font-black text-footerBg uppercase tracking-widest mb-4 flex items-center gap-2">
-                            <History size={16} /> Status Timeline
-                        </h3>
-                        <div className="space-y-0 relative">
-                            {/* Vertical Line */}
-                            <div className="absolute left-2.5 top-2 bottom-4 w-0.5 bg-gray-100"></div>
-
-                            {currentData.timeline?.map((step, i) => (
-                                <div key={i} className="flex gap-4 relative pb-6 last:pb-0">
-                                    <div className={`w-5 h-5 rounded-full border-2 z-10 bg-white shrink-0 flex items-center justify-center ${step.done ? 'border-primary text-primary' : 'border-gray-200 text-gray-300'}`}>
-                                        <div className={`w-2 h-2 rounded-full ${step.done ? 'bg-primary' : 'bg-transparent'}`}></div>
-                                    </div>
-                                    <div className="-mt-1">
-                                        <p className={`text-xs font-bold ${step.done ? 'text-footerBg' : 'text-gray-400'}`}>{step.status}</p>
-                                        {step.date && <p className="text-[10px] font-bold text-gray-400">{step.date}</p>}
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
                     </div>
-
-                </div>
             </div>
         </div>
     );

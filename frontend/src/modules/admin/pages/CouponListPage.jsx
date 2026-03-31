@@ -155,16 +155,16 @@ const CouponListPage = () => {
     ];
 
     return (
-        <div className="space-y-6 text-left pb-20">
+        <div className="space-y-6 font-outfit animate-in fade-in duration-500 text-left pb-20">
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-900 uppercase tracking-tight">Marketing</h1>
-                    <p className="text-xs font-semibold text-gray-500 uppercase tracking-widest mt-1">Manage discount codes</p>
+                    <h1 className="text-2xl font-serif font-black text-black tracking-tight leading-none uppercase">Marketing</h1>
+                    <p className="text-[9px] font-black text-gray-400 uppercase tracking-[0.4em] mt-2">Manage discount codes</p>
                 </div>
                 <button
                     onClick={() => navigate('/admin/coupons/add')}
-                    className="bg-[#3E2723] text-white px-5 py-2.5 rounded-xl font-bold text-[10px] uppercase tracking-widest flex items-center gap-2 hover:bg-[#5D4037] transition-all shadow-lg shadow-[#3E2723]/20"
+                    className="bg-black text-white px-5 py-2.5 rounded-none font-black text-[10px] uppercase tracking-widest flex items-center gap-2 hover:bg-gold hover:text-black transition-all shadow-lg active:scale-95"
                 >
                     <Plus size={16} strokeWidth={3} /> Create Coupon
                 </button>

@@ -35,7 +35,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext';
 import { useShop } from '../../../context/ShopContext';
-import logo from '../assets/hg_logo_gold.png';
+import logo from '../../user/assets/logo_final.jpg';
 
 const AdminSidebar = () => {
     const location = useLocation();
@@ -47,6 +47,7 @@ const AdminSidebar = () => {
     const [notificationsExpanded, setNotificationsExpanded] = useState(location.pathname.startsWith('/admin/notifications'));
     const [supportExpanded, setSupportExpanded] = useState(location.pathname.startsWith('/admin/support') || location.pathname.startsWith('/admin/contact'));
     const [inventoryExpanded, setInventoryExpanded] = useState(location.pathname.startsWith('/admin/inventory'));
+    const [categoriesExpanded, setCategoriesExpanded] = useState(location.pathname.startsWith('/admin/categories') || location.search.includes('category='));
 
     const handleLogout = () => {
         logout();
@@ -72,8 +73,6 @@ const AdminSidebar = () => {
     const mainMenuItems = [
         { icon: LayoutDashboard, label: 'Dashboard', path: '/admin/dashboard' },
         { icon: Users, label: 'Users', path: '/admin/users' },
-        { icon: Layers, label: 'Categories', path: '/admin/categories' },
-        { icon: Layers, label: 'Sub-categories', path: '/admin/sub-categories' },
     ];
 
     const secondaryMenuItems = [
@@ -91,69 +90,112 @@ const AdminSidebar = () => {
     const isInventoryActive = location.pathname.startsWith('/admin/inventory');
 
     return (
-        <div className="w-64 h-screen bg-footerBg text-white flex flex-col fixed left-0 top-0 z-50">
-            {/* Logo Section */}
-            <div className="p-6 border-b border-white/10 flex items-center gap-3 shrink-0">
-                <img src={logo} alt="HG Admin" className="h-8 w-auto object-contain" />
-                <span className="font-brand font-bold text-xl tracking-tight">HG Admin</span>
+        <div className="w-64 h-screen bg-primary text-white flex flex-col fixed left-0 top-0 z-50 border-r border-white/5">
+            {/* Logo Section with Gold Gradient */}
+            <div className="p-8 border-b border-white/5 flex flex-col items-center gap-4 shrink-0 bg-gold-dark/40">
+            <img src={logo} alt="HG Admin" className="h-12 w-auto object-contain mix-blend-screen drop-shadow-lg" />
+            <div className="flex flex-col items-center">
+                    <span className="font-serif font-black text-xs tracking-[0.3em] uppercase text-gold">HG Enterprises</span>
+                    <span className="text-[8px] font-bold text-gray-500 uppercase tracking-[0.4em] mt-1 italic">Administrative Portal</span>
+                </div>
             </div>
 
             {/* Navigation Links */}
-            <nav className="flex-1 min-h-0 overflow-y-auto py-6 px-4 space-y-1 custom-scrollbar">
-                <p className="text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em] mb-4 px-2">Main Menu</p>
+            <nav className="flex-1 min-h-0 overflow-y-auto py-8 px-4 space-y-1 custom-scrollbar scrollbar-hide">
+                <p className="text-[9px] font-black text-gray-500 uppercase tracking-[0.3em] mb-6 px-4">Workspace Overview</p>
 
                 {/* Main Items */}
                 {mainMenuItems.map((item) => (
                     <Link
                         key={item.path}
                         to={item.path}
-                        className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all group ${isActive(item.path)
-                            ? 'bg-primary text-white shadow-lg shadow-primary/20'
+                        className={`flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all duration-300 group ${isActive(item.path)
+                            ? 'bg-gold/10 text-gold border border-gold/20 shadow-xl shadow-black/20'
                             : 'text-gray-400 hover:bg-white/5 hover:text-white'
                             }`}
                     >
-                        <item.icon size={20} strokeWidth={isActive(item.path) ? 2.5 : 2} />
-                        <span className="font-bold text-sm">{item.label}</span>
+                        <item.icon size={18} strokeWidth={isActive(item.path) ? 2.5 : 2} className={isActive(item.path) ? 'text-gold' : 'group-hover:text-gold transition-colors'} />
+                        <span className="font-bold text-[11px] uppercase tracking-wider">{item.label}</span>
+                        {isActive(item.path) && <div className="ml-auto w-1.5 h-1.5 rounded-full bg-gold shadow-[0_0_8px_rgba(197,160,89,0.8)]" />}
                     </Link>
                 ))}
+
+                {/* Categories Dropdown Section - High Density Geometric */}
+                <div className="mt-1">
+                    <button
+                        onClick={() => setCategoriesExpanded(!categoriesExpanded)}
+                        className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all duration-300 ${location.pathname.startsWith('/admin/categories') || location.pathname.startsWith('/admin/sub-categories')
+                            ? 'bg-gold/10 text-gold border border-gold/20'
+                            : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                            }`}
+                    >
+                        <Layers size={18} strokeWidth={2} className={location.pathname.startsWith('/admin/categories') || location.pathname.startsWith('/admin/sub-categories') ? 'text-gold' : 'group-hover:text-gold transition-colors'} />
+                        <span className="font-bold text-[11px] uppercase tracking-wider flex-1 text-left">Categories</span>
+                        <div className={`transition-transform duration-300 ${categoriesExpanded ? 'rotate-180' : ''}`}>
+                            <ChevronDown size={14} />
+                        </div>
+                    </button>
+
+                    {categoriesExpanded && (
+                        <div className="mt-2 ml-4 pl-4 border-l border-gold/20 space-y-1 animate-in slide-in-from-top-1 duration-200 font-outfit">
+                            {[
+                                { name: 'Jewellery', slug: 'jewellery' },
+                                { name: 'Machines', slug: 'machine' },
+                                { name: 'Tools', slug: 'tools' }
+                            ].map((cat) => (
+                                <Link
+                                    key={cat.slug}
+                                    to={`/admin/categories?department=${cat.slug}`}
+                                    className={`flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all text-[10px] font-black uppercase tracking-widest ${location.search.includes(`department=${cat.slug}`)
+                                        ? 'text-white bg-white/5 shadow-inner border border-white/5'
+                                        : 'text-gray-500 hover:text-white hover:bg-white/5'
+                                        }`}
+                                >
+                                    <Layers size={14} />
+                                    <span>{cat.name}</span>
+                                </Link>
+                            ))}
+                        </div>
+                    )}
+                </div>
 
                 {/* Products Section - Expandable */}
                 <div className="mt-1">
                     <button
                         onClick={() => setProductsExpanded(!productsExpanded)}
-                        className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${isProductsActive
-                            ? 'bg-primary text-white shadow-lg shadow-primary/20'
+                        className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all duration-300 ${isProductsActive
+                            ? 'bg-gold/10 text-gold border border-gold/20'
                             : 'text-gray-400 hover:bg-white/5 hover:text-white'
                             }`}
                     >
-                        <Package size={20} strokeWidth={isProductsActive ? 2.5 : 2} />
-                        <span className="font-bold text-sm flex-1 text-left">Products</span>
-                        <div className={`transition-transform duration-200 ${productsExpanded ? 'rotate-180' : ''}`}>
-                            <ChevronDown size={16} />
+                        <Package size={18} strokeWidth={isProductsActive ? 2.5 : 2} className={isProductsActive ? 'text-gold' : 'group-hover:text-gold transition-colors'} />
+                        <span className="font-bold text-[11px] uppercase tracking-wider flex-1 text-left">Products</span>
+                        <div className={`transition-transform duration-300 ${productsExpanded ? 'rotate-180' : ''}`}>
+                            <ChevronDown size={14} />
                         </div>
                     </button>
 
                     {productsExpanded && (
-                        <div className="mt-1 ml-4 pl-4 border-l border-white/10 space-y-1 animate-in slide-in-from-top-1 duration-200">
+                        <div className="mt-2 ml-4 pl-4 border-l border-gold/20 space-y-1 animate-in slide-in-from-top-1 duration-200">
                             <Link
                                 to="/admin/products/new"
-                                className={`flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all text-sm ${location.pathname === '/admin/products/new'
-                                    ? 'bg-primary/20 text-white shadow-sm'
-                                    : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                                className={`flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all text-[10px] font-black uppercase tracking-widest ${location.pathname === '/admin/products/new'
+                                    ? 'text-white bg-white/5 shadow-inner'
+                                    : 'text-gray-500 hover:text-white'
                                     }`}
                             >
-                                <Plus size={16} />
-                                <span className="font-semibold">Add Product</span>
+                                <Plus size={14} />
+                                <span>Add Product</span>
                             </Link>
                             <Link
                                 to="/admin/products"
-                                className={`flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all text-sm ${location.pathname === '/admin/products'
-                                    ? 'bg-primary/20 text-white shadow-sm'
-                                    : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                                className={`flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all text-[10px] font-black uppercase tracking-widest ${location.pathname === '/admin/products'
+                                    ? 'text-white bg-white/5 shadow-inner'
+                                    : 'text-gray-500 hover:text-white'
                                     }`}
                             >
-                                <List size={16} />
-                                <span className="font-semibold">Product List</span>
+                                <List size={14} />
+                                <span>Product List</span>
                             </Link>
                         </div>
                     )}
@@ -163,51 +205,51 @@ const AdminSidebar = () => {
                 <div className="mt-1">
                     <button
                         onClick={() => setCombosExpanded(!combosExpanded)}
-                        className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${isCombosActive
-                            ? 'bg-primary text-white shadow-lg shadow-primary/20'
+                        className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all duration-300 ${isCombosActive
+                            ? 'bg-gold/10 text-gold border border-gold/20'
                             : 'text-gray-400 hover:bg-white/5 hover:text-white'
                             }`}
                     >
-                        <Boxes size={20} strokeWidth={isCombosActive ? 2.5 : 2} />
-                        <span className="font-bold text-sm flex-1 text-left">Combos</span>
-                        {combosExpanded ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
+                        <Boxes size={18} strokeWidth={isCombosActive ? 2.5 : 2} className={isCombosActive ? 'text-gold' : 'group-hover:text-gold transition-colors'} />
+                        <span className="font-bold text-[11px] uppercase tracking-wider flex-1 text-left">Combos</span>
+                        {combosExpanded ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
                     </button>
 
                     {combosExpanded && (
-                        <div className="mt-1 ml-4 pl-4 border-l border-white/10 space-y-1">
+                        <div className="mt-2 ml-4 pl-4 border-l border-gold/20 space-y-1">
                             <Link
                                 to="/admin/combo-categories"
-                                className={`flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all text-sm ${location.pathname === '/admin/combo-categories'
-                                    ? 'bg-primary/20 text-white'
-                                    : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                                className={`flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all text-[10px] font-black uppercase tracking-widest ${location.pathname === '/admin/combo-categories'
+                                    ? 'text-white bg-white/5 shadow-inner'
+                                    : 'text-gray-500 hover:text-white'
                                     }`}
                             >
-                                <List size={16} />
-                                <span className="font-semibold">Combo Categories</span>
+                                <List size={14} />
+                                <span>Combo Categories</span>
                             </Link>
+                            {/* Combo Sub-menu Items */}
                             <div>
                                 <button
                                     onClick={() => setComboProductsExpanded(!comboProductsExpanded)}
-                                    className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all text-sm ${location.pathname.startsWith('/admin/combo-products')
-                                        ? 'bg-primary/20 text-white'
-                                        : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                                    className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all text-[10px] font-black uppercase tracking-widest ${location.pathname.startsWith('/admin/combo-products')
+                                        ? 'text-white'
+                                        : 'text-gray-500 hover:text-white'
                                         }`}
                                 >
-                                    <Package size={16} />
-                                    <span className="font-semibold flex-1 text-left">Combo Products</span>
-                                    {comboProductsExpanded ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                                    <Package size={14} />
+                                    <span className="flex-1 text-left">Combo Products</span>
+                                    {comboProductsExpanded ? <ChevronDown size={12} /> : <ChevronRight size={12} />}
                                 </button>
                                 {comboProductsExpanded && (
-                                    <div className="mt-1 ml-4 pl-4 border-l border-white/10 space-y-1">
+                                    <div className="mt-1 ml-4 pl-4 border-l border-gold/10 space-y-1">
                                         <Link
                                             to="/admin/combo-products"
-                                            className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all text-xs ${location.pathname === '/admin/combo-products'
-                                                ? 'bg-primary/10 text-white'
-                                                : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                                            className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all text-[9px] font-black uppercase tracking-widest ${location.pathname === '/admin/combo-products'
+                                                ? 'text-gold'
+                                                : 'text-gray-500 hover:text-white'
                                                 }`}
                                         >
-                                            <List size={14} />
-                                            <span className="font-semibold">Product List</span>
+                                            <span>Product List</span>
                                         </Link>
                                     </div>
                                 )}
@@ -220,39 +262,39 @@ const AdminSidebar = () => {
                 <div className="mt-1">
                     <button
                         onClick={() => setNotificationsExpanded(!notificationsExpanded)}
-                        className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${isNotificationsActive
-                            ? 'bg-primary text-white shadow-lg shadow-primary/20'
+                        className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all duration-300 ${isNotificationsActive
+                            ? 'bg-gold/10 text-gold border border-gold/20'
                             : 'text-gray-400 hover:bg-white/5 hover:text-white'
                             }`}
                     >
-                        <Bell size={20} strokeWidth={isNotificationsActive ? 2.5 : 2} />
-                        <span className="font-bold text-sm flex-1 text-left">Notifications</span>
-                        <div className={`transition-transform duration-200 ${notificationsExpanded ? 'rotate-180' : ''}`}>
-                            <ChevronDown size={16} />
+                        <Bell size={18} strokeWidth={isNotificationsActive ? 2.5 : 2} className={isNotificationsActive ? 'text-gold' : 'group-hover:text-gold transition-colors'} />
+                        <span className="font-bold text-[11px] uppercase tracking-wider flex-1 text-left">Notifications</span>
+                        <div className={`transition-transform duration-300 ${notificationsExpanded ? 'rotate-180' : ''}`}>
+                            <ChevronDown size={14} />
                         </div>
                     </button>
 
                     {notificationsExpanded && (
-                        <div className="mt-1 ml-4 pl-4 border-l border-white/10 space-y-1 animate-in slide-in-from-top-1 duration-200">
+                        <div className="mt-2 ml-4 pl-4 border-l border-gold/20 space-y-1 animate-in slide-in-from-top-1 duration-200">
                             <Link
                                 to="/admin/notifications/add"
-                                className={`flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all text-sm ${location.pathname === '/admin/notifications/add'
-                                    ? 'bg-primary/20 text-white shadow-sm'
-                                    : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                                className={`flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all text-[10px] font-black uppercase tracking-widest ${location.pathname === '/admin/notifications/add'
+                                    ? 'text-white bg-white/5 shadow-inner'
+                                    : 'text-gray-500 hover:text-white'
                                     }`}
                             >
-                                <Plus size={16} />
-                                <span className="font-semibold">Create Notification</span>
+                                <Plus size={14} />
+                                <span>Create Notification</span>
                             </Link>
                             <Link
                                 to="/admin/notifications"
-                                className={`flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all text-sm ${location.pathname === '/admin/notifications'
-                                    ? 'bg-primary/20 text-white shadow-sm'
-                                    : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                                className={`flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all text-[10px] font-black uppercase tracking-widest ${location.pathname === '/admin/notifications'
+                                    ? 'text-white bg-white/5 shadow-inner'
+                                    : 'text-gray-500 hover:text-white'
                                     }`}
                             >
-                                <List size={16} />
-                                <span className="font-semibold">All Notifications</span>
+                                <List size={14} />
+                                <span>All Notifications</span>
                             </Link>
                         </div>
                     )}
@@ -262,61 +304,61 @@ const AdminSidebar = () => {
                 <div className="mt-1">
                     <button
                         onClick={() => setSupportExpanded(!supportExpanded)}
-                        className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${isSupportActive
-                            ? 'bg-primary text-white shadow-lg shadow-primary/20'
+                        className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all duration-300 ${isSupportActive
+                            ? 'bg-gold/10 text-gold border border-gold/20'
                             : 'text-gray-400 hover:bg-white/5 hover:text-white'
                             }`}
                     >
-                        <Headphones size={20} strokeWidth={isSupportActive ? 2.5 : 2} />
-                        <span className="font-bold text-sm flex-1 text-left">Support</span>
-                        <div className={`transition-transform duration-200 ${supportExpanded ? 'rotate-180' : ''}`}>
-                            <ChevronDown size={16} />
+                        <Headphones size={18} strokeWidth={isSupportActive ? 2.5 : 2} className={isSupportActive ? 'text-gold' : 'group-hover:text-gold transition-colors'} />
+                        <span className="font-bold text-[11px] uppercase tracking-wider flex-1 text-left">Support</span>
+                        <div className={`transition-transform duration-300 ${supportExpanded ? 'rotate-180' : ''}`}>
+                            <ChevronDown size={14} />
                         </div>
                     </button>
 
                     {supportExpanded && (
-                        <div className="mt-1 ml-4 pl-4 border-l border-white/10 space-y-1 animate-in slide-in-from-top-1 duration-200">
+                        <div className="mt-2 ml-4 pl-4 border-l border-gold/20 space-y-1 animate-in slide-in-from-top-1 duration-200">
                             <Link
                                 to="/admin/support"
-                                className={`flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all text-sm ${location.pathname === '/admin/support'
-                                    ? 'bg-primary/20 text-white shadow-sm'
-                                    : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                                className={`flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all text-[10px] font-black uppercase tracking-widest ${location.pathname === '/admin/support'
+                                    ? 'text-white bg-white/5 shadow-inner'
+                                    : 'text-gray-500 hover:text-white'
                                     }`}
                             >
-                                <Ticket size={16} />
-                                <span className="font-semibold">Support Tickets</span>
+                                <Ticket size={14} />
+                                <span>Support Tickets</span>
                             </Link>
                             <Link
                                 to="/admin/support/inquiries"
-                                className={`flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all text-sm ${location.pathname === '/admin/support/inquiries'
-                                    ? 'bg-primary/20 text-white shadow-sm'
-                                    : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                                className={`flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all text-[10px] font-black uppercase tracking-widest ${location.pathname === '/admin/support/inquiries'
+                                    ? 'text-white bg-white/5 shadow-inner'
+                                    : 'text-gray-500 hover:text-white'
                                     }`}
                             >
-                                <MessageSquare size={16} />
-                                <span className="font-semibold">Contact Inquiries</span>
+                                <MessageSquare size={14} />
+                                <span>Contact Inquiries</span>
                             </Link>
                         </div>
                     )}
                 </div>
 
                 {/* Order Management Section */}
-                <p className="text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em] mb-4 mt-6 px-2">Order Management</p>
+                <p className="text-[9px] font-black text-gray-500 uppercase tracking-[0.3em] mb-6 mt-10 px-4">Fulfillment Core</p>
 
                 <div className="mt-1">
                     <button
                         onClick={() => setOrdersExpanded(!ordersExpanded)}
-                        className={`w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all ${isOrdersActive
-                            ? 'bg-primary text-white shadow-lg shadow-primary/20'
+                        className={`w-full flex items-center justify-between px-4 py-3.5 rounded-2xl transition-all duration-300 ${isOrdersActive
+                            ? 'bg-gold/10 text-gold border border-gold/20'
                             : 'text-gray-400 hover:bg-white/5 hover:text-white'
                             }`}
                     >
                         <div className="flex items-center gap-3">
-                            <ShoppingBag size={20} strokeWidth={isOrdersActive ? 2.5 : 2} />
-                            <span className="font-bold text-sm">Order List</span>
+                            <ShoppingBag size={18} strokeWidth={isOrdersActive ? 2.5 : 2} className={isOrdersActive ? 'text-gold' : 'group-hover:text-gold transition-colors'} />
+                            <span className="font-bold text-[11px] uppercase tracking-wider">Order List</span>
                         </div>
-                        <div className={`transition-transform duration-200 ${ordersExpanded ? 'rotate-180' : ''}`}>
-                            <ChevronDown size={16} />
+                        <div className={`transition-transform duration-300 ${ordersExpanded ? 'rotate-180' : ''}`}>
+                            <ChevronDown size={14} />
                         </div>
                     </button>
 

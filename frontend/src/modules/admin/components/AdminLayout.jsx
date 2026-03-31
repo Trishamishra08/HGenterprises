@@ -8,8 +8,8 @@ import {
     AlertTriangle, FileBarChart
 } from 'lucide-react';
 import { useShop } from '../../../context/ShopContext';
-import logo from '../assets/sands-logo.png';
-import logoName from '../assets/sands-logoname.png';
+import logo from '../../user/assets/logo_final.jpg';
+import logoName from '../../user/assets/logo_final.jpg';
 
 const AdminLayout = ({ children }) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(window.innerWidth > 1024);
@@ -22,8 +22,16 @@ const AdminLayout = ({ children }) => {
 
     const menuItems = [
         { name: 'Dashboard', icon: LayoutDashboard, path: '/admin' },
-        { name: 'Categories', icon: ImageIcon, path: '/admin/categories' },
-        { name: 'Subcategories', icon: ListTree, path: '/admin/subcategories' },
+        {
+            name: 'Categories',
+            icon: ImageIcon,
+            path: '/admin/categories',
+            subItems: [
+                { name: 'Jewellery', path: '/admin/categories?department=jewellery', icon: List },
+                { name: 'Machines', path: '/admin/categories?department=machine', icon: List },
+                { name: 'Tools', path: '/admin/categories?department=tools', icon: List }
+            ]
+        },
         {
             name: 'Products',
             icon: Package,
@@ -65,15 +73,7 @@ const AdminLayout = ({ children }) => {
         { name: 'Users', icon: Users, path: '/admin/users' },
         { name: 'Reviews', icon: Star, path: '/admin/reviews' },
         { name: 'Banners', icon: ImageIcon, path: '/admin/banners' },
-        {
-            name: 'Notifications',
-            icon: Bell,
-            path: '/admin/notifications',
-            subItems: [
-                { name: 'Create Notification', path: '/admin/notifications/add', icon: Plus },
-                { name: 'Notification List', path: '/admin/notifications', icon: List }
-            ]
-        },
+        { name: 'Notifications', icon: Bell, path: '/admin/notifications' },
         {
             name: 'Support',
             icon: HelpCircle,
@@ -133,81 +133,96 @@ const AdminLayout = ({ children }) => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 flex flex-col font-sans text-gray-900 overflow-x-hidden admin-font-reset">
+        <div className="min-h-screen bg-[#FDF5F6] text-gray-900 font-outfit admin-font-reset relative flex">
             <style>{`
                 .admin-font-reset, .admin-font-reset * {
-                    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
+                    font-family: 'Outfit', sans-serif !important;
+                }
+                .font-serif {
+                    font-family: 'Playfair Display', serif !important;
                 }
                 .sidebar-scroll::-webkit-scrollbar {
                     width: 6px;
                 }
                 .sidebar-scroll::-webkit-scrollbar-track {
-                    background: rgba(255, 255, 255, 0.05);
+                    background: rgba(255, 255, 255, 0.02);
                 }
                 .sidebar-scroll::-webkit-scrollbar-thumb {
-                    background: rgba(255, 255, 255, 0.2);
-                    border-radius: 10px;
+                    background: rgba(212, 175, 55, 0.5);
+                    border-radius: 0px;
                 }
                 .sidebar-scroll::-webkit-scrollbar-thumb:hover {
-                    background: rgba(255, 255, 255, 0.4);
+                    background: rgba(212, 175, 55, 0.8);
+                }
+                .sidebar-scroll {
+                    scrollbar-width: thin;
+                    scrollbar-color: rgba(212, 175, 55, 0.5) transparent;
+                    -ms-overflow-style: auto;
+                    overflow-y: auto !important;
                 }
             `}</style>
             {/* Sidebar Backdrop (Mobile only) */}
             {isSidebarOpen && (
                 <div
-                    className="fixed inset-0 bg-black/50 z-[90] lg:hidden backdrop-blur-sm animate-in fade-in duration-300"
+                    className="fixed inset-0 bg-black/60 z-[90] lg:hidden backdrop-blur-sm animate-in fade-in duration-300"
                     onClick={() => setIsSidebarOpen(false)}
                 />
             )}
 
-            {/* Sidebar / Mobile Menu Drawer */}
+            {/* Sidebar / Mobile Menu Drawer - Premium Black Theme */}
             <aside
                 className={`
                     ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
-                    fixed inset-y-0 left-0 z-[100] bg-[#3E2723] text-white transition-all duration-500 flex flex-col
-                    w-[300px] lg:z-50 border-r border-white/10
-                    ${isSidebarOpen ? 'lg:w-80' : 'lg:w-20'}
+                    fixed inset-y-0 left-0 z-[100] bg-black text-white transition-all duration-500 flex flex-col
+                    w-[230px] lg:z-50 border-r border-white/5 shadow-2xl h-full
+                    ${isSidebarOpen ? 'lg:w-[230px]' : 'lg:w-20'}
                 `}
             >
                 {/* Header Section */}
-                <div className="h-16 flex items-center justify-center px-4 border-b border-white/10 shrink-0 relative bg-[#3E2723]">
+                <div className="h-16 flex items-center justify-center px-4 border-b border-white/5 shrink-0 relative bg-black">
                     {isSidebarOpen ? (
-                        <img src={logoName} alt="Sands" className="h-13 lg:h-15 brightness-0 invert object-contain" />
+                        <div className="flex items-center gap-2">
+                            <img src={logoName} alt="HG" className="h-10 w-auto object-contain mix-blend-screen" />
+                            <div className="flex flex-col">
+                                <span className="font-serif font-black text-[10px] tracking-[0.2em] uppercase text-white leading-none">HG Enterprises</span>
+                                <span className="text-[7px] text-gold font-bold uppercase tracking-[0.4em] mt-1 italic">Administrative Portal</span>
+                            </div>
+                        </div>
                     ) : (
-                        <img src={logo} alt="S" className="h-13 w-13 mx-auto brightness-0 invert object-contain" />
+                        <img src={logo} alt="HG" className="h-8 w-8 mx-auto object-contain mix-blend-screen" />
                     )}
                     {/* Mobile Close Button */}
                     <button
                         onClick={() => setIsSidebarOpen(false)}
                         className="lg:hidden p-2 hover:bg-white/10 rounded-full transition-colors absolute right-2"
                     >
-                        <X className="w-6 h-6 text-gray-400" />
+                        <X className="w-5 h-5 text-gray-400" />
                     </button>
                 </div>
 
                 {/* Scrollable Container for Nav */}
-                <div className="flex-1 min-h-0 overflow-y-auto sidebar-scroll bg-[#3E2723]">
-                    <nav className="py-6 lg:py-4 px-4 lg:px-0 space-y-1 lg:space-y-0 pb-20">
+                <div className="flex-1 min-h-0 overflow-y-auto sidebar-scroll bg-black">
+                    <nav className="py-4 space-y-0.5 pb-20">
                         {menuItems.map((item) => {
                             const isActive = location.pathname === item.path || (item.subItems && location.pathname.startsWith(item.path));
                             const isExpanded = expandedMenu === item.name;
 
                             return (
-                                <div key={item.name} className="flex flex-col">
+                                <div key={item.name} className="flex flex-col px-2">
                                     <button
                                         onClick={() => handleMenuClick(item)}
-                                        className={`flex items-center gap-4 px-6 py-4 lg:py-3.5 rounded-xl lg:rounded-none transition-all w-full text-left ${isActive && !item.subItems
-                                            ? 'bg-[#8D6E63] text-white shadow-lg lg:scale-100 scale-[1.02]'
-                                            : isActive && item.subItems ? 'text-white bg-white/5' : 'text-gray-200 hover:bg-white/10 hover:text-white'
+                                        className={`flex items-center gap-3 px-4 py-2 transition-all w-full text-left rounded-none group ${isActive
+                                            ? 'bg-white/5 text-gold border-r-2 border-gold font-black'
+                                            : 'text-white/50 hover:bg-white/5 hover:text-white'
                                             }`}
                                     >
-                                        <item.icon className={`w-6 h-6 lg:w-6 lg:h-6 flex-shrink-0 ${isActive ? 'text-white' : ''}`} />
+                                        <item.icon className={`w-4 h-4 flex-shrink-0 ${isActive ? 'text-gold' : 'group-hover:text-gold transition-colors'}`} />
                                         {(isSidebarOpen || window.innerWidth <= 1024) && (
                                             <>
-                                                <span className="text-lg lg:text-base font-semibold lg:font-semibold flex-1 tracking-wide">{item.name}</span>
+                                                <span className={`text-[10px] uppercase tracking-widest flex-1 font-outfit ${isActive ? 'text-gold' : ''}`}>{item.name}</span>
                                                 {item.subItems && (
                                                     <div className={`transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}>
-                                                        <ChevronDown className="w-5 h-5" />
+                                                        <ChevronDown className="w-3 h-3 text-white/30" />
                                                     </div>
                                                 )}
                                             </>
@@ -216,7 +231,7 @@ const AdminLayout = ({ children }) => {
 
                                     {/* Submenu */}
                                     {item.subItems && isExpanded && (isSidebarOpen || window.innerWidth <= 1024) && (
-                                        <div className="bg-black/20 lg:bg-transparent overflow-hidden animate-in slide-in-from-top-2 duration-200">
+                                        <div className="bg-white/5 overflow-hidden animate-in slide-in-from-top-1 duration-200 mt-0.5">
                                             {item.subItems.map((subItem) => {
                                                 const currentPath = location.pathname + location.search;
                                                 const isSubActive = currentPath === subItem.path ||
@@ -226,13 +241,13 @@ const AdminLayout = ({ children }) => {
                                                     <button
                                                         key={subItem.path}
                                                         onClick={() => navigate(subItem.path)}
-                                                        className={`flex items-center gap-3 pl-14 pr-6 py-3 w-full text-left transition-all ${isSubActive
-                                                            ? 'text-white bg-white/5 font-bold'
-                                                            : 'text-white/90 hover:text-white hover:bg-white/5'
+                                                        className={`flex items-center gap-3 pl-10 pr-4 py-1 w-full text-left transition-all ${isSubActive
+                                                            ? 'text-gold font-bold bg-white/5'
+                                                            : 'text-white/40 hover:text-gold hover:bg-white/5'
                                                             }`}
                                                     >
-                                                        <subItem.icon className="w-4 h-4" />
-                                                        <span className="text-base font-medium">{subItem.name}</span>
+                                                        <subItem.icon className="w-3 h-3" />
+                                                        <span className="text-[9px] uppercase tracking-widest font-black font-outfit">{subItem.name}</span>
                                                     </button>
                                                 )
                                             })}
@@ -244,49 +259,48 @@ const AdminLayout = ({ children }) => {
                     </nav>
                 </div>
 
-                {/* Logout Section - Fixed at Bottom */}
-                <div className="p-6 lg:p-4 border-t border-white/10 shrink-0 bg-[#3E2723]">
+                {/* Logout Section - Premium Black Theme */}
+                <div className="p-4 border-t border-white/10 shrink-0 bg-black">
                     <button
                         onClick={handleLogout}
-                        className="flex items-center gap-4 text-gray-400 hover:text-white transition-colors w-full px-2 py-3 lg:py-2"
+                        className="flex items-center gap-4 text-white/30 hover:text-red-400 transition-colors w-full px-4 py-2"
                     >
-                        <LogOut className="w-6 h-6 lg:w-6 lg:h-6" />
-                        {(isSidebarOpen || window.innerWidth <= 1024) && <span className="text-lg lg:text-base font-semibold">Logout</span>}
+                        <LogOut className="w-4 h-4" />
+                        {(isSidebarOpen || window.innerWidth <= 1024) && <span className="text-[10px] uppercase tracking-widest font-black font-outfit">Logout Session</span>}
                     </button>
                 </div>
             </aside>
 
             {/* Main Content Area */}
-            <main className={`flex-grow flex flex-col h-screen overflow-hidden transition-all duration-500 ease-in-out ${isSidebarOpen ? 'lg:ml-80' : 'lg:ml-20'
-                }`}>
+            <main className={`flex-grow flex flex-col min-h-screen bg-[#FDF5F6] transition-all duration-500 ease-in-out ${isSidebarOpen ? 'lg:ml-[230px]' : 'lg:ml-20'}`}>
                 {/* Topbar */}
-                <header className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 lg:px-6 sticky top-0 z-40 shrink-0 shadow-sm">
+                <header className="h-14 bg-white border-b border-gray-100 flex items-center justify-between px-4 lg:px-6 sticky top-0 z-40 shrink-0 shadow-sm">
                     <div className="flex items-center gap-3 lg:gap-4">
                         <button
                             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                            className="p-2.5 hover:bg-gray-50 rounded-xl transition-all border border-gray-100 lg:border-none shadow-sm lg:shadow-none"
+                            className="p-2 hover:bg-gray-50 rounded-none transition-all border border-gray-100 lg:border-none"
                         >
-                            {isSidebarOpen && window.innerWidth > 1024 ? <Menu className="w-5 h-5 text-gray-500" /> : <Menu className="w-5 h-5 text-gray-500" />}
+                            <Menu className="w-4 h-4 text-gray-500" />
                         </button>
-                        <h2 className="text-sm lg:text-lg font-bold text-gray-800 tracking-tight line-clamp-1">
-                            {menuItems.find(i => i.path === location.pathname)?.name || 'Admin Panel'}
+                        <h2 className="text-xs font-serif font-black text-black uppercase tracking-widest line-clamp-1">
+                            {menuItems.find(i => i.path === location.pathname)?.name || 'Control Panel'}
                         </h2>
                     </div>
 
-                    <div className="flex items-center gap-2 lg:gap-3">
-                        <div className="text-right hidden sm:block font-medium">
-                            <p className="text-[11px] lg:text-sm text-gray-900 font-bold">Admin User</p>
-                            <p className="text-[9px] lg:text-xs text-gray-500 font-bold uppercase tracking-wider">Super Admin</p>
+                    <div className="flex items-center gap-2 lg:gap-4">
+                        <div className="text-right hidden sm:block font-serif">
+                            <p className="text-[10px] text-black font-black uppercase tracking-tight">Admin Portal</p>
+                            <p className="text-[8px] text-gray-400 font-bold uppercase tracking-[0.2em] italic">Super User</p>
                         </div>
-                        <div className="w-8 h-8 lg:w-10 lg:h-10 bg-[#FDFBF7] rounded-xl lg:rounded-full border border-gray-200 flex items-center justify-center text-[#5D4037] font-bold shadow-sm">
+                        <div className="w-8 h-8 bg-gray-50 rounded-none border border-gray-100 flex items-center justify-center text-black font-serif font-black shadow-sm italic">
                             A
                         </div>
                     </div>
                 </header>
 
-                {/* Scrollable Page Content */}
-                <div className="flex-grow overflow-y-auto bg-gray-50 p-4 lg:p-8 space-y-6">
-                    <div className="max-w-[1600px] mx-auto animate-in fade-in duration-500">
+                {/* Sequential Page Content */}
+                <div className="bg-[#FDF5F6]">
+                    <div className="p-3 lg:p-5 space-y-4 max-w-[1600px] mx-auto animate-in fade-in duration-500">
                         {children}
                     </div>
                 </div>

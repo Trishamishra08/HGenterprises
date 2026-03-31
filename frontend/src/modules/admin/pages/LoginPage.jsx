@@ -3,7 +3,7 @@ import { useAuth } from '../../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { Lock, Mail, Eye, EyeOff, ShieldCheck, ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
-import logo from '../assets/hg_logo_gold.png';
+import logo from '../../user/assets/logo_final.jpg';
 
 const LoginPage = () => {
     const { login } = useAuth();
@@ -56,18 +56,18 @@ const LoginPage = () => {
                 {/* Branding */}
                 {/* Branding */}
                 <div className="flex flex-col items-center justify-center mb-6 text-center">
-                    <img src={logo} alt="HG Admin" className="h-12 w-auto mb-4" />
-                    <h1 className="text-2xl font-black text-white tracking-tighter uppercase mb-2">
-                        Admin <span className="text-primary">Portal</span>
+                    <img src={logo} alt="HG Admin" className="h-[50px] w-auto mb-4 object-contain mix-blend-screen drop-shadow-lg" />
+                    <h1 className="text-2xl font-serif font-black text-white tracking-widest uppercase mb-2">
+                        Admin <span className="text-primary italic">Portal</span>
                     </h1>
                 </div>
 
-                <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-10 rounded-[2.5rem] shadow-2xl shadow-black/40">
+                <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-10 rounded-none shadow-2xl shadow-black/40">
                     <div className="mb-8 flex flex-col items-center justify-center gap-3 text-center">
-                        <div className="w-10 h-10 bg-primary/20 text-primary rounded-xl flex items-center justify-center">
+                        <div className="w-10 h-10 bg-primary/20 text-primary rounded-none flex items-center justify-center border border-primary/30">
                             <ShieldCheck size={20} strokeWidth={2.5} />
                         </div>
-                        <h2 className="text-xl font-black text-white uppercase tracking-tight">Verify Identity</h2>
+                        <h2 className="text-xl font-serif font-black text-white uppercase tracking-widest italic">Verify Identity</h2>
                     </div>
 
                     {error && (
@@ -92,7 +92,7 @@ const LoginPage = () => {
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     placeholder="admin@hgenterprises.com"
-                                    className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-sm font-bold text-white outline-none focus:bg-white/10 focus:border-primary transition-all placeholder:text-gray-600"
+                                    className="w-full bg-white/5 border border-white/10 rounded-none py-4 pl-12 pr-4 text-sm font-bold text-white outline-none focus:bg-white/10 focus:border-primary transition-all placeholder:text-gray-600 font-outfit"
                                 />
                             </div>
                         </div>
@@ -107,7 +107,7 @@ const LoginPage = () => {
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     placeholder="••••••••"
-                                    className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-12 pr-12 text-sm font-bold text-white outline-none focus:bg-white/10 focus:border-primary transition-all placeholder:text-gray-600"
+                                    className="w-full bg-white/5 border border-white/10 rounded-none py-4 pl-12 pr-12 text-sm font-bold text-white outline-none focus:bg-white/10 focus:border-primary transition-all placeholder:text-gray-600 font-outfit"
                                 />
                                 <button
                                     type="button"
@@ -123,7 +123,7 @@ const LoginPage = () => {
                             <button
                                 type="submit"
                                 disabled={isSubmitting}
-                                className="w-full bg-primary hover:bg-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed text-white py-4 rounded-2xl font-black text-[11px] uppercase tracking-[0.2em] flex items-center justify-center gap-3 transition-all shadow-xl shadow-primary/20 active:scale-95"
+                                className="w-full bg-primary hover:bg-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed text-white py-4 rounded-none font-black text-[11px] uppercase tracking-[0.2em] flex items-center justify-center gap-3 transition-all shadow-xl shadow-primary/20 active:scale-95"
                             >
                                 {isSubmitting ? (
                                     <>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Save, RotateCcw, Plus, Minus, AlertCircle, CheckCircle2, Package } from 'lucide-react';
+import PageHeader from '../../components/common/PageHeader';
 
 const StockAdjustmentPage = () => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -14,11 +15,11 @@ const StockAdjustmentPage = () => {
         // Simulating API fetch
         setTimeout(() => {
             setProducts([
-                { id: 1, name: 'Gold Plated Necklace', category: 'Necklace', stock: 120, image: 'https://via.placeholder.com/40' },
-                { id: 2, name: 'Diamond Stud Earrings', category: 'Earrings', stock: 45, image: 'https://via.placeholder.com/40' },
-                { id: 3, name: 'Silver Anklet', category: 'Anklet', stock: 0, image: 'https://via.placeholder.com/40' },
-                { id: 4, name: 'Rose Gold Bracelet', category: 'Bracelet', stock: 85, image: 'https://via.placeholder.com/40' },
-                { id: 5, name: 'Pearl Choker', category: 'Necklace', stock: 15, image: 'https://via.placeholder.com/40' },
+                { id: 1, name: 'GOLD PLATED NECKLACE', category: 'Necklace', stock: 120, image: 'https://images.unsplash.com/photo-1599643477877-530eb83abc8e?w=100&h=100&fit=crop' },
+                { id: 2, name: 'DIAMOND STUD EARRINGS', category: 'Earrings', stock: 45, image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=100&h=100&fit=crop' },
+                { id: 3, name: 'SILVER ANKLET', category: 'Anklet', stock: 0, image: 'https://images.unsplash.com/photo-1611591437281-460bfbe1520e?w=100&h=100&fit=crop' },
+                { id: 4, name: 'ROSE GOLD BRACELET', category: 'Bracelet', stock: 85, image: 'https://images.unsplash.com/photo-1530124560676-4ce5784914f6?w=100&h=100&fit=crop' },
+                { id: 5, name: 'PEARL CHOKER', category: 'Necklace', stock: 15, image: 'https://images.unsplash.com/photo-1599643477877-530eb83abc8e?w=100&h=100&fit=crop' },
             ]);
             setLoading(false);
         }, 500);
@@ -46,7 +47,6 @@ const StockAdjustmentPage = () => {
             setProducts(newProducts);
             setAdjustments({});
             setSaving(false);
-            // Show toast/success message here if we had a toast system
         }, 1000);
     };
 
@@ -62,76 +62,76 @@ const StockAdjustmentPage = () => {
     const pendingCount = Object.keys(adjustments).length;
 
     return (
-        <div className="space-y-8 font-sans pb-24 animate-in fade-in duration-500">
-            {/* Header */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+        <div className="space-y-4 font-outfit pb-24 animate-in fade-in duration-500">
+            {/* Header Section */}
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center bg-white p-4 border border-black/5 rounded-none shadow-sm gap-4">
                 <div>
-                    <h1 className="text-2xl font-black text-gray-900 uppercase tracking-tight">Stock Adjustment</h1>
-                    <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mt-1">Manually update product inventory</p>
+                    <h1 className="text-xl font-black text-footerBg uppercase tracking-tighter leading-tight">Stock Adjustment</h1>
+                    <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest leading-none mt-0.5">Manual Inventory Reconciliation Protocol</p>
                 </div>
-                <div className="flex gap-3">
+                <div className="flex gap-2">
                     <button
                         onClick={resetAdjustments}
                         disabled={pendingCount === 0 || saving}
-                        className="px-4 py-2 border border-gray-200 bg-white text-gray-600 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center gap-2"
+                        className="px-3 py-2 bg-white border border-black/10 text-gray-400 rounded-none text-[9px] font-black uppercase tracking-widest hover:border-black hover:text-black hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all flex items-center gap-2"
                     >
-                        <RotateCcw size={14} /> Reset
+                        <RotateCcw size={12} /> <span>Reset Protocol</span>
                     </button>
                     <button
                         onClick={handleSave}
                         disabled={pendingCount === 0 || saving}
-                        className="px-6 py-2 bg-[#0f172a] text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-black shadow-lg shadow-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center gap-2"
+                        className="px-4 py-2 bg-black text-white rounded-none text-[9px] font-black uppercase tracking-widest hover:bg-primary shadow-xl shadow-black/20 disabled:opacity-30 disabled:cursor-not-allowed transition-all flex items-center gap-2"
                     >
                         {saving ? (
                             <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                         ) : (
-                            <Save size={14} />
+                            <Save size={12} fill="currentColor" strokeWidth={2} />
                         )}
-                        Sync Changes
+                        <span>Sync Changes</span>
                     </button>
                 </div>
             </div>
 
-            {/* Search Bar */}
-            <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm mb-6 flex items-center gap-4 sticky top-4 z-20">
+            {/* Search Consol - High Density */}
+            <div className="bg-white p-3 rounded-none border border-black/5 shadow-sm mb-6 flex items-center gap-4 sticky top-4 z-20">
                 <div className="relative flex-1">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-300" size={16} />
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={14} />
                     <input
                         type="text"
-                        placeholder="Search product by Name or Category..."
+                        placeholder="SEARCH PRODUCT REGISTRY..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full pl-10 pr-4 py-2 bg-gray-50 rounded-xl border-none text-xs font-bold text-gray-900 focus:ring-0 placeholder:text-gray-400"
+                        className="w-full pl-10 pr-4 py-2 bg-gray-50 rounded-none border border-transparent text-[9px] font-black uppercase tracking-widest text-footerBg outline-none focus:bg-white focus:border-black/10 transition-all placeholder:text-gray-400"
                     />
                 </div>
                 {pendingCount > 0 && (
-                    <div className="px-3 py-1 bg-blue-50 text-blue-600 rounded-lg border border-blue-100 flex items-center gap-2 animate-in fade-in slide-in-from-right-4">
-                        <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
-                        <span className="text-[10px] font-black uppercase tracking-widest">{pendingCount} Pending Modifications</span>
+                    <div className="px-3 py-1.5 bg-primary/5 text-primary rounded-none border border-primary/20 flex items-center gap-2 animate-in fade-in slide-in-from-right-4">
+                        <span className="w-1 h-1 rounded-full bg-primary animate-pulse shadow-[0_0_8px_rgba(var(--primary-rgb),0.6)]"></span>
+                        <span className="text-[9px] font-black uppercase tracking-widest leading-none">{pendingCount} Staged</span>
                     </div>
                 )}
             </div>
 
-            {/* Products Table */}
-            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+            {/* Adjustment Consol - Geometric Table */}
+            <div className="bg-white rounded-none border border-black/5 shadow-sm overflow-hidden">
                 <div className="overflow-x-auto">
                     <table className="w-full text-left border-collapse">
-                        <thead className="bg-[#F8FAFC] border-b border-gray-100">
-                            <tr>
-                                <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest w-[50%]">Product Details</th>
-                                <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest text-center">Current Stock</th>
-                                <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest text-center">Add / Remove</th>
-                                <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest text-right">Final Stock</th>
+                        <thead>
+                            <tr className="bg-gray-50/50 border-b border-black/5">
+                                <th className="px-6 py-5 text-gray-400 font-black uppercase tracking-[0.2em] text-[10px] w-[50%]">Inventory Asset</th>
+                                <th className="px-6 py-5 text-gray-400 font-black uppercase tracking-[0.2em] text-[10px] text-center">Current Base</th>
+                                <th className="px-6 py-5 text-gray-400 font-black uppercase tracking-[0.2em] text-[10px] text-center">Deviation</th>
+                                <th className="px-6 py-5 text-gray-400 font-black uppercase tracking-[0.2em] text-[10px] text-right">Projected Level</th>
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-gray-50">
+                        <tbody className="divide-y divide-black/5">
                             {loading ? (
                                 <tr>
-                                    <td colSpan="4" className="px-6 py-12 text-center text-gray-400 text-xs font-bold uppercase tracking-widest">Loading Inventory...</td>
+                                    <td colSpan="4" className="px-6 py-20 text-center font-serif italic text-gray-300 text-lg">Initializing registry...</td>
                                 </tr>
                             ) : filteredProducts.length === 0 ? (
                                 <tr>
-                                    <td colSpan="4" className="px-6 py-12 text-center text-gray-400 text-xs font-bold uppercase tracking-widest">No products found</td>
+                                    <td colSpan="4" className="px-6 py-20 text-center font-serif italic text-gray-300 text-lg">No assets matched your query.</td>
                                 </tr>
                             ) : (
                                 filteredProducts.map((product) => {
@@ -140,53 +140,49 @@ const StockAdjustmentPage = () => {
                                     const isModified = adjustment !== 0;
 
                                     return (
-                                        <tr key={product.id} className={`hover:bg-gray-50/50 transition-colors group ${isModified ? 'bg-blue-50/30' : ''}`}>
+                                        <tr key={product.id} className={`hover:bg-gray-50/80 transition-colors group ${isModified ? 'bg-primary/5' : ''}`}>
                                             <td className="px-6 py-4">
                                                 <div className="flex items-center gap-4">
-                                                    <div className="w-10 h-10 bg-gray-50 rounded-lg border border-gray-100 p-1 flex-shrink-0">
-                                                        {product.image ? (
-                                                            <img src={product.image} alt="" className="w-full h-full object-contain mix-blend-multiply" />
-                                                        ) : (
-                                                            <Package size={20} className="text-gray-300 m-auto" />
-                                                        )}
+                                                    <div className="w-12 h-12 bg-gray-50 rounded-none border border-black/5 p-1 flex-shrink-0 transition-transform group-hover:scale-105">
+                                                        <img src={product.image} alt="" className="w-full h-full object-cover" />
                                                     </div>
                                                     <div>
-                                                        <p className="text-sm font-bold text-gray-900 line-clamp-1">{product.name}</p>
-                                                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-0.5">{product.category}</p>
+                                                        <p className="text-xs font-black text-footerBg tracking-tight mb-1">{product.name}</p>
+                                                        <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">{product.category}</p>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td className="px-6 py-4 text-center">
-                                                <span className={`text-sm font-black ${product.stock === 0 ? 'text-red-500' : 'text-gray-900'}`}>
-                                                    {product.stock}
+                                                <span className={`text-2xl font-serif font-black ${product.stock === 0 ? 'text-red-500' : 'text-footerBg'}`}>
+                                                    {product.stock.toString().padStart(2, '0')}
                                                 </span>
                                             </td>
                                             <td className="px-6 py-4 text-center">
-                                                <div className="inline-flex items-center justify-center relative">
+                                                <div className="inline-flex items-center justify-center relative group-adjustment">
                                                     <input
                                                         type="number"
                                                         value={adjustment === 0 ? '' : adjustment}
                                                         onChange={(e) => handleAdjustmentChange(product.id, e.target.value)}
                                                         placeholder="0"
-                                                        className={`w-24 px-3 py-2 text-center rounded-xl border-2 text-sm font-black focus:outline-none focus:ring-0 transition-all
-                                                            ${adjustment > 0 ? 'bg-emerald-50 border-emerald-200 text-emerald-600 placeholder:text-emerald-300' : ''}
-                                                            ${adjustment < 0 ? 'bg-red-50 border-red-200 text-red-600 placeholder:text-red-300' : ''}
-                                                            ${adjustment === 0 ? 'bg-white border-gray-200 text-gray-900 placeholder:text-gray-300 focus:border-gray-400' : ''}
+                                                        className={`w-28 px-4 py-2.5 text-center rounded-none border text-lg font-serif font-black outline-none transition-all
+                                                            ${adjustment > 0 ? 'bg-emerald-50 border-emerald-500/20 text-emerald-600 placeholder:text-emerald-300' : ''}
+                                                            ${adjustment < 0 ? 'bg-red-50 border-red-500/20 text-red-600 placeholder:text-red-300' : ''}
+                                                            ${adjustment === 0 ? 'bg-white border-black/5 text-footerBg placeholder:text-gray-100 focus:border-black/20' : ''}
                                                         `}
                                                     />
-                                                    {adjustment > 0 && <Plus size={12} className="absolute left-3 text-emerald-500 pointer-events-none" />}
-                                                    {adjustment < 0 && <Minus size={12} className="absolute left-3 text-red-500 pointer-events-none" />}
+                                                    {adjustment > 0 && <span className="absolute left-3 text-emerald-500 font-black">+</span>}
+                                                    {adjustment < 0 && <span className="absolute left-3 text-red-500 font-black">-</span>}
                                                 </div>
                                             </td>
                                             <td className="px-6 py-4 text-right">
-                                                <div className="flex items-center justify-end gap-2">
-                                                    <span className={`text-sm font-black transition-all ${finalStock < 0 ? 'text-red-600' :
-                                                        finalStock !== product.stock ? 'text-blue-600' : 'text-gray-900'
+                                                <div className="flex items-center justify-end gap-3">
+                                                    <span className={`text-2xl font-serif font-black transition-all ${finalStock < 0 ? 'text-red-600' :
+                                                        finalStock !== product.stock ? 'text-primary' : 'text-footerBg'
                                                         }`}>
-                                                        {finalStock}
+                                                        {finalStock.toString().padStart(2, '0')}
                                                     </span>
                                                     {isModified && (
-                                                        <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">(New)</span>
+                                                        <span className="text-[9px] font-black text-white bg-primary px-1.5 py-0.5 rounded-none uppercase tracking-tighter">FINAL</span>
                                                     )}
                                                 </div>
                                             </td>
@@ -199,31 +195,32 @@ const StockAdjustmentPage = () => {
                 </div>
             </div>
 
-            {/* Floating Review Bar */}
+            {/* Floating Review Consol */}
             {pendingCount > 0 && (
-                <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-gray-900 text-white p-4 rounded-2xl shadow-2xl flex items-center gap-6 z-50 animate-in slide-in-from-bottom-6 border border-gray-800 w-[90%] md:w-auto max-w-2xl">
-                    <div className="flex items-center gap-3 border-r border-gray-700 pr-6">
-                        <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center font-black text-xs">
-                            {pendingCount}
+                <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-white text-footerBg p-4 rounded-none shadow-[0_20px_50px_rgba(0,0,0,0.2)] flex items-center gap-6 z-50 animate-in slide-in-from-bottom-6 border border-black/10 w-[90%] md:w-auto max-w-2xl">
+                    <div className="flex items-center gap-4 border-r border-black/5 pr-6">
+                        <div className="w-10 h-10 rounded-none bg-primary text-white flex items-center justify-center font-black text-sm shadow-lg shadow-primary/20">
+                            {pendingCount.toString().padStart(2, '0')}
                         </div>
                         <div>
-                            <p className="text-xs font-black uppercase tracking-widest">Pending Changes</p>
-                            <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Review before syncing</p>
+                            <p className="text-[10px] font-black uppercase tracking-widest leading-none mb-1 text-footerBg">STAGED MODIFICATIONS</p>
+                            <p className="text-[8px] text-gray-400 font-bold uppercase tracking-[0.2em]">Reconcile Batch Operations</p>
                         </div>
                     </div>
-                    <div className="flex gap-3 flex-1 md:flex-initial">
+                    <div className="flex gap-2 flex-1 md:flex-initial">
                         <button
                             onClick={resetAdjustments}
-                            className="px-4 py-2 hover:bg-gray-800 rounded-lg text-xs font-bold uppercase tracking-widest text-gray-400 hover:text-white transition-colors"
+                            className="px-4 py-2 border border-black/10 hover:border-black rounded-none text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-black transition-all"
                         >
-                            Reset All
+                            Wipe Protocol
                         </button>
                         <button
                             onClick={handleSave}
                             disabled={saving}
-                            className="px-6 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg text-xs font-black uppercase tracking-widest shadow-lg shadow-emerald-900/20 transition-all flex items-center gap-2"
+                            className="px-6 py-2 bg-black text-white rounded-none text-[10px] font-black uppercase tracking-widest shadow-xl shadow-black/20 hover:bg-primary transition-all flex items-center gap-3 group"
                         >
-                            {saving ? 'Syncing...' : 'Confirm Updates'} <CheckCircle2 size={16} />
+                            <span>{saving ? 'RECOGNIZING...' : 'COMMIT RECONCILIATION'}</span> 
+                            <CheckCircle2 size={16} strokeWidth={2.5} className="group-hover:scale-110 transition-transform" />
                         </button>
                     </div>
                 </div>

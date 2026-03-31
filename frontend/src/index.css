@@ -2,18 +2,21 @@
 
 @theme {
     --font-display: 'Outfit', sans-serif;
+    --font-outfit: 'Outfit', sans-serif;
     --font-serif: 'Playfair Display', serif;
     --font-body: 'Inter', sans-serif;
 
     --color-pure-white: #FFFFFF;
-    --color-primary: #4A1015; /* Logo Maroon */
-    --color-secondary: #8B4356; /* Logo Burgundy */
-    --color-gold-light: #fdf2f8;
-    --color-gold: #8B4356;
-    --color-gold-dark: #4A1015;
-    --color-dark: #121212;
-    --color-muted: #71717A;
+    --color-primary: #3E2723; /* Logo Dark Brown */
+    --color-secondary: #8D6E63; /* Muted Gold/Taupe */
+    --color-gold: #C5A059; /* Bright Gold */
+    --color-gold-light: #FDFBF7; /* Cream Background */
+    --color-gold-dark: #2D1B1E; /* Deeper Brown */
+    --color-dark: #1A1A1A;
+    --color-muted: #A1A1AA;
     --color-bg-light: #FDF5F6;
+    --color-footer-bg: #3E2723;
+    --color-accent: #C5A059;
 }
 
 

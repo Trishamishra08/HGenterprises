@@ -2,6 +2,7 @@
 
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { ShopProvider } from './context/ShopContext';
+import { AuthProvider } from './context/AuthContext';
 import Navbar from './modules/user/components/Navbar';
 import Footer from './modules/user/components/Footer';
 import Home from './modules/user/pages/Home';
@@ -198,11 +199,13 @@ const AppContent = () => {
 
 function App() {
   return (
-    <ShopProvider>
-      <Router>
-        <AppContent />
-      </Router>
-    </ShopProvider>
+    <AuthProvider>
+      <ShopProvider>
+        <Router>
+          <AppContent />
+        </Router>
+      </ShopProvider>
+    </AuthProvider>
   );
 }
 

@@ -106,30 +106,30 @@ const BlogManagement = () => {
     });
 
     return (
-        <div className="max-w-[1400px] mx-auto space-y-6 pb-20 animate-in fade-in duration-500 font-sans">
+        <div className="max-w-[1600px] mx-auto space-y-4 pb-10 animate-in fade-in duration-500 font-sans">
             {!isEditing ? (
                 <>
                     {/* Header Section */}
-                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-black/5 pb-4">
                         <PageHeader
                             title="Blog Management"
                             subtitle="Manage your blog posts, articles, and updates."
                         />
                         <button
                             onClick={handleAddNew}
-                            className="flex items-center gap-2 px-6 py-3 bg-[#3E2723] text-white rounded-xl text-sm font-bold hover:bg-[#5D4037] transition-all shadow-lg active:scale-95"
+                            className="flex items-center gap-2 px-6 py-2 bg-black text-white rounded-none text-[10px] font-black uppercase tracking-widest hover:bg-gold hover:text-black transition-all active:scale-95 shadow-sm"
                         >
-                            <Plus size={18} />
+                            <Plus size={16} />
                             Create New Post
                         </button>
                     </div>
 
                     {/* Stats/Filter Bar */}
-                    <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex flex-col md:flex-row gap-4 items-center justify-between">
-                        <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto scrollbar-hide pb-2 md:pb-0">
+                    <div className="bg-white p-2 rounded-none border border-black/5 shadow-sm flex flex-col md:flex-row gap-2 items-center justify-between">
+                        <div className="flex items-center gap-1 overflow-x-auto w-full md:w-auto scrollbar-hide pb-2 md:pb-0 bg-[#FDF5F6] p-1">
                             <button
                                 onClick={() => setSelectedCategory('All')}
-                                className={`px-4 py-2 rounded-lg text-xs font-bold whitespace-nowrap transition-all ${selectedCategory === 'All' ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+                                className={`px-4 py-2 rounded-none text-[9px] font-black uppercase tracking-widest whitespace-nowrap transition-all ${selectedCategory === 'All' ? 'bg-black text-white' : 'text-gray-400 hover:text-black'}`}
                             >
                                 All Posts
                             </button>
@@ -137,69 +137,69 @@ const BlogManagement = () => {
                                 <button
                                     key={cat}
                                     onClick={() => setSelectedCategory(cat)}
-                                    className={`px-4 py-2 rounded-lg text-xs font-bold whitespace-nowrap transition-all ${selectedCategory === cat ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+                                    className={`px-4 py-2 rounded-none text-[9px] font-black uppercase tracking-widest whitespace-nowrap transition-all ${selectedCategory === cat ? 'bg-black text-white' : 'text-gray-400 hover:text-black'}`}
                                 >
                                     {cat}
                                 </button>
                             ))}
                         </div>
                         <div className="relative w-full md:w-64">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gold w-3.5 h-3.5" />
                             <input
                                 type="text"
-                                placeholder="Search blogs..."
+                                placeholder="SEARCH DATASET..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border-none rounded-xl text-sm font-medium text-gray-900 focus:ring-2 focus:ring-[#3E2723]/10 outline-none"
+                                className="w-full pl-9 pr-4 py-2 bg-[#FDF5F6] border-none rounded-none text-[10px] font-black tracking-widest text-black focus:outline-none placeholder:text-gray-300"
                             />
                         </div>
                     </div>
 
                     {/* Blog Feed */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                         {filteredBlogs.map(blog => (
-                            <div key={blog.id} className="group bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col h-full">
+                            <div key={blog.id} className="group bg-white rounded-none border border-black/5 overflow-hidden hover:border-gold/30 transition-all duration-300 flex flex-col h-full shadow-sm">
                                 {/* Image */}
-                                <div className="h-48 overflow-hidden relative">
+                                <div className="h-40 overflow-hidden relative">
                                     <img
                                         src={blog.image}
                                         alt={blog.title}
-                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                                     />
-                                    <div className="absolute top-3 left-3 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider text-[#3E2723]">
+                                    <div className="absolute top-2 left-2 bg-white/90 backdrop-blur px-2 py-0.5 rounded-none text-[7px] font-black uppercase tracking-[0.2em] text-[#3E2723] border border-black/5">
                                         {blog.category}
                                     </div>
                                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
                                         <button
                                             onClick={() => handleEdit(blog)}
-                                            className="p-2 bg-white rounded-full text-gray-900 shadow-lg hover:scale-110 transition-transform"
+                                            className="p-2 bg-white rounded-none text-black shadow-lg hover:bg-gold transition-colors"
                                         >
-                                            <Edit2 size={16} />
+                                            <Edit2 size={14} />
                                         </button>
                                         <button
                                             onClick={() => handleDelete(blog.id)}
-                                            className="p-2 bg-red-500 rounded-full text-white shadow-lg hover:scale-110 transition-transform"
+                                            className="p-2 bg-red-500 rounded-none text-white shadow-lg hover:bg-red-600 transition-colors"
                                         >
-                                            <Trash2 size={16} />
+                                            <Trash2 size={14} />
                                         </button>
                                     </div>
                                 </div>
                                 {/* Content */}
-                                <div className="p-5 flex-1 flex flex-col">
-                                    <div className="flex items-center gap-2 mb-3 text-xs text-gray-400 font-bold uppercase tracking-wider">
-                                        <Calendar size={12} />
+                                <div className="p-4 flex-1 flex flex-col">
+                                    <div className="flex items-center gap-2 mb-2 text-[8px] text-gray-400 font-black uppercase tracking-widest">
+                                        <Calendar size={10} className="text-gold" />
                                         <span>{blog.date}</span>
-                                        <span>•</span>
+                                        <span className="text-gold">•</span>
                                         <span>{blog.author}</span>
                                     </div>
-                                    <h3 className="text-lg font-bold text-gray-900 mb-2 leading-tight font-serif">{blog.title}</h3>
-                                    <p className="text-sm text-gray-600 line-clamp-2 mb-4 flex-1">{blog.excerpt}</p>
+                                    <h3 className="text-base font-serif font-black text-black mb-1 uppercase tracking-tight leading-tight group-hover:text-gold transition-colors">{blog.title}</h3>
+                                    <p className="text-[10px] text-gray-400 line-clamp-2 mb-3 flex-1 font-medium tracking-tight h-8 uppercase">{blog.excerpt}</p>
 
                                     <button
                                         onClick={() => handleEdit(blog)}
-                                        className="w-full py-2.5 rounded-lg bg-gray-50 text-gray-900 text-xs font-bold hover:bg-[#3E2723] hover:text-white transition-colors"
+                                        className="w-full py-2 rounded-none bg-[#FDF5F6] text-black text-[9px] font-black uppercase tracking-widest hover:bg-black hover:text-white border border-black/5 transition-all"
                                     >
-                                        Edit Content
+                                        Edit Entry
                                     </button>
                                 </div>
                             </div>
@@ -218,81 +218,81 @@ const BlogManagement = () => {
                 </>
             ) : (
                 /* Edit Form */
-                <form onSubmit={handleSave} className="bg-white rounded-3xl shadow-sm border border-gray-200 overflow-hidden">
-                    <div className="p-6 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
+                <form onSubmit={handleSave} className="bg-white rounded-none shadow-sm border border-black/5 overflow-hidden">
+                    <div className="p-4 border-b border-black/5 flex items-center justify-between bg-[#FDF5F6]">
                         <div className="flex items-center gap-4">
                             <button
                                 type="button"
                                 onClick={() => setIsEditing(false)}
-                                className="p-2 hover:bg-gray-200 rounded-full text-gray-500 transition-colors"
+                                className="p-2 hover:bg-white rounded-none text-gray-400 transition-colors border border-transparent hover:border-black/5"
                             >
-                                <ArrowLeft size={20} />
+                                <ArrowLeft size={16} />
                             </button>
                             <div>
-                                <h2 className="text-xl font-bold text-gray-900 font-serif">
-                                    {formData.id ? 'Edit Blog Post' : 'Create New Post'}
+                                <h2 className="text-lg font-serif font-black text-black uppercase tracking-tight">
+                                    {formData.id ? 'Entry Edit' : 'New Registry'}
                                 </h2>
-                                <p className="text-xs text-gray-500 font-bold uppercase tracking-widest mt-1">
-                                    Fille in the details below
+                                <p className="text-[8px] text-gray-400 font-black uppercase tracking-[0.2em] mt-0.5">
+                                    Blog Management Protocol
                                 </p>
                             </div>
                         </div>
-                        <div className="flex gap-3">
+                        <div className="flex gap-2">
                             <button
                                 type="button"
                                 onClick={() => setIsEditing(false)}
-                                className="px-6 py-2.5 rounded-xl text-sm font-bold text-gray-500 bg-white border border-gray-200 hover:bg-gray-50"
+                                className="px-5 py-2 rounded-none text-[10px] font-black uppercase tracking-widest text-black bg-white border border-black/5 hover:bg-gray-50"
                             >
-                                Cancel
+                                Abort
                             </button>
                             <button
                                 type="submit"
-                                className="px-6 py-2.5 rounded-xl text-sm font-bold text-white bg-[#3E2723] hover:bg-[#5D4037] shadow-lg shadow-[#3E2723]/20 flex items-center gap-2"
+                                className="px-5 py-2 rounded-none text-[10px] font-black uppercase tracking-widest text-white bg-black hover:bg-gold hover:text-black shadow-sm flex items-center gap-2"
                             >
-                                <Save size={18} />
-                                Save Post
+                                <Save size={14} />
+                                Commit
                             </button>
                         </div>
                     </div>
 
-                    <div className="p-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div className="p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
                         {/* Main Info */}
-                        <div className="lg:col-span-2 space-y-6">
+                        <div className="lg:col-span-2 space-y-4">
                             {/* Title */}
-                            <div className="space-y-2">
-                                <label className="text-xs font-bold text-gray-900 uppercase tracking-wider">Blog Title</label>
+                            <div className="space-y-1.5 text-left">
+                                <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Article Title</label>
                                 <input
                                     type="text"
                                     required
-                                    placeholder="e.g., The Ultimate Guide to Silver Jewelry"
-                                    className="w-full p-4 bg-white border-2 border-gray-100 rounded-xl text-lg font-bold text-gray-900 placeholder:text-gray-300 focus:border-[#3E2723] focus:ring-0 outline-none transition-all"
+                                    placeholder="ENTER TITLE..."
+                                    className="w-full p-3 bg-[#FDF5F6] border border-black/5 rounded-none text-base font-serif font-black text-black placeholder:text-gray-300 focus:border-gold outline-none transition-all uppercase tracking-tight"
                                     value={formData.title}
                                     onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                                 />
                             </div>
 
                             {/* Excerpt */}
-                            <div className="space-y-2">
-                                <label className="text-xs font-bold text-gray-900 uppercase tracking-wider">Short Excerpt</label>
+                            <div className="space-y-1.5 text-left">
+                                <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Short Abstract</label>
                                 <textarea
-                                    rows="3"
-                                    placeholder="Brief summary for the card view..."
-                                    className="w-full p-4 bg-white border-2 border-gray-100 rounded-xl text-sm font-medium text-gray-700 placeholder:text-gray-300 focus:border-[#3E2723] focus:ring-0 outline-none transition-all resize-none"
+                                    rows="2"
+                                    placeholder="BRIEF SUMMARY..."
+                                    className="w-full p-3 bg-[#FDF5F6] border border-black/5 rounded-none text-[10px] font-black tracking-widest text-black placeholder:text-gray-300 focus:border-gold outline-none transition-all resize-none uppercase"
                                     value={formData.excerpt}
                                     onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
                                 />
                             </div>
 
                             {/* Content Editor */}
-                            <div className="space-y-2">
-                                <label className="text-xs font-bold text-gray-900 uppercase tracking-wider">Full Content</label>
+                            <div className="space-y-1.5 text-left">
+                                <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Full Content Registry</label>
                                 <div className="prose-admin">
                                     <ReactQuill
                                         theme="snow"
                                         value={formData.content}
                                         onChange={(content) => setFormData({ ...formData, content })}
                                         modules={modules}
-                                        className="bg-white rounded-xl h-[400px] mb-12"
+                                        className="bg-white rounded-none h-[400px] mb-12"
                                     />
                                 </div>
                             </div>
@@ -301,55 +301,52 @@ const BlogManagement = () => {
                         {/* Sidebar Info */}
                         <div className="space-y-6">
                             {/* Category */}
-                            <div className="space-y-2">
-                                <label className="text-xs font-bold text-gray-900 uppercase tracking-wider">Category</label>
-                                <div className="grid grid-cols-1 gap-2">
+                            <div className="space-y-2 text-left">
+                                <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Classification</label>
+                                <div className="grid grid-cols-1 gap-1.5">
                                     {categories.map(cat => (
-                                        <label key={cat} className={`flex items-center gap-3 p-3 rounded-xl border-2 cursor-pointer transition-all ${formData.category === cat ? 'border-[#3E2723] bg-[#3E2723]/5' : 'border-gray-100 hover:border-gray-200'}`}>
+                                        <label key={cat} className={`flex items-center gap-3 p-2.5 rounded-none border-2 cursor-pointer transition-all ${formData.category === cat ? 'border-gold bg-gold/5' : 'border-[#FDF5F6] hover:border-black/5'}`}>
                                             <input
                                                 type="radio"
                                                 name="category"
-                                                className="accent-[#3E2723] w-4 h-4"
+                                                className="accent-black w-3.5 h-3.5"
                                                 checked={formData.category === cat}
                                                 onChange={() => setFormData({ ...formData, category: cat })}
                                             />
-                                            <span className="text-sm font-bold text-gray-700">{cat}</span>
+                                            <span className="text-[10px] font-black text-black uppercase tracking-widest">{cat}</span>
                                         </label>
                                     ))}
                                 </div>
                             </div>
 
                             {/* Banner Image */}
-                            <div className="space-y-2">
-                                <label className="text-xs font-bold text-gray-900 uppercase tracking-wider">Banner Image</label>
-                                <div className="border-2 border-dashed border-gray-200 rounded-xl p-4 text-center hover:bg-gray-50 transition-colors group">
+                            <div className="space-y-2 text-left">
+                                <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Banner Media</label>
+                                <div className="border border-dashed border-black/10 rounded-none p-3 text-center hover:bg-[#FDF5F6] transition-colors group">
                                     {formData.image ? (
-                                        <div className="relative aspect-video rounded-lg overflow-hidden mb-4">
+                                        <div className="relative aspect-video rounded-none overflow-hidden mb-3">
                                             <img src={formData.image} alt="Preview" className="w-full h-full object-cover" />
                                             <button
                                                 type="button"
                                                 onClick={() => setFormData({ ...formData, image: '' })}
-                                                className="absolute top-2 right-2 p-1.5 bg-red-500 text-white rounded-full shadow-lg hover:scale-110 transition-transform"
+                                                className="absolute top-1.5 right-1.5 p-1 bg-red-500 text-white rounded-none shadow-lg hover:scale-110 transition-transform"
                                             >
-                                                <X size={14} />
+                                                <X size={12} />
                                             </button>
                                         </div>
                                     ) : (
-                                        <div className="py-8 text-gray-400">
-                                            <ImageIcon className="w-12 h-12 mx-auto mb-2 opacity-20" />
-                                            <p className="text-xs font-bold">No image selected</p>
+                                        <div className="py-6 text-gray-300">
+                                            <ImageIcon className="w-8 h-8 mx-auto mb-2 opacity-20" />
+                                            <p className="text-[8px] font-black uppercase tracking-widest">Void</p>
                                         </div>
                                     )}
                                     <input
                                         type="text"
-                                        placeholder="Paste Image URL..."
-                                        className="w-full p-3 bg-white border border-gray-200 rounded-lg text-xs font-medium focus:border-[#3E2723] outline-none"
+                                        placeholder="PASTE URL..."
+                                        className="w-full p-2.5 bg-white border border-black/5 rounded-none text-[9px] font-black tracking-widest focus:border-gold outline-none"
                                         value={formData.image}
                                         onChange={(e) => setFormData({ ...formData, image: e.target.value })}
                                     />
-                                    <p className="text-[10px] text-gray-400 mt-2 font-bold uppercase tracking-wide">
-                                        Adding uploads soon
-                                    </p>
                                 </div>
                             </div>
                         </div>

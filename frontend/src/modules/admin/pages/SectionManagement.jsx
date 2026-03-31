@@ -9,36 +9,38 @@ const SectionManagement = () => {
     const { homepageSections } = useShop();
 
     return (
-        <div className="min-h-screen bg-gray-50 flex flex-col">
-            <div className="max-w-[1400px] mx-auto w-full animate-in fade-in slide-in-from-bottom-4 duration-500 pb-20 p-6 md:p-8">
+        <div className="min-h-screen bg-[#FDF5F6] flex flex-col">
+            <div className="max-w-[1600px] mx-auto w-full animate-in fade-in slide-in-from-bottom-4 duration-500 pb-10 p-4 md:p-6">
                 <PageHeader
                     title="Homepage Sections"
                     subtitle="Manage content and layout of your homepage"
                     backPath="/admin"
                 />
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                     {Object.values(homepageSections || {}).map(section => (
-                        <div key={section.id} className="bg-white border border-gray-100 rounded-xl p-6 shadow-sm hover:shadow-md transition-all">
-                            <div className="flex items-start justify-between mb-4">
-                                <div className="h-10 w-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center">
-                                    <ImageIcon size={20} />
+                        <div key={section.id} className="bg-white border border-black/5 rounded-none p-4 shadow-sm hover:border-gold/30 transition-all group">
+                            <div className="flex items-start justify-between mb-3 text-left">
+                                <div className="h-8 w-8 rounded-none bg-[#FDF5F6] text-gold flex items-center justify-center border border-black/5">
+                                    <ImageIcon size={16} />
                                 </div>
-                                <span className={`text-[10px] font-bold uppercase tracking-widest px-2 py-1 rounded bg-green-50 text-green-600`}>
+                                <span className="text-[8px] font-black uppercase tracking-widest px-2 py-0.5 rounded-none bg-emerald-50 text-emerald-600 border border-emerald-100">
                                     Active
                                 </span>
                             </div>
-                            <h3 className="font-display text-lg font-bold text-gray-800 mb-2">{section.label}</h3>
-                            <p className="text-gray-500 text-sm mb-6 line-clamp-2">
-                                Manage the items, images, and links displayed in this section.
-                            </p>
+                            <div className="text-left">
+                                <h3 className="font-serif text-base font-black text-black mb-1 uppercase tracking-tight">{section.label}</h3>
+                                <p className="text-gray-400 text-[9px] font-black mb-4 line-clamp-1 uppercase tracking-[0.2em]">
+                                    Configuration Node
+                                </p>
 
-                            <button
-                                onClick={() => navigate(`/admin/sections/${section.id}`)}
-                                className="w-full py-2.5 rounded-lg bg-gray-50 text-gray-700 font-bold text-xs hover:bg-[#3E2723] hover:text-white transition-all flex items-center justify-center gap-2"
-                            >
-                                <Edit2 size={14} /> Edit Content
-                            </button>
+                                <button
+                                    onClick={() => navigate(`/admin/sections/${section.id}`)}
+                                    className="w-full py-2 bg-black text-white font-black text-[9px] uppercase tracking-widest hover:bg-gold hover:text-black transition-all flex items-center justify-center gap-2 rounded-none"
+                                >
+                                    <Edit2 size={12} /> Edit Content
+                                </button>
+                            </div>
                         </div>
                     ))}
 

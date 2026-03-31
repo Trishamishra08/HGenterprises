@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
     Plus,
     Search,
@@ -12,13 +13,19 @@ import {
     MoreVertical,
     GripVertical,
     Upload,
-    Filter
+    Filter,
+    ListTree
 } from 'lucide-react';
 import { useShop } from '../../../context/ShopContext';
 import Pagination from '../components/Pagination';
 
 const CategoriesPage = () => {
     const { products } = useShop();
+    const location = useLocation();
+    const navigate = useNavigate();
+    const queryParams = new URLSearchParams(location.search);
+    const departmentParam = queryParams.get('department') || 'jewellery';
+
     const [searchTerm, setSearchTerm] = useState('');
     const [statusFilter, setStatusFilter] = useState('All');
 
@@ -32,6 +39,7 @@ const CategoriesPage = () => {
                     name: p.category.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' '),
                     image: p.image, // Just as a placeholder
                     status: 'Active',
+                    department: (p.category === 'machine' || p.category === 'tools') ? p.category : 'jewellery',
                     subCategories: new Set(),
                     productCount: 0,
                     createdAt: Date.now()
@@ -57,7 +65,7 @@ const CategoriesPage = () => {
     const [categories, setCategories] = useState(initialCategories);
     const [showAddModal, setShowAddModal] = useState(false);
     const [editingCategory, setEditingCategory] = useState(null);
-    const [newCat, setNewCat] = useState({ name: '', image: '', status: 'Active', showInNavbar: false, showInShopByCategory: false });
+    const [newCat, setNewCat] = useState({ name: '', image: '', status: 'Active', showInNavbar: false, showInShopByCategory: false, department: departmentParam });
     const catFileInputRef = React.useRef(null);
     const editFileInputRef = React.useRef(null);
 
@@ -70,10 +78,11 @@ const CategoriesPage = () => {
             .filter(cat => {
                 const matchesSearch = cat.name.toLowerCase().includes(searchTerm.toLowerCase());
                 const matchesStatus = statusFilter === 'All' || cat.status === statusFilter;
-                return matchesSearch && matchesStatus;
+                const matchesDept = cat.department === departmentParam;
+                return matchesSearch && matchesStatus && matchesDept;
             })
             .sort((a, b) => b.createdAt - a.createdAt);
-    }, [categories, searchTerm, statusFilter]);
+    }, [categories, searchTerm, statusFilter, departmentParam]);
 
     const paginatedCategories = useMemo(() => {
         const startIndex = (currentPage - 1) * itemsPerPage;
@@ -103,9 +112,9 @@ const CategoriesPage = () => {
     const handleAddCategory = (e) => {
         e.preventDefault();
         const id = newCat.name.toLowerCase().replace(/\s+/g, '-');
-        setCategories([{ ...newCat, id, subCategories: [], productCount: 0, createdAt: Date.now() }, ...categories]);
+        setCategories([{ ...newCat, id, subCategories: [], productCount: 0, createdAt: Date.now(), department: departmentParam }, ...categories]);
         setShowAddModal(false);
-        setNewCat({ name: '', image: '', status: 'Active', showInNavbar: false, showInShopByCategory: false });
+        setNewCat({ name: '', image: '', status: 'Active', showInNavbar: false, showInShopByCategory: false, department: departmentParam });
         setCurrentPage(1); // Reset to first page to see new category
     };
 
@@ -122,40 +131,44 @@ const CategoriesPage = () => {
     };
 
     return (
-        <div className="space-y-8">
+        <div className="space-y-8 font-outfit animate-in fade-in duration-500 text-left pb-10">
             {/* Header */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-3 border border-black/5 rounded-none shadow-sm">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-900 uppercase tracking-tight">Category Management</h1>
-                    <p className="text-xs font-semibold text-gray-500 uppercase tracking-widest mt-1">Organize your products with categories and sub-categories</p>
+                    <h1 className="text-2xl font-serif font-black text-black tracking-tight leading-none uppercase">
+                        {departmentParam} Matrix
+                    </h1>
+                    <p className="text-[9px] font-black text-gray-400 uppercase tracking-[0.4em] mt-2">
+                        Global Hierarchy Management for {departmentParam}
+                    </p>
                 </div>
                 <button
                     onClick={() => setShowAddModal(true)}
-                    className="bg-primary text-white px-6 py-3 rounded-2xl font-black text-[10px] uppercase tracking-widest flex items-center gap-2 hover:bg-primaryDeep transition-all shadow-lg shadow-primary/20"
+                    className="bg-black text-white px-6 py-3 rounded-none font-black text-[10px] uppercase tracking-widest flex items-center gap-2 hover:bg-gold hover:text-black transition-all shadow-lg active:scale-95"
                 >
-                    <Plus size={18} strokeWidth={3} /> Add New Category
+                    <Plus size={18} strokeWidth={3} /> Initialize New Category
                 </button>
             </div>
 
             {/* Search & Filter Bar */}
-            <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex flex-col md:flex-row gap-4 items-center justify-between">
+            <div className="bg-white p-2 rounded-none border border-black/5 shadow-sm flex flex-col md:flex-row gap-4 items-center justify-between sticky top-14 z-20">
                 <div className="relative w-full md:w-96">
-                    <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+                    <Search size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
                     <input
                         type="text"
                         placeholder="Search categories..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full bg-gray-50 border border-transparent rounded-xl py-2.5 pl-12 pr-4 text-sm font-semibold outline-none focus:bg-white focus:border-primary transition-all"
+                        className="w-full bg-gray-50 border border-transparent rounded-none py-2.5 pl-12 pr-4 text-[9px] font-black uppercase tracking-widest outline-none focus:bg-white focus:border-black/10 transition-all font-outfit"
                     />
                 </div>
                 <div className="flex items-center gap-3 w-full md:w-auto">
-                    <div className="flex bg-gray-50 p-1 rounded-xl border border-gray-100">
+                    <div className="flex bg-gray-50 p-1 rounded-none border border-black/5">
                         {['All', 'Active', 'Hidden'].map(s => (
                             <button
                                 key={s}
                                 onClick={() => setStatusFilter(s)}
-                                className={`px-5 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${statusFilter === s ? 'bg-white text-primary shadow-sm' : 'text-gray-400 hover:text-footerBg'
+                                className={`px-5 py-2 rounded-none text-[9px] font-black uppercase tracking-widest transition-all ${statusFilter === s ? 'bg-black text-white' : 'text-gray-400 hover:text-black hover:bg-white'
                                     }`}
                             >
                                 {s}
@@ -166,16 +179,16 @@ const CategoriesPage = () => {
             </div>
 
             {/* Table View */}
-            <div className="bg-white rounded-[2.5rem] border border-gray-100 shadow-sm overflow-hidden">
+            <div className="bg-white rounded-none border border-black/5 shadow-sm overflow-hidden">
                 <div className="overflow-x-auto">
-                    <table className="w-full text-left border-collapse">
-                        <thead>
-                            <tr className="border-b border-gray-50 bg-gray-50/50">
-                                <th className="px-6 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Category Info</th>
-                                <th className="px-6 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] text-center">Stats</th>
-                                <th className="px-6 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Visibility</th>
-                                <th className="px-6 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Status</th>
-                                <th className="px-6 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] text-right">Actions</th>
+                    <table className="w-full text-left">
+                        <thead className="bg-[#FDF5F6]/50 border-b border-black/5">
+                            <tr className="text-[9px] font-black text-gray-400 uppercase tracking-widest font-outfit">
+                                <th className="px-6 py-3">Category Info</th>
+                                <th className="px-6 py-3 text-center">Stats</th>
+                                <th className="px-6 py-3">Visibility</th>
+                                <th className="px-6 py-3">Status</th>
+                                <th className="px-6 py-3 text-right">Actions</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-50">
@@ -218,6 +231,13 @@ const CategoriesPage = () => {
                                     </td>
                                     <td className="px-6 py-4">
                                         <div className="flex items-center justify-end gap-2">
+                                            <button
+                                                onClick={() => navigate(`/admin/sub-categories?category=${category.id}`)}
+                                                className="p-2 text-gray-400 hover:text-gold hover:bg-white rounded-lg border border-transparent hover:border-gray-100 transition-all font-bold"
+                                                title="Manage Sub-levels"
+                                            >
+                                                <ListTree size={16} />
+                                            </button>
                                             <button
                                                 onClick={() => setEditingCategory(category)}
                                                 className="p-2 text-gray-400 hover:text-primary hover:bg-white rounded-lg border border-transparent hover:border-gray-100 transition-all font-bold"

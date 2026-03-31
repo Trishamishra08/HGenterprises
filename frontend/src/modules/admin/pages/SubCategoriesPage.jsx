@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { useLocation } from 'react-router-dom';
 import {
     Plus,
     Search,
@@ -15,8 +16,12 @@ import { useShop } from '../../../context/ShopContext';
 
 const SubCategoriesPage = () => {
     const { products } = useShop();
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const categoryParam = queryParams.get('category') || 'All';
+
     const [searchTerm, setSearchTerm] = useState('');
-    const [parentFilter, setParentFilter] = useState('All');
+    const [parentFilter, setParentFilter] = useState(categoryParam);
 
     // Derived Categories & Sub-categories from shop data
     const categoryData = useMemo(() => {

@@ -101,47 +101,45 @@ const FAQManagement = () => {
     ];
 
     return (
-        <div className="max-w-[1400px] mx-auto space-y-8 animate-in fade-in duration-500 pb-20">
+        <div className="max-w-[1600px] mx-auto space-y-4 animate-in fade-in duration-500 pb-10">
             {/* Header & Stats */}
-            <div className="flex flex-col gap-8">
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="flex flex-col gap-4">
+                <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-black/5 pb-4">
                     <PageHeader
                         title="FAQ Management"
                         subtitle="Create and manage help center questions"
                     />
                     <button
                         onClick={() => handleOpenModal()}
-                        className="flex items-center justify-center gap-2 px-6 py-3 bg-[#3E2723] text-white rounded-xl text-sm font-bold hover:bg-[#5D4037] transition-all shadow-lg shadow-[#3E2723]/20 active:scale-95"
+                        className="flex items-center justify-center gap-2 px-6 py-2 bg-black text-white rounded-none text-[10px] font-black uppercase tracking-widest hover:bg-gold hover:text-black transition-all active:scale-95 shadow-sm"
                     >
-                        <Plus className="w-5 h-5" />
+                        <Plus className="w-4 h-4" />
                         Add New FAQ
                     </button>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                     {statsData.map((stat, index) => (
                         <AdminStatsCard
                             key={index}
                             label={stat.label}
                             value={stat.value}
                             icon={stat.icon}
-                            color={stat.color}
-                            bgColor={stat.bgColor}
                         />
                     ))}
                 </div>
             </div>
 
             {/* Main Content */}
-            <div className="space-y-6">
+            <div className="space-y-4">
                 {/* Search & Filter Bar */}
-                <div className="bg-white p-3 md:p-4 rounded-xl border border-gray-200 shadow-sm flex flex-col md:flex-row gap-2">
+                <div className="bg-white p-2 rounded-none border border-black/5 shadow-sm flex flex-col md:flex-row gap-2">
                     <div className="relative flex-1">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gold" />
                         <input
                             type="text"
-                            placeholder="Search questions or answers..."
-                            className="w-full pl-12 pr-4 py-3 bg-gray-50 border-none rounded-xl text-sm font-semibold text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#3E2723]/10"
+                            placeholder="SEARCH QUESTIONS OR ANSWERS..."
+                            className="w-full pl-12 pr-4 py-2 bg-[#FDF5F6] border-none rounded-none text-[10px] font-black tracking-widest text-black focus:outline-none placeholder:text-gray-300"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
@@ -149,14 +147,14 @@ const FAQManagement = () => {
                 </div>
 
                 {/* Categories Tabs */}
-                <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-2">
+                <div className="flex gap-1 overflow-x-auto scrollbar-hide bg-[#FDF5F6]/50 p-1">
                     {['All', ...categories].map(cat => (
                         <button
                             key={cat}
                             onClick={() => setActiveCategory(cat)}
-                            className={`px-5 py-2.5 rounded-xl text-[10px] md:text-xs font-bold uppercase tracking-widest transition-all whitespace-nowrap ${activeCategory === cat
-                                ? 'bg-[#3E2723] text-white shadow-lg shadow-[#3E2723]/20'
-                                : 'bg-white text-gray-500 hover:bg-gray-50 border border-gray-200 hover:border-gray-300'
+                            className={`flex-1 px-4 py-2 rounded-none text-[8px] font-black uppercase tracking-widest transition-all whitespace-nowrap ${activeCategory === cat
+                                ? 'bg-black text-white shadow-sm'
+                                : 'text-gray-400 hover:text-black hover:bg-white'
                                 }`}
                         >
                             {cat}
@@ -165,54 +163,47 @@ const FAQManagement = () => {
                 </div>
 
                 {/* FAQ List Cards */}
-                <div className="grid grid-cols-1 gap-4">
+                <div className="grid grid-cols-1 gap-2">
                     {filteredFaqs.map((faq) => (
-                        <div key={faq.id} className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all group overflow-hidden">
-                            <div className="p-4 md:p-5 flex flex-col md:flex-row gap-4 md:gap-6">
-                                {/* Drag Handle & Icon */}
-                                <div className="hidden md:flex flex-col items-center text-gray-300">
-                                    <div className="p-1.5 hover:bg-gray-50 rounded-lg cursor-grab active:cursor-grabbing transition-colors">
-                                        <GripVertical className="w-4 h-4" />
-                                    </div>
-                                </div>
-
+                        <div key={faq.id} className="bg-white rounded-none border border-black/5 shadow-sm hover:border-gold/30 transition-all group overflow-hidden">
+                            <div className="p-3 flex flex-col md:flex-row gap-4 items-start">
                                 {/* Content */}
-                                <div className="flex-1 space-y-2.5">
-                                    <div className="flex items-center gap-2 mb-0.5">
-                                        <span className={`px-2 py-0.5 rounded text-[8px] font-bold uppercase tracking-widest ${faq.status === 'Active'
-                                            ? 'bg-emerald-50 text-emerald-700 border border-emerald-100'
-                                            : 'bg-gray-100 text-gray-500 border border-gray-200'
+                                <div className="flex-1 space-y-2">
+                                    <div className="flex items-center gap-2">
+                                        <span className={`px-2 py-0.5 rounded-none text-[7px] font-black uppercase tracking-widest border ${faq.status === 'Active'
+                                            ? 'bg-emerald-50 text-emerald-600 border-emerald-100'
+                                            : 'bg-gray-50 text-gray-400 border-gray-100'
                                             }`}>
                                             {faq.status}
                                         </span>
-                                        <span className="px-2 py-0.5 bg-amber-50 text-amber-700 border border-amber-100 rounded text-[8px] font-bold uppercase tracking-widest">
+                                        <span className="px-2 py-0.5 bg-amber-50 text-[#AD8E4F] border border-amber-100 rounded-none text-[7px] font-black uppercase tracking-widest">
                                             {faq.category}
                                         </span>
                                     </div>
 
-                                    <h3 className="text-base font-bold text-black leading-tight">
+                                    <h3 className="text-sm font-black text-black leading-tight uppercase tracking-tight">
                                         {faq.question}
                                     </h3>
 
-                                    <div className="bg-gray-50/80 rounded-lg p-3 border border-gray-100/50">
-                                        <p className="text-xs text-gray-600 font-medium leading-relaxed">
+                                    <div className="bg-[#FDF5F6]/50 rounded-none p-2.5 border border-black/5">
+                                        <p className="text-[11px] text-gray-600 font-medium leading-relaxed">
                                             {faq.answer}
                                         </p>
                                     </div>
                                 </div>
 
                                 {/* Actions */}
-                                <div className="flex flex-row md:flex-col items-center md:items-start gap-1.5 border-t md:border-t-0 md:border-l border-gray-100 pt-3 md:pt-0 md:pl-5">
+                                <div className="flex flex-row md:flex-col items-center md:items-end gap-1.5 w-full md:w-auto shrink-0 md:pt-0">
                                     <button
                                         onClick={() => handleOpenModal(faq)}
-                                        className="flex-1 md:flex-none w-full flex items-center justify-center gap-1.5 px-3 py-2 text-[10px] font-bold text-gray-600 bg-gray-50 hover:bg-[#3E2723] hover:text-white rounded-lg transition-all"
+                                        className="flex-1 md:flex-none w-full flex items-center justify-center gap-1.5 px-4 py-1.5 text-[9px] font-black uppercase tracking-widest text-black bg-[#FDF5F6] hover:bg-gold hover:text-black rounded-none border border-black/5 transition-all"
                                     >
                                         <Edit3 className="w-3 h-3" />
                                         <span>Edit</span>
                                     </button>
                                     <button
                                         onClick={() => handleDelete(faq.id)}
-                                        className="flex-1 md:flex-none w-full flex items-center justify-center gap-1.5 px-3 py-2 text-[10px] font-bold text-red-500 bg-red-50 hover:bg-red-500 hover:text-white rounded-lg transition-all"
+                                        className="flex-1 md:flex-none w-full flex items-center justify-center gap-1.5 px-4 py-1.5 text-[9px] font-black uppercase tracking-widest text-red-500 bg-red-50 hover:bg-red-500 hover:text-white rounded-none border border-red-100 transition-all"
                                     >
                                         <Trash2 className="w-3 h-3" />
                                         <span>Delete</span>
@@ -223,19 +214,19 @@ const FAQManagement = () => {
                     ))}
 
                     {filteredFaqs.length === 0 && (
-                        <div className="py-24 text-center bg-white rounded-xl border border-dashed border-gray-200">
-                            <div className="bg-gray-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
-                                <Search className="w-8 h-8 text-gray-400" />
+                        <div className="py-20 text-center bg-white rounded-none border border-dashed border-black/10">
+                            <div className="bg-[#FDF5F6] w-16 h-16 rounded-none flex items-center justify-center mx-auto mb-4 border border-black/5">
+                                <Search className="w-6 h-6 text-gold" />
                             </div>
-                            <h3 className="text-xl font-bold text-black mb-2">No results found</h3>
-                            <p className="text-sm text-gray-500">
-                                We couldn't find any FAQs matching your search criteria.
+                            <h3 className="text-base font-serif font-black text-black uppercase tracking-tight">No results matched</h3>
+                            <p className="text-[10px] text-gray-400 font-black uppercase tracking-widest mt-1">
+                                Adjust filters or search criteria
                             </p>
                             <button
                                 onClick={() => { setSearchTerm(''); setActiveCategory('All'); }}
-                                className="mt-6 text-[#3E2723] font-bold text-sm hover:underline"
+                                className="mt-4 text-gold font-black text-[10px] uppercase tracking-widest hover:underline"
                             >
-                                Clear all filters
+                                Reset Dataset
                             </button>
                         </div>
                     )}
@@ -246,93 +237,93 @@ const FAQManagement = () => {
             {isModalOpen && (
                 <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
                     <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setIsModalOpen(false)} />
-                    <div className="relative bg-white rounded-xl w-full max-w-lg shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
+                    <div className="relative bg-white rounded-none w-full max-w-lg shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 border border-black/10">
 
                         {/* Modal Header */}
-                        <div className="bg-[#3E2723] p-6 flex items-center justify-between">
+                        <div className="bg-black p-4 flex items-center justify-between border-b border-white/10">
                             <div>
-                                <h3 className="text-xl font-bold text-white tracking-tight">
-                                    {editingFaq ? 'Edit FAQ' : 'Add New FAQ'}
+                                <h3 className="text-lg font-serif font-black text-white tracking-tight uppercase">
+                                    {editingFaq ? 'Protocol Edit' : 'New Registry'}
                                 </h3>
-                                <p className="text-white/60 text-[10px] font-bold uppercase tracking-widest mt-1">Fill in the details below</p>
+                                <p className="text-gold/60 text-[8px] font-black uppercase tracking-[0.2em] mt-1">FAQ Management Module</p>
                             </div>
                             <button
                                 onClick={() => setIsModalOpen(false)}
-                                className="p-2 bg-white/10 hover:bg-white/20 rounded-xl text-white transition-all backdrop-blur-md"
+                                className="p-2 bg-white/5 hover:bg-white/10 text-white transition-all"
                             >
-                                <X className="w-5 h-5" />
+                                <X className="w-4 h-4" />
                             </button>
                         </div>
 
                         {/* Modal Form */}
-                        <form onSubmit={handleSave} className="p-8 space-y-6">
-                            <div className="grid grid-cols-2 gap-6">
-                                <div className="space-y-2">
-                                    <label className="text-[10px] font-bold text-gray-800 uppercase tracking-widest block">Category</label>
+                        <form onSubmit={handleSave} className="p-6 space-y-4 bg-white">
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="space-y-1.5 text-left">
+                                    <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest block">Category</label>
                                     <div className="relative">
                                         <select
-                                            className="w-full p-3 bg-white border-2 border-gray-100 rounded-xl text-sm font-bold text-black focus:border-[#3E2723] focus:ring-0 outline-none appearance-none transition-all cursor-pointer"
+                                            className="w-full p-2.5 bg-[#FDF5F6] border border-black/5 rounded-none text-[10px] font-black text-black focus:border-gold outline-none appearance-none transition-all cursor-pointer uppercase tracking-widest"
                                             value={formData.category}
                                             onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                                         >
                                             {categories.map(c => <option key={c} value={c}>{c}</option>)}
                                         </select>
-                                        <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
+                                        <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gold pointer-events-none" />
                                     </div>
                                 </div>
-                                <div className="space-y-2">
-                                    <label className="text-[10px] font-bold text-gray-800 uppercase tracking-widest block">Status</label>
+                                <div className="space-y-1.5 text-left">
+                                    <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest block">Status</label>
                                     <div className="relative">
                                         <select
-                                            className="w-full p-3 bg-white border-2 border-gray-100 rounded-xl text-sm font-bold text-black focus:border-[#3E2723] focus:ring-0 outline-none appearance-none transition-all cursor-pointer"
+                                            className="w-full p-2.5 bg-[#FDF5F6] border border-black/5 rounded-none text-[10px] font-black text-black focus:border-gold outline-none appearance-none transition-all cursor-pointer uppercase tracking-widest"
                                             value={formData.status}
                                             onChange={(e) => setFormData({ ...formData, status: e.target.value })}
                                         >
                                             <option value="Active">Active</option>
                                             <option value="Inactive">Inactive</option>
                                         </select>
-                                        <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
+                                        <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gold pointer-events-none" />
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="space-y-2">
-                                <label className="text-[10px] font-bold text-gray-800 uppercase tracking-widest block">Question</label>
+                            <div className="space-y-1.5 text-left">
+                                <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest block">Question</label>
                                 <input
                                     type="text"
-                                    placeholder="e.g., How do I track my order?"
-                                    className="w-full p-3 bg-white border-2 border-gray-100 rounded-xl text-sm font-bold text-black placeholder:text-gray-400 focus:border-[#3E2723] focus:ring-0 outline-none transition-all"
+                                    placeholder="ENTER QUESTION ARCHETYPE..."
+                                    className="w-full p-2.5 bg-[#FDF5F6] border border-black/5 rounded-none text-[10px] font-black text-black placeholder:text-gray-300 focus:border-gold outline-none transition-all uppercase tracking-widest"
                                     value={formData.question}
                                     onChange={(e) => setFormData({ ...formData, question: e.target.value })}
                                     required
                                 />
                             </div>
 
-                            <div className="space-y-2">
-                                <label className="text-xs font-bold text-gray-800 uppercase tracking-wider block">Answer</label>
+                            <div className="space-y-1.5 text-left">
+                                <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest block">Answer</label>
                                 <textarea
-                                    placeholder="Write a clear and helpful answer..."
-                                    className="w-full p-3 bg-white border-2 border-gray-200 rounded-xl text-sm font-medium text-gray-900 placeholder:text-gray-400 focus:border-[#3E2723] focus:ring-0 outline-none transition-all h-32 resize-none leading-relaxed"
+                                    placeholder="SPECIFY RESOLUTION PROTOCOL..."
+                                    className="w-full p-2.5 bg-[#FDF5F6] border border-black/5 rounded-none text-[11px] font-medium text-gray-900 placeholder:text-gray-300 focus:border-gold outline-none transition-all h-24 resize-none leading-relaxed"
                                     value={formData.answer}
                                     onChange={(e) => setFormData({ ...formData, answer: e.target.value })}
                                     required
                                 />
                             </div>
 
-                            <div className="pt-4 flex gap-4">
+                            <div className="pt-4 flex gap-2">
                                 <button
                                     type="button"
                                     onClick={() => setIsModalOpen(false)}
-                                    className="flex-1 px-6 py-4 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-xl text-sm font-bold transition-all"
+                                    className="flex-1 px-6 py-3 bg-[#FDF5F6] hover:bg-gray-100 text-black border border-black/5 rounded-none text-[10px] font-black uppercase tracking-widest transition-all"
                                 >
-                                    Cancel
+                                    Abort
                                 </button>
                                 <button
                                     type="submit"
-                                    className="flex-1 px-6 py-4 bg-[#3E2723] hover:bg-[#5D4037] text-white rounded-xl text-sm font-bold shadow-lg shadow-[#3E2723]/20 transition-all flex items-center justify-center gap-2"
+                                    className="flex-1 px-6 py-3 bg-black hover:bg-gold hover:text-black text-white rounded-none text-[10px] font-black uppercase tracking-widest transition-all flex items-center justify-center gap-2"
                                 >
                                     <Save className="w-4 h-4" />
-                                    {editingFaq ? 'Update FAQ' : 'Save FAQ'}
+                                    Commit
                                 </button>
                             </div>
                         </form>

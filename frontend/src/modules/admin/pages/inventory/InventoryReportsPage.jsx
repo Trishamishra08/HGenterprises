@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar, Download, PieChart, TrendingUp, DollarSign, Package } from 'lucide-react';
+import PageHeader from '../../components/common/PageHeader';
 
 const InventoryReportsPage = () => {
-    const activeTabState = useState('category'); // 'category' or 'sales'
-    const activeTab = activeTabState[0];
-    const setActiveTab = activeTabState[1];
+    const [activeTab, setActiveTab] = useState('category'); // 'category' or 'sales'
     const [loading, setLoading] = useState(false);
 
     // Mock Data
@@ -17,95 +16,96 @@ const InventoryReportsPage = () => {
     ];
 
     const salesData = [
-        { name: 'Gold Plated Necklace', category: 'Necklaces', sold: 450, avgPrice: 350, revenue: 157500 },
-        { name: 'Diamond Stud Earrings', category: 'Earrings', sold: 380, avgPrice: 400, revenue: 152000 },
-        { name: 'Silver Anklet', category: 'Anklets', sold: 320, avgPrice: 400, revenue: 128000 },
-        { name: 'Rose Gold Bracelet', category: 'Bracelets', sold: 280, avgPrice: 850, revenue: 238000 },
-        { name: 'Pearl Choker', category: 'Necklaces', sold: 150, avgPrice: 1100, revenue: 165000 },
+        { name: 'GOLD PLATED NECKLACE', category: 'Necklaces', sold: 450, avgPrice: 350, revenue: 157500 },
+        { name: 'DIAMOND STUD EARRINGS', category: 'Earrings', sold: 380, avgPrice: 400, revenue: 152000 },
+        { name: 'SILVER ANKLET', category: 'Anklets', sold: 320, avgPrice: 400, revenue: 128000 },
+        { name: 'ROSE GOLD BRACELET', category: 'Bracelets', sold: 280, avgPrice: 850, revenue: 238000 },
+        { name: 'PEARL CHOKER', category: 'Necklaces', sold: 150, avgPrice: 1100, revenue: 165000 },
     ];
 
     return (
-        <div className="space-y-8 font-sans animate-in fade-in duration-500">
-            {/* Header */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+        <div className="space-y-6 font-outfit pb-12 animate-in fade-in duration-500">
+            {/* Header Section */}
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center bg-white p-6 border border-black/5 rounded-none shadow-sm gap-4">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-900 uppercase tracking-tight">Inventory Reports</h1>
-                    <p className="text-xs font-semibold text-gray-500 uppercase tracking-widest mt-1">Valuation and sales analytics</p>
+                    <h1 className="text-2xl font-serif font-black text-black tracking-tight leading-none uppercase">Inventory Reports</h1>
+                    <p className="text-[9px] font-black text-gray-400 uppercase tracking-[0.4em] mt-2">Valuation Matrix & Sales Analytics Performance</p>
                 </div>
-                <div className="flex gap-3">
-                    <button className="px-4 py-2 bg-white border border-gray-200 text-gray-600 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-gray-50 transition-all shadow-sm flex items-center gap-2">
-                        <Calendar size={14} /> This Month
+                <div className="flex gap-2">
+                    <button className="px-6 py-3 bg-white border border-black/10 text-gray-400 rounded-none text-[10px] font-black uppercase tracking-widest hover:border-black hover:text-black hover:bg-gray-50 shadow-sm flex items-center gap-3 transition-all">
+                        <Calendar size={14} strokeWidth={2.5} /> 
+                        <span>Period Selection</span>
                     </button>
-                    <button className="px-4 py-2 bg-[#1a1a1a] text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-black transition-all shadow-lg active:scale-95 flex items-center gap-2">
-                        <Download size={14} /> Export PDF
+                    <button className="px-6 py-3 bg-black text-white rounded-none text-[10px] font-black uppercase tracking-widest hover:bg-primary shadow-xl shadow-black/20 transition-all flex items-center gap-3 active:scale-95 group">
+                        <Download size={14} className="group-hover:translate-y-0.5 transition-transform" /> 
+                        <span>Download Analysis</span>
                     </button>
                 </div>
             </div>
 
-            {/* Tabs */}
-            <div className="flex gap-1 bg-gray-100 p-1 rounded-xl w-fit mb-8">
-                <button
-                    onClick={() => setActiveTab('category')}
-                    className={`px-6 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2 ${activeTab === 'category' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-400 hover:text-gray-600'
-                        }`}
-                >
-                    <PieChart size={14} /> Category Report
-                </button>
-                <button
-                    onClick={() => setActiveTab('sales')}
-                    className={`px-6 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2 ${activeTab === 'sales' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-400 hover:text-gray-600'
-                        }`}
-                >
-                    <TrendingUp size={14} /> Product Sales
-                </button>
+            {/* Navigation Tabs */}
+            <div className="flex bg-gray-100 p-1 rounded-none w-fit border border-black/5">
+                {[
+                    { id: 'category', label: 'CATEGORY OVERVIEW', icon: PieChart },
+                    { id: 'sales', label: 'SALES VELOCITY', icon: TrendingUp }
+                ].map((tab) => (
+                    <button
+                        key={tab.id}
+                        onClick={() => setActiveTab(tab.id)}
+                        className={`px-6 py-2 rounded-none text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2 border ${activeTab === tab.id ? 'bg-white text-footerBg shadow-sm border-black/5' : 'text-gray-400 hover:text-gray-600 border-transparent'
+                            }`}
+                    >
+                        <tab.icon size={13} strokeWidth={2.5} /> {tab.label}
+                    </button>
+                ))}
             </div>
 
-            {/* Category View */}
+            {/* Category Analysis Consol */}
             {activeTab === 'category' && (
                 <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4">
-                    {/* Summary Cards */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
-                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Total Inventory Value</p>
-                            <p className="text-3xl font-black text-gray-900">₹9,45,000</p>
-                            <div className="w-full bg-gray-100 h-1.5 rounded-full mt-3 overflow-hidden">
-                                <div className="bg-emerald-500 h-full rounded-full w-[75%]"></div>
+                    {/* Summary Matrix */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <div className="bg-white p-4 rounded-none border border-black/5 shadow-sm">
+                            <p className="text-[8px] font-black text-gray-400 uppercase tracking-widest leading-none mb-1">Inventory Valuation</p>
+                            <h3 className="text-2xl font-serif font-black text-black tracking-tighter">₹9,45,000</h3>
+                            <div className="w-full bg-gray-100 h-1 rounded-none mt-3 overflow-hidden">
+                                <div className="bg-emerald-500 h-full w-[75%]"></div>
                             </div>
                         </div>
-                        <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
-                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Total Items in Stock</p>
-                            <p className="text-3xl font-black text-gray-900">3,450</p>
-                            <div className="w-full bg-gray-100 h-1.5 rounded-full mt-3 overflow-hidden">
-                                <div className="bg-blue-500 h-full rounded-full w-[60%]"></div>
+                        <div className="bg-white p-4 rounded-none border border-black/5 shadow-sm">
+                            <p className="text-[8px] font-black text-gray-400 uppercase tracking-widest leading-none mb-1">Registry Volume</p>
+                            <h3 className="text-2xl font-serif font-black text-black tracking-tighter">03,450</h3>
+                            <div className="w-full bg-gray-100 h-1 rounded-none mt-3 overflow-hidden">
+                                <div className="bg-blue-500 h-full w-[60%]"></div>
                             </div>
                         </div>
-                        <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
-                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Top Category</p>
-                            <div className="flex items-center gap-3 mt-1">
-                                <div className="px-3 py-1 bg-purple-50 text-purple-600 rounded-lg text-xs font-black uppercase tracking-widest">Necklaces</div>
-                                <span className="text-xs font-bold text-gray-400">45% of Value</span>
+                        <div className="bg-white p-4 rounded-none border border-black/5 shadow-sm flex flex-col justify-center">
+                            <p className="text-[8px] font-black text-gray-400 uppercase tracking-widest leading-none mb-1">Dominant Sector</p>
+                            <div className="flex items-center gap-3">
+                                <span className="px-2 py-0.5 bg-black text-white text-[8px] font-serif font-black uppercase tracking-[0.2em] rounded-none">NECKLACES</span>
+                                <span className="text-lg font-serif italic text-gray-400">45% <span className="text-[8px] font-outfit uppercase tracking-tighter not-italic">Concentration</span></span>
                             </div>
                         </div>
                     </div>
 
-                    {/* Category Table */}
-                    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-                        <table className="w-full text-left">
-                            <thead className="bg-[#F8FAFC] border-b border-gray-100">
-                                <tr>
-                                    <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Category</th>
-                                    <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest text-center">Unique Products</th>
-                                    <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest text-center">Total Quantity</th>
-                                    <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest text-right">Estimated Value</th>
+                    {/* Sector Distribution Table */}
+                    <div className="bg-white rounded-none border border-black/5 shadow-sm overflow-hidden text-left">
+                        <table className="w-full">
+                            <thead>
+                                <tr className="bg-[#FDF5F6]/50 border-b border-black/5 text-[9px] font-serif font-black uppercase text-gold tracking-[0.2em]">
+                                    <th className="px-6 py-3">Inventory Sector</th>
+                                    <th className="px-6 py-3 text-center">SKU Count</th>
+                                    <th className="px-6 py-3 text-center">Aggr. Volume</th>
+                                    <th className="px-6 py-3 text-right">Appraised Value</th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-gray-50">
+                            <tbody className="divide-y divide-black/5">
                                 {categoryData.map((item, idx) => (
-                                    <tr key={idx} className="hover:bg-gray-50/50 transition-colors">
-                                        <td className="px-6 py-4 text-xs font-black text-gray-900">{item.category}</td>
-                                        <td className="px-6 py-4 text-center text-xs font-bold text-gray-600">{item.uniqueProducts}</td>
-                                        <td className="px-6 py-4 text-center text-xs font-bold text-gray-600">{item.totalQty.toLocaleString()} units</td>
-                                        <td className="px-6 py-4 text-right text-sm font-black text-gray-900">₹{item.value.toLocaleString()}</td>
+                                    <tr key={idx} className="hover:bg-[#FDF5F6]/30 transition-colors">
+                                        <td className="px-6 py-2.5 text-[11px] font-serif font-black text-black uppercase tracking-tight">{item.category}</td>
+                                        <td className="px-6 py-2.5 text-center text-[11px] font-serif font-black text-gray-400">{item.uniqueProducts.toString().padStart(2, '0')}</td>
+                                        <td className="px-6 py-2.5 text-center text-sm font-serif font-black text-black">{item.totalQty.toLocaleString()} <span className="text-[8px] font-outfit uppercase tracking-tighter">Units</span></td>
+                                        <td className="px-6 py-2.5 text-right text-lg font-serif font-black text-black">₹{item.value.toLocaleString()}</td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -114,51 +114,57 @@ const InventoryReportsPage = () => {
                 </div>
             )}
 
-            {/* Sales View */}
+            {/* Sales Velocity Consol */}
             {activeTab === 'sales' && (
                 <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4">
-                    {/* Summary Cards */}
+                    {/* Performance Summary */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="bg-emerald-50 rounded-2xl border border-emerald-100 p-6 shadow-sm flex items-center justify-between">
-                            <div>
-                                <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest mb-1">Total Revenue</p>
-                                <p className="text-4xl font-black text-emerald-900">₹8,51,500</p>
-                            </div>
-                            <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-emerald-500 shadow-sm">
-                                <DollarSign size={24} />
+                        <div className="bg-emerald-950 p-8 rounded-none shadow-2xl relative overflow-hidden group">
+                            <div className="absolute top-0 right-0 p-12 bg-emerald-500/10 rounded-full -translate-y-1/2 translate-x-1/2 group-hover:scale-110 transition-transform"></div>
+                            <div className="relative z-10 flex justify-between items-end">
+                                <div>
+                                    <p className="text-[10px] font-black text-emerald-400 uppercase tracking-[0.3em] mb-3">Gross Revenue</p>
+                                    <h2 className="text-5xl font-serif font-black text-white tracking-tighter italic">₹8,51,500</h2>
+                                </div>
+                                <div className="p-4 bg-emerald-500/20 border border-emerald-500/20 text-emerald-400">
+                                    <DollarSign size={32} strokeWidth={1} />
+                                </div>
                             </div>
                         </div>
-                        <div className="bg-blue-50 rounded-2xl border border-blue-100 p-6 shadow-sm flex items-center justify-between">
-                            <div>
-                                <p className="text-[10px] font-black text-blue-600 uppercase tracking-widest mb-1">Total Units Sold</p>
-                                <p className="text-4xl font-black text-blue-900">2,150</p>
-                            </div>
-                            <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-blue-500 shadow-sm">
-                                <Package size={24} />
+                        <div className="bg-slate-950 p-8 rounded-none shadow-2xl relative overflow-hidden group">
+                            <div className="absolute top-0 right-0 p-12 bg-blue-500/10 rounded-full -translate-y-1/2 translate-x-1/2 group-hover:scale-110 transition-transform"></div>
+                            <div className="relative z-10 flex justify-between items-end">
+                                <div>
+                                    <p className="text-[10px] font-black text-blue-400 uppercase tracking-[0.3em] mb-3">Liquidation Volume</p>
+                                    <h2 className="text-5xl font-serif font-black text-white tracking-tighter">02,150</h2>
+                                </div>
+                                <div className="p-4 bg-blue-500/20 border border-blue-500/20 text-blue-400">
+                                    <Package size={32} strokeWidth={1} />
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    {/* Sales Table */}
-                    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-                        <table className="w-full text-left">
-                            <thead className="bg-[#F8FAFC] border-b border-gray-100">
-                                <tr>
-                                    <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest w-[40%]">Product Name</th>
-                                    <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Category</th>
-                                    <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest text-center">Units Sold</th>
-                                    <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest text-right">Avg Price</th>
-                                    <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest text-right">Total Revenue</th>
+                    {/* Sales Ledger */}
+                    <div className="bg-white rounded-none border border-black/5 shadow-sm overflow-hidden text-left">
+                        <table className="w-full">
+                            <thead>
+                                <tr className="bg-[#FDF5F6]/50 border-b border-black/5 text-[9px] font-serif font-black uppercase text-gold tracking-[0.2em]">
+                                    <th className="px-6 py-3 w-[40%]">Asset Nomenclature</th>
+                                    <th className="px-6 py-3">Sector</th>
+                                    <th className="px-6 py-3 text-center">Units Cleared</th>
+                                    <th className="px-6 py-3 text-right">Avg Val.</th>
+                                    <th className="px-6 py-3 text-right">Total Realized</th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-gray-50">
+                            <tbody className="divide-y divide-black/5 text-black">
                                 {salesData.map((item, idx) => (
-                                    <tr key={idx} className="hover:bg-gray-50/50 transition-colors">
-                                        <td className="px-6 py-4 text-xs font-black text-gray-900">{item.name}</td>
-                                        <td className="px-6 py-4 text-xs font-bold text-gray-500 uppercase">{item.category}</td>
-                                        <td className="px-6 py-4 text-center text-xs font-black text-blue-600">{item.sold}</td>
-                                        <td className="px-6 py-4 text-right text-xs font-bold text-gray-500">₹{item.avgPrice}</td>
-                                        <td className="px-6 py-4 text-right text-sm font-black text-emerald-600">₹{item.revenue.toLocaleString()}</td>
+                                    <tr key={idx} className="hover:bg-[#FDF5F6]/30 transition-colors group">
+                                        <td className="px-6 py-2.5 text-[11px] font-serif font-black tracking-tight uppercase">{item.name}</td>
+                                        <td className="px-6 py-2.5 text-[9px] font-black text-gray-400 uppercase tracking-widest font-outfit">{item.category}</td>
+                                        <td className="px-6 py-2.5 text-center text-sm font-serif font-black text-gold italic">{item.sold.toString().padStart(3, '0')}</td>
+                                        <td className="px-6 py-2.5 text-right text-[10px] font-serif font-black text-gray-400 uppercase tracking-tighter">₹{item.avgPrice.toLocaleString()}</td>
+                                        <td className="px-6 py-2.5 text-right text-lg font-serif font-black text-emerald-600">₹{item.revenue.toLocaleString()}</td>
                                     </tr>
                                 ))}
                             </tbody>

@@ -3,9 +3,10 @@ import {
     Image as ImageIcon, Plus, Trash2, Eye, EyeOff,
     Calendar, Link as LinkIcon, Edit3,
     Bell, Send, Layout, Move, ChevronRight, X, ExternalLink,
-    MousePointer2
+    MousePointer2, Sparkles, Monitor, ArrowRight
 } from 'lucide-react';
 import PageHeader from '../components/common/PageHeader';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const BannerManagement = () => {
     // Mock Banners Data matching the Home.jsx heroSlides structure
@@ -126,120 +127,117 @@ const BannerManagement = () => {
     };
 
     return (
-        <div className="max-w-[1400px] mx-auto space-y-4 md:space-y-8 animate-in fade-in duration-500 pb-20">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
-                <PageHeader
-                    title="Banner Management"
-                    subtitle="Control hero slides and marketing actions"
-                />
-                <div className="flex gap-2">
+        <div className="space-y-3 animate-in fade-in duration-500 pb-20 font-outfit text-left">
+            {/* Header Section - Refined & Compact */}
+            <div className="bg-white p-3 border border-black/5 rounded-none shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                    <h1 className="text-2xl font-serif font-black text-black tracking-tight leading-none uppercase">Interface Registry</h1>
+                    <p className="text-[9px] font-black text-gray-400 uppercase tracking-[0.4em] mt-2">Calibrate Hero Transitions & Marketing Narratives</p>
+                </div>
+                <div className="flex gap-2 w-full md:w-auto overflow-hidden">
                     <button
                         onClick={() => setIsNotificationModalOpen(true)}
-                        className="flex-1 md:flex-none flex items-center justify-center gap-1.5 px-3 py-2 bg-white border border-gray-200 text-gray-700 rounded-lg text-xs md:text-sm font-bold hover:bg-gray-50 transition-all shadow-sm active:scale-95"
+                        className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-white border border-black/5 text-black rounded-none text-[8px] font-black uppercase tracking-widest hover:bg-gray-50 transition-all shadow-sm active:scale-95"
                     >
-                        <Bell className="w-4 h-4 text-amber-500" />
-                        <span>Push</span>
+                        <Bell className="w-3 h-3 text-gold" />
+                        <span>INITIALIZE BLAST</span>
                     </button>
                     <button
                         onClick={openAddModal}
-                        className="flex-1 md:flex-none flex items-center justify-center gap-1.5 px-3 py-2 bg-[#3E2723] text-white rounded-lg text-xs md:text-sm font-bold hover:bg-[#5D4037] transition-all shadow-sm active:scale-95"
+                        className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-black text-white border border-black/5 rounded-none text-[8px] font-black uppercase tracking-widest hover:bg-gold hover:text-black transition-all shadow-xl shadow-black/10 active:scale-95 whitespace-nowrap"
                     >
-                        <Plus className="w-4 h-4" />
-                        <span>Add Slide</span>
+                        <Plus className="w-3 h-3" />
+                        <span>DEPLOY NEW SLIDE</span>
                     </button>
                 </div>
             </div>
 
-            {/* Banners Grid */}
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 md:gap-8">
+            {/* Banners Matrix Grid - Optimized for Density (3-4 cols) */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                 {banners.map((banner) => (
-                    <div key={banner.id} className="bg-white rounded-xl md:rounded-2xl border border-gray-200 shadow-sm overflow-hidden group">
-                        {/* Visual Preview */}
-                        <div className="aspect-[21/9] relative overflow-hidden bg-gray-100 border-b border-gray-100">
+                    <div key={banner.id} className="bg-white rounded-none border border-black/5 shadow-sm overflow-hidden flex flex-col group hover:border-gold/30 transition-all relative">
+                        {/* Visual Core Sector */}
+                        <div className="relative aspect-[16/8] overflow-hidden bg-gray-50">
                             <img
                                 src={banner.image || 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=800'}
                                 className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 ${banner.status === 'Inactive' ? 'grayscale opacity-60' : ''}`}
                                 alt={banner.title}
                             />
-
-                            {/* UI Overlay Simulation */}
-                            <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent flex items-center p-4 md:p-8">
-                                <div className="max-w-[70%] md:max-w-[60%] space-y-1 md:space-y-2">
-                                    <div className="px-1.5 py-0.5 bg-white/20 backdrop-blur-md rounded text-[7px] md:text-[8px] border border-white/30 text-white w-fit font-bold uppercase tracking-widest">
-                                        {banner.badge}
-                                    </div>
-                                    <h3 className="text-white text-sm md:text-lg font-bold leading-tight line-clamp-1">{banner.title}</h3>
-                                    <p className="text-white/70 text-[9px] md:text-[10px] leading-relaxed line-clamp-2 md:line-clamp-2">{banner.description}</p>
-                                    <div className="pt-1 md:pt-2">
-                                        <div className="px-2 md:px-3 py-0.5 md:py-1 bg-white text-gray-900 text-[8px] md:text-[10px] font-bold rounded-full w-fit">
-                                            {banner.btnText}
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Small Card Image Simulation */}
-                                <div className="absolute bottom-3 right-3 bg-white/95 rounded-lg p-1.5 md:p-2 w-20 md:w-28 shadow-lg md:block border border-white hidden">
-                                    <div className="h-8 md:h-12 w-full bg-gray-100 rounded mb-1 md:mb-2 overflow-hidden">
-                                        <img src={banner.cardImage} className="w-full h-full object-cover" alt="" />
-                                    </div>
-                                    <p className="text-[7px] md:text-[9px] font-bold text-gray-800 leading-none truncate">{banner.secondaryTitle}</p>
-                                    <p className="text-[6px] md:text-[7px] text-[#8D6E63] font-bold uppercase mt-1">Explore →</p>
-                                </div>
-                            </div>
-
-                            <div className="absolute top-3 right-3">
-                                <span className={`px-2 py-0.5 rounded text-[8px] md:text-[10px] font-bold border shadow-md ${banner.status === 'Active'
-                                    ? 'bg-green-500 text-white border-green-600'
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                            
+                            {/* Visual Badge */}
+                            <div className="absolute top-2 left-2 flex gap-1 items-center">
+                                <span className={`px-2 py-0.5 rounded-none text-[7px] font-black uppercase tracking-[0.2em] border shadow-lg ${banner.status === 'Active'
+                                    ? 'bg-emerald-500 text-white border-emerald-600'
                                     : 'bg-white text-gray-400 border-gray-100'
                                     }`}>
                                     {banner.status}
                                 </span>
+                                {banner.badge && (
+                                    <span className="bg-gold text-black text-[7px] font-black uppercase tracking-[0.2em] px-2 py-0.5 rounded-none shadow-lg">
+                                        {banner.badge}
+                                    </span>
+                                )}
+                            </div>
+
+                            {/* Actions Protocol Overlay */}
+                            <div className="absolute top-2 right-2 flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity z-20">
+                                <button
+                                    onClick={() => toggleBannerStatus(banner.id)}
+                                    className="p-1 px-2 border border-white/20 bg-black/80 backdrop-blur-md text-white hover:bg-gold hover:text-black transition-all shadow-sm active:scale-95"
+                                    title={banner.status === 'Active' ? 'Deactivate' : 'Activate'}
+                                >
+                                    {banner.status === 'Active' ? <EyeOff size={12} /> : <Eye size={12} />}
+                                </button>
+                                <button
+                                    onClick={() => openEditModal(banner)}
+                                    className="p-1 px-2 border border-white/20 bg-black/80 backdrop-blur-md text-white hover:bg-gold hover:text-black transition-all shadow-sm active:scale-95"
+                                >
+                                    <Edit3 size={12} />
+                                </button>
+                                <button
+                                    onClick={() => deleteBanner(banner.id)}
+                                    className="p-1 px-2 border border-white/20 bg-red-600/80 backdrop-blur-md text-white hover:bg-white hover:text-red-600 transition-all shadow-sm active:scale-95"
+                                >
+                                    <Trash2 size={12} />
+                                </button>
+                            </div>
+
+                            {/* Content Preview Simulation Overlay */}
+                            <div className="absolute bottom-3 left-3 right-10 pointer-events-none">
+                                <h3 className="text-white text-[11px] font-black uppercase tracking-tight leading-none mb-1 drop-shadow-md">{banner.title}</h3>
+                                <p className="text-white/80 text-[8px] font-serif italic line-clamp-1 leading-none drop-shadow-sm">{banner.description}</p>
                             </div>
                         </div>
 
-                        {/* Banner Info Inline */}
-                        <div className="p-4 md:p-6">
-                            <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 md:gap-6">
-                                <div className="space-y-3 md:space-y-4 flex-1">
-                                    <div className="grid grid-cols-2 gap-4 md:gap-8">
-                                        <div className="space-y-0.5 md:space-y-1">
-                                            <p className="text-[8px] md:text-[10px] font-bold text-gray-400 uppercase tracking-widest">Button</p>
-                                            <p className="text-xs md:text-sm font-bold text-gray-700 truncate">{banner.btnText}</p>
-                                            <p className="text-[9px] md:text-[10px] text-blue-500 font-bold truncate tracking-tight">{banner.link}</p>
-                                        </div>
-                                        <div className="space-y-0.5 md:space-y-1">
-                                            <p className="text-[8px] md:text-[10px] font-bold text-gray-400 uppercase tracking-widest">Spotlight</p>
-                                            <p className="text-xs md:text-sm font-bold text-gray-700 truncate">{banner.secondaryTitle}</p>
-                                            <p className="text-[9px] md:text-[10px] text-[#8D6E63] font-bold truncate tracking-tight">{banner.secondaryLink}</p>
-                                        </div>
+                        {/* Logic Data Component */}
+                        <div className="p-3 flex-1 flex flex-col font-outfit">
+                            <div className="flex items-center gap-2 mb-2">
+                                <span className="text-[7px] font-black text-gray-300 uppercase tracking-widest">{banner.id}</span>
+                                <div className="h-[1px] flex-1 bg-black/5"></div>
+                            </div>
+
+                            <div className="space-y-4 flex-1">
+                                <div className="grid grid-cols-2 gap-3">
+                                    <div className="space-y-0.5">
+                                        <p className="text-[7px] font-black text-gray-400 uppercase tracking-widest">Action Protocol</p>
+                                        <p className="text-[9px] font-black text-black truncate uppercase tracking-tighter">{banner.btnText}</p>
+                                        <p className="text-[8px] text-gold font-bold truncate tracking-tight lowercase font-serif italic">{banner.link}</p>
                                     </div>
-                                    <div className="flex items-center gap-2 pt-1">
-                                        <div className="flex items-center gap-1.5 text-[9px] md:text-xs text-gray-500 font-bold bg-gray-50 px-2.5 py-1 md:py-1.5 rounded-lg border border-gray-100">
-                                            <Calendar className="w-3 md:w-4 h-3 md:h-4 text-gray-400" />
-                                            {banner.startDate} — {banner.endDate}
-                                        </div>
+                                    <div className="space-y-0.5">
+                                        <p className="text-[7px] font-black text-gray-400 uppercase tracking-widest">Secondary Target</p>
+                                        <p className="text-[9px] font-black text-black truncate uppercase tracking-tighter">{banner.secondaryTitle}</p>
+                                        <p className="text-[8px] text-blue-500 font-bold truncate tracking-tight lowercase font-serif italic">{banner.secondaryLink}</p>
                                     </div>
                                 </div>
-
-                                <div className="flex items-center gap-1.5 md:gap-2">
-                                    <button
-                                        onClick={() => toggleBannerStatus(banner.id)}
-                                        className="flex-1 md:flex-none p-2 md:p-2.5 rounded-xl border border-gray-100 bg-gray-50 hover:bg-white text-gray-600 hover:text-[#3E2723] transition-all flex items-center justify-center"
-                                        title={banner.status === 'Active' ? 'Deactivate' : 'Activate'}
-                                    >
-                                        {banner.status === 'Active' ? <EyeOff className="w-4 h-4 md:w-5 md:h-5" /> : <Eye className="w-4 h-4 md:w-5 md:h-5" />}
-                                    </button>
-                                    <button
-                                        onClick={() => openEditModal(banner)}
-                                        className="flex-1 md:flex-none p-2 md:p-2.5 rounded-xl border border-gray-100 bg-gray-50 hover:bg-white text-gray-600 hover:text-[#3E2723] transition-all flex items-center justify-center"
-                                    >
-                                        <Edit3 className="w-4 h-4 md:w-5 md:h-5" />
-                                    </button>
-                                    <button
-                                        onClick={() => deleteBanner(banner.id)}
-                                        className="flex-1 md:flex-none p-2 md:p-2.5 rounded-xl border border-gray-100 bg-red-50 hover:bg-red-600 text-red-500 hover:text-white transition-all flex items-center justify-center"
-                                    >
-                                        <Trash2 className="w-4 h-4 md:w-5 md:h-5" />
+                                
+                                <div className="flex items-center justify-between gap-2 pt-2 border-t border-black/5 mt-auto">
+                                    <div className="flex items-center gap-1.5 text-[8px] text-gray-400 font-black uppercase tracking-widest bg-gray-50 px-2 py-1 border border-black/5 rounded-none italic">
+                                        <Calendar size={10} className="text-gold" />
+                                        {banner.startDate} <ArrowRight size={8} /> {banner.endDate}
+                                    </div>
+                                    <button className="text-[8px] font-black uppercase tracking-[0.2em] text-gray-300 hover:text-black transition-colors flex items-center gap-1">
+                                        INSPECT <ArrowRight size={10} />
                                     </button>
                                 </div>
                             </div>
@@ -248,253 +246,242 @@ const BannerManagement = () => {
                 ))}
             </div>
 
-            {/* Banner Editor Modal */}
-            {isBannerModalOpen && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-300">
-                    <div className="bg-white rounded-2xl w-full max-w-5xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-                        <div className="p-6 border-b border-gray-100 flex items-center justify-between bg-[#FDFBF7]">
-                            <h3 className="text-xl font-bold text-black">
-                                {editingBanner ? 'Edit Homepage Slide' : 'Add New Homepage Slide'}
-                            </h3>
-                            <button onClick={() => setIsBannerModalOpen(false)} className="p-2 hover:bg-gray-100 rounded-lg text-gray-400">
-                                <X className="w-6 h-6" />
-                            </button>
-                        </div>
+            {/* Matrix Logic Modal - Refined Geometric */}
+            <AnimatePresence>
+                {isBannerModalOpen && (
+                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+                        <motion.div
+                            initial={{ scale: 0.98, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.98, opacity: 0 }}
+                            className="relative bg-white w-full max-w-4xl rounded-none shadow-2xl overflow-hidden border border-black/10 font-outfit"
+                        >
+                            <div className="p-4 border-b border-black/5 bg-[#FDF5F6] flex items-center justify-between">
+                                <h2 className="text-xs font-serif font-black text-black uppercase tracking-widest flex items-center gap-3">
+                                    <Monitor size={14} className="text-gold" />
+                                    {editingBanner ? 'Update Visual Protocol' : 'Initialize New Interface Slide'}
+                                </h2>
+                                <button
+                                    onClick={() => setIsBannerModalOpen(false)}
+                                    className="p-1.5 hover:bg-gray-200 rounded-none transition-all text-gray-400 border border-transparent hover:border-black/5"
+                                >
+                                    <X size={16} />
+                                </button>
+                            </div>
 
-                        <form onSubmit={handleSaveBanner} className="p-8 overflow-y-auto grid grid-cols-1 md:grid-cols-2 gap-12">
-                            {/* Left Side: Primary Content */}
-                            <div className="space-y-6">
+                            <form onSubmit={handleSaveBanner} className="p-6 grid grid-cols-1 md:grid-cols-2 gap-6 overflow-y-auto max-h-[80vh]">
+                                {/* Strategic Data Column */}
                                 <div className="space-y-4">
-                                    <h4 className="text-xs font-bold text-black uppercase tracking-widest border-b border-[#F5F0EB] pb-2 flex items-center gap-2">
-                                        <Layout className="w-4 h-4" />
-                                        Primary Display Settings
-                                    </h4>
-                                    <div className="space-y-2">
-                                        <label className="text-[11px] font-bold text-black uppercase tracking-tighter">Main Large Background Image URL</label>
+                                    <div className="space-y-1">
+                                        <label className="text-[8px] font-black text-gray-400 uppercase tracking-widest px-1">Visual Primary Core (Background)</label>
                                         <input
-                                            className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-sm font-semibold focus:ring-2 focus:ring-[#3E2723]/10"
+                                            className="w-full bg-gray-50 border border-black/5 rounded-none py-2 px-3 text-[10px] font-black uppercase tracking-widest outline-none focus:border-gold transition-all text-black placeholder:text-gray-200"
                                             value={formData.image}
                                             onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                                            placeholder="https://images.unsplash.com/..."
+                                            placeholder="CSS/CDN URL SOURCE..."
                                             required
                                         />
                                     </div>
+                                    
                                     <div className="grid grid-cols-2 gap-4">
-                                        <div className="space-y-2">
-                                            <label className="text-[11px] font-bold text-black">Badge Text</label>
+                                        <div className="space-y-1">
+                                            <label className="text-[8px] font-black text-gray-400 uppercase tracking-widest px-1">Nomenclature Badge</label>
                                             <input
-                                                className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-sm font-semibold"
+                                                className="w-full bg-gray-50 border border-black/5 rounded-none px-3 py-2 text-[10px] font-black uppercase tracking-widest outline-none focus:border-gold transition-all"
                                                 value={formData.badge}
                                                 onChange={(e) => setFormData({ ...formData, badge: e.target.value })}
-                                                placeholder="e.g. Daily Essentials"
+                                                placeholder="E.G. NEW ARRIVAL..."
                                             />
                                         </div>
-                                        <div className="space-y-2">
-                                            <label className="text-[11px] font-bold text-black">Main Heading</label>
+                                        <div className="space-y-1">
+                                            <label className="text-[8px] font-black text-gray-400 uppercase tracking-widest px-1">Main Headline Strategy</label>
                                             <input
-                                                className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-sm font-semibold"
+                                                className="w-full bg-gray-50 border border-black/5 rounded-none px-3 py-2 text-[10px] font-black uppercase tracking-tight outline-none focus:border-gold transition-all"
                                                 value={formData.title}
                                                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                                                 required
                                             />
                                         </div>
                                     </div>
-                                    <div className="space-y-2">
-                                        <label className="text-[11px] font-bold text-black">Description</label>
+
+                                    <div className="space-y-1">
+                                        <label className="text-[8px] font-black text-gray-400 uppercase tracking-widest px-1">Narrative Directive</label>
                                         <textarea
-                                            className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-sm font-semibold h-24 resize-none"
+                                            className="w-full bg-gray-50 border border-black/5 rounded-none px-3 py-2 text-[10px] font-serif italic outline-none focus:border-gold transition-all resize-none h-20 leading-tight"
                                             value={formData.description}
                                             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                                             required
                                         />
                                     </div>
-                                </div>
 
-                                {/* Primary Button Settings - Normalized */}
-                                <div className="space-y-4 pt-4 border-t border-[#F5F0EB]">
-                                    <h4 className="text-[11px] font-bold text-black uppercase flex items-center gap-2">
-                                        <MousePointer2 className="w-4 h-4" /> Main Action Button
-                                    </h4>
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <div className="space-y-1">
-                                            <label className="text-[10px] font-bold text-black">Button Label</label>
-                                            <input
-                                                className="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg text-xs font-semibold"
-                                                value={formData.btnText}
-                                                onChange={(e) => setFormData({ ...formData, btnText: e.target.value })}
-                                                placeholder="Explore Now"
-                                            />
-                                        </div>
-                                        <div className="space-y-1">
-                                            <label className="text-[10px] font-bold text-black">Button Destination (Link)</label>
-                                            <input
-                                                className="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg text-xs font-semibold"
-                                                value={formData.link}
-                                                onChange={(e) => setFormData({ ...formData, link: e.target.value })}
-                                                placeholder="/shop"
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Right Side: Dual Image & Secondary Card */}
-                            <div className="space-y-8">
-                                <div className="space-y-6">
-                                    <h4 className="text-xs font-bold text-black uppercase tracking-widest border-b border-[#F5F0EB] pb-2 flex items-center gap-2">
-                                        <ImageIcon className="w-4 h-4" />
-                                        Floating Spotlight Card
-                                    </h4>
-
-                                    <div className="space-y-2">
-                                        <label className="text-[11px] font-bold text-black uppercase tracking-tighter">Small Secondary Item Image URL</label>
-                                        <input
-                                            className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-sm font-semibold"
-                                            value={formData.cardImage}
-                                            onChange={(e) => setFormData({ ...formData, cardImage: e.target.value })}
-                                            placeholder="Link to item photo..."
-                                            required
-                                        />
-                                    </div>
-
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <div className="space-y-1">
-                                            <label className="text-[10px] font-bold text-black">Card Heading</label>
-                                            <input
-                                                className="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg text-xs font-semibold"
-                                                value={formData.secondaryTitle}
-                                                onChange={(e) => setFormData({ ...formData, secondaryTitle: e.target.value })}
-                                            />
-                                        </div>
-                                        <div className="space-y-1">
-                                            <label className="text-[10px] font-bold text-black">Card Link</label>
-                                            <input
-                                                className="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg text-xs font-semibold"
-                                                value={formData.secondaryLink}
-                                                onChange={(e) => setFormData({ ...formData, secondaryLink: e.target.value })}
-                                            />
+                                    <div className="p-4 bg-gray-50 border border-black/5 rounded-none space-y-3">
+                                        <h4 className="text-[9px] font-black text-black uppercase tracking-[0.2em] flex items-center gap-2">
+                                            <MousePointer2 size={12} className="text-gold" /> Primary Call-to-Action Protocol
+                                        </h4>
+                                        <div className="grid grid-cols-2 gap-4">
+                                            <div className="space-y-1">
+                                                <label className="text-[8px] font-black text-gray-400 uppercase tracking-widest italic">Label</label>
+                                                <input
+                                                    className="w-full bg-white border border-black/5 rounded-none p-2 text-[9px] font-black uppercase tracking-widest outline-none focus:border-gold"
+                                                    value={formData.btnText}
+                                                    onChange={(e) => setFormData({ ...formData, btnText: e.target.value })}
+                                                />
+                                            </div>
+                                            <div className="space-y-1">
+                                                <label className="text-[8px] font-black text-gray-400 uppercase tracking-widest italic">Target URL</label>
+                                                <input
+                                                    className="w-full bg-white border border-black/5 rounded-none p-2 text-[9px] font-black uppercase tracking-widest outline-none focus:border-gold"
+                                                    value={formData.link}
+                                                    onChange={(e) => setFormData({ ...formData, link: e.target.value })}
+                                                />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                {/* Visibility Schedule */}
-                                <div className="bg-[#FDFBF7] p-6 rounded-2xl border border-[#F5F0EB] space-y-4">
-                                    <div className="flex items-center gap-2 text-[11px] font-bold text-black uppercase">
-                                        <Calendar className="w-4 h-4" /> Visibility Schedule
-                                    </div>
-                                    <div className="grid grid-cols-2 gap-4">
+                                {/* Visual Spotlight & Logic Column */}
+                                <div className="space-y-4">
+                                    <div className="p-4 bg-[#FDF5F6]/50 border border-black/5 rounded-none space-y-4">
+                                        <h4 className="text-[9px] font-black text-black uppercase tracking-[0.2em] flex items-center gap-2 border-b border-black/5 pb-2">
+                                            <Sparkles size={12} className="text-gold" /> Secondary Spotlight Integration
+                                        </h4>
                                         <div className="space-y-1">
-                                            <label className="text-[10px] font-bold text-black">Start Date</label>
+                                            <label className="text-[8px] font-black text-gray-400 uppercase tracking-widest">Spotlight Resource URL</label>
                                             <input
-                                                className="w-full p-2.5 bg-white border border-gray-200 rounded-lg text-xs font-semibold"
-                                                value={formData.startDate}
-                                                onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
-                                                placeholder="Dec 01, 2024"
+                                                className="w-full bg-white border border-black/5 rounded-none p-2 text-[9px] font-black tracking-widest outline-none focus:border-gold"
+                                                value={formData.cardImage}
+                                                onChange={(e) => setFormData({ ...formData, cardImage: e.target.value })}
+                                                placeholder="ITEM IMAGE URL..."
                                             />
                                         </div>
-                                        <div className="space-y-1">
-                                            <label className="text-[10px] font-bold text-black">End Date</label>
-                                            <input
-                                                className="w-full p-2.5 bg-white border border-gray-200 rounded-lg text-xs font-semibold"
-                                                value={formData.endDate}
-                                                onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
-                                                placeholder="Jan 31, 2025"
-                                            />
+                                        <div className="grid grid-cols-2 gap-4">
+                                            <div className="space-y-1">
+                                                <label className="text-[8px] font-black text-gray-400 uppercase tracking-widest">Spotlight Nomenclature</label>
+                                                <input
+                                                    className="w-full bg-white border border-black/5 rounded-none p-2 text-[9px] font-black uppercase tracking-widest outline-none focus:border-gold"
+                                                    value={formData.secondaryTitle}
+                                                    onChange={(e) => setFormData({ ...formData, secondaryTitle: e.target.value })}
+                                                />
+                                            </div>
+                                            <div className="space-y-1">
+                                                <label className="text-[8px] font-black text-gray-400 uppercase tracking-widest">Spotlight Target URL</label>
+                                                <input
+                                                    className="w-full bg-white border border-black/5 rounded-none p-2 text-[9px] font-black uppercase tracking-widest outline-none focus:border-gold"
+                                                    value={formData.secondaryLink}
+                                                    onChange={(e) => setFormData({ ...formData, secondaryLink: e.target.value })}
+                                                />
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div className="flex gap-3 pt-4 sticky bottom-0 bg-white py-2">
-                                    <button
-                                        type="button"
-                                        onClick={() => setIsBannerModalOpen(false)}
-                                        className="flex-1 px-6 py-4 bg-white border border-gray-200 text-gray-700 rounded-xl text-sm font-bold hover:bg-gray-50 transition-all"
-                                    >
-                                        Discard
-                                    </button>
-                                    <button
-                                        type="submit"
-                                        className="flex-1 px-6 py-4 bg-[#3E2723] text-white rounded-xl text-sm font-bold shadow-xl hover:bg-[#5D4037] transition-all"
-                                    >
-                                        Save All Changes
-                                    </button>
+                                    <div className="p-4 bg-gray-900 border border-black/5 rounded-none space-y-3 shadow-inner">
+                                        <h4 className="text-[9px] font-black text-white uppercase tracking-[0.2em] flex items-center gap-2">
+                                            <Calendar size={12} className="text-gold" /> Registry Schedule Calibrator
+                                        </h4>
+                                        <div className="grid grid-cols-2 gap-4">
+                                            <div className="space-y-1">
+                                                <label className="text-[8px] font-black text-gray-500 uppercase tracking-widest">Protocol Activation</label>
+                                                <input
+                                                    className="w-full bg-white/5 border border-white/10 rounded-none p-2 text-[9px] font-black text-white outline-none focus:border-gold"
+                                                    value={formData.startDate}
+                                                    onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
+                                                    placeholder="E.G. JAN 01, 2025"
+                                                />
+                                            </div>
+                                            <div className="space-y-1">
+                                                <label className="text-[8px] font-black text-gray-500 uppercase tracking-widest">Protocol Termination</label>
+                                                <input
+                                                    className="w-full bg-white/5 border border-white/10 rounded-none p-2 text-[9px] font-black text-white outline-none focus:border-gold"
+                                                    value={formData.endDate}
+                                                    onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
+                                                    placeholder="E.G. DEC 31, 2025"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex gap-2 pt-4">
+                                        <button
+                                            type="button"
+                                            onClick={() => setIsBannerModalOpen(false)}
+                                            className="flex-1 px-4 py-3 bg-white border border-black/5 text-gray-400 text-[9px] font-black uppercase tracking-widest hover:text-black hover:bg-gray-50 transition-all rounded-none"
+                                        >
+                                            REVERT
+                                        </button>
+                                        <button
+                                            type="submit"
+                                            className="flex-2 px-8 py-3 bg-black text-white rounded-none text-[9px] font-black uppercase tracking-[0.3em] shadow-xl shadow-black/20 hover:bg-gold hover:text-black transition-all active:scale-95 flex items-center justify-center gap-3"
+                                        >
+                                            <Sparkles size={12} /> COMMIT TO REGISTRY
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                        </form>
+                            </form>
+                        </motion.div>
                     </div>
-                </div>
-            )}
+                )}
+            </AnimatePresence>
 
-            {/* Notifications Modal Remains Same */}
-            {isNotificationModalOpen && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-300">
-                    <div className="bg-white rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
-                        <div className="p-6 border-b border-gray-100 flex items-center justify-between">
-                            <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 bg-amber-50 rounded-full flex items-center justify-center">
-                                    <Bell className="w-5 h-5 text-amber-600" />
-                                </div>
-                                <h3 className="text-lg font-semibold text-black">Push Notification Blast</h3>
-                            </div>
-                            <button onClick={() => setIsNotificationModalOpen(false)} className="p-2 hover:bg-gray-100 rounded-lg text-gray-400 transition-all">
-                                <X className="w-5 h-5" />
-                            </button>
-                        </div>
-                        <form onSubmit={handleSendNotification} className="p-6 space-y-6">
-                            <div className="space-y-2">
-                                <label className="text-xs font-semibold text-black px-1">Target Audience</label>
-                                <select
-                                    className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#3E2723]/10"
-                                    value={notificationData.target}
-                                    onChange={(e) => setNotificationData({ ...notificationData, target: e.target.value })}
-                                >
-                                    <option>All Users</option>
-                                    <option>Recent Shoppers (30 days)</option>
-                                    <option>Inactive Users (6 months)</option>
-                                    <option>Wishlist Holders</option>
-                                </select>
-                            </div>
-                            <div className="space-y-2">
-                                <label className="text-xs font-semibold text-black px-1">Notification Title</label>
-                                <input
-                                    type="text"
-                                    placeholder="e.g. Flash Sale Live! ⚡"
-                                    className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#3E2723]/10"
-                                    value={notificationData.title}
-                                    onChange={(e) => setNotificationData({ ...notificationData, title: e.target.value })}
-                                    required
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <label className="text-xs font-semibold text-black px-1">Message Content</label>
-                                <textarea
-                                    placeholder="Enter the message you want to send..."
-                                    className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#3E2723]/10 min-h-[120px] resize-none"
-                                    value={notificationData.message}
-                                    onChange={(e) => setNotificationData({ ...notificationData, message: e.target.value })}
-                                    required
-                                />
-                            </div>
-                            <div className="pt-2 flex gap-3">
-                                <button
-                                    type="button"
-                                    onClick={() => setIsNotificationModalOpen(false)}
-                                    className="flex-1 px-6 py-3 bg-white border border-gray-200 text-gray-700 rounded-xl text-sm font-semibold hover:bg-gray-50 transition-all"
-                                >
-                                    Cancel
+            {/* Broadcast Protocol Modal - High Density */}
+            <AnimatePresence>
+                {isNotificationModalOpen && (
+                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+                        <motion.div
+                            initial={{ scale: 0.98, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.98, opacity: 0 }}
+                            className="relative bg-white w-full max-w-sm rounded-none border border-black/10 shadow-2xl font-outfit"
+                        >
+                            <div className="p-4 border-b border-black/5 bg-[#FDF5F6] flex items-center justify-between">
+                                <h3 className="text-xs font-black text-black uppercase tracking-widest font-serif italic">Global Broadcast Interface</h3>
+                                <button onClick={() => setIsNotificationModalOpen(false)} className="p-1 text-gray-400 hover:text-black hover:bg-black/5 rounded-none transition-all">
+                                    <X size={16} />
                                 </button>
+                            </div>
+                            <form onSubmit={handleSendNotification} className="p-6 space-y-4">
+                                <div className="space-y-1">
+                                    <label className="text-[8px] font-black text-gray-400 uppercase tracking-widest">Subject Filter</label>
+                                    <select
+                                        className="w-full bg-gray-50 border border-black/5 rounded-none p-2 text-[9px] font-black uppercase tracking-widest outline-none focus:border-gold appearance-none"
+                                        value={notificationData.target}
+                                        onChange={(e) => setNotificationData({ ...notificationData, target: e.target.value })}
+                                    >
+                                        <option>All Global Citizens</option>
+                                        <option>Active Clients (30d)</option>
+                                        <option>Dormant Accounts</option>
+                                        <option>Exclusive Registry</option>
+                                    </select>
+                                </div>
+                                <div className="space-y-1">
+                                    <label className="text-[8px] font-black text-gray-400 uppercase tracking-widest">Nomenclature Title</label>
+                                    <input
+                                        type="text"
+                                        className="w-full bg-gray-50 border border-black/5 rounded-none p-2 text-[9px] font-black uppercase tracking-widest outline-none focus:border-gold"
+                                        value={notificationData.title}
+                                        onChange={(e) => setNotificationData({ ...notificationData, title: e.target.value })}
+                                        required
+                                    />
+                                </div>
+                                <div className="space-y-1">
+                                    <label className="text-[8px] font-black text-gray-400 uppercase tracking-widest">Visual Narrative Message</label>
+                                    <textarea
+                                        className="w-full bg-gray-50 border border-black/5 rounded-none p-2 text-[10px] font-serif italic outline-none focus:border-gold min-h-[80px] resize-none leading-tight"
+                                        value={notificationData.message}
+                                        onChange={(e) => setNotificationData({ ...notificationData, message: e.target.value })}
+                                        required
+                                    />
+                                </div>
                                 <button
                                     type="submit"
-                                    className="flex-1 px-6 py-3 bg-[#3E2723] text-white rounded-xl text-sm font-semibold shadow-lg hover:bg-[#5D4037] transition-all flex items-center justify-center gap-2"
+                                    className="w-full bg-black text-white py-3 rounded-none text-[9px] font-black uppercase tracking-[0.3em] shadow-xl shadow-black/20 hover:bg-gold hover:text-black transition-all flex items-center justify-center gap-3 active:scale-95"
                                 >
-                                    <Send className="w-4 h-4" />
-                                    Send Notification
+                                    <Send size={12} /> INITIALIZE BROADCAST
                                 </button>
-                            </div>
-                        </form>
+                            </form>
+                        </motion.div>
                     </div>
-                </div>
-            )}
+                )}
+            </AnimatePresence>
         </div>
     );
 };

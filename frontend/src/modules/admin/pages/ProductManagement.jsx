@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Edit2, Trash2, Eye, Package, TrendingUp, Check } from 'lucide-react';
+import { Edit2, Trash2, Eye, Package, TrendingUp, Check, Plus } from 'lucide-react';
 import PageHeader from '../components/common/PageHeader';
 import DataTable from '../components/common/DataTable';
 import { useShop } from '../../../context/ShopContext';
@@ -41,120 +41,103 @@ const ProductManagement = () => {
             header: '',
             render: (item) => (
                 <div onClick={(e) => { e.stopPropagation(); toggleSelection(item.id); }} className="cursor-pointer">
-                    <div className={`w-5 h-5 rounded border flex items-center justify-center transition-all ${selectedIds.includes(item.id) ? 'bg-[#3E2723] border-[#3E2723] text-white' : 'border-gray-300 bg-white'}`}>
-                        {selectedIds.includes(item.id) && <Check size={12} strokeWidth={3} />}
+                    <div className={`w-4 h-4 rounded-none border flex items-center justify-center transition-all ${selectedIds.includes(item.id) ? 'bg-black border-black text-white' : 'border-black/20 bg-white'}`}>
+                        {selectedIds.includes(item.id) && <Check size={10} strokeWidth={4} />}
                     </div>
                 </div>
             )
         }] : []),
         {
-            header: 'Product Name',
+            header: 'Identification',
             render: (item) => (
-                <div className="flex items-center py-1">
-                    <span className="font-semibold text-gray-900 text-[13px] tracking-tight">{item.name}</span>
+                <div className="flex flex-col py-0.5">
+                    <span className="font-black text-black text-[10px] tracking-tight uppercase leading-tight">{item.name}</span>
+                    <span className="text-[7px] text-gray-400 font-bold uppercase tracking-widest mt-0.5">id: {item.id?.slice(-6).toUpperCase() || 'N/A'}</span>
                 </div>
             )
         },
         {
-            header: 'Category',
+            header: 'Classification',
             render: (item) => {
                 const categories = item.categories || (item.category ? [{ category: item.category, subcategory: item.subcategory }] : []);
                 const primary = categories[0] || { category: 'Uncategorized', subcategory: '' };
                 return (
-                    <div className="min-w-[140px] flex flex-col justify-center">
-                        <span className="font-medium text-gray-900 text-xs">{primary.category}</span>
-                        {primary.subcategory && <span className="text-[10px] text-gray-500 mt-0.5">{primary.subcategory}</span>}
+                    <div className="flex flex-col justify-center">
+                        <span className="font-black text-gold text-[9px] uppercase tracking-tight">{primary.category}</span>
+                        {primary.subcategory && <span className="text-[7px] text-gray-400 font-bold uppercase tracking-widest">{primary.subcategory}</span>}
                     </div>
                 );
             }
         },
         {
-            header: 'Price',
+            header: 'Valuation',
+            align: 'center',
             render: (item) => {
                 const price = item.variants?.[0]?.price || '0';
-                return <span className="font-semibold text-gray-900 text-xs tabular-nums">₹{price}</span>;
+                return <span className="font-serif font-black text-black text-[11px] tabular-nums tracking-tighter">₹ {parseFloat(price).toLocaleString()}</span>;
             }
         },
         {
-            header: 'Stock',
+            header: 'Inventory',
+            align: 'center',
             render: (item) => {
                 const totalStock = (item.variants || []).reduce((sum, v) => sum + (v.stock || 0), 0);
                 const inStock = totalStock > 0;
                 return (
-                    <div className="min-w-[100px]">
-                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold border ${inStock
-                            ? 'bg-emerald-50 text-emerald-800 border-emerald-100'
-                            : 'bg-red-50 text-red-800 border-red-100'
-                            }`}>
-                            {inStock ? 'In Stock' : 'Out of Stock'}
-                        </span>
-                    </div>
+                    <span className={`px-2 py-0.5 rounded-none text-[8px] font-black uppercase tracking-widest border ${inStock
+                        ? 'bg-emerald-50 text-emerald-600 border-emerald-100'
+                        : 'bg-red-50 text-red-600 border-red-100'
+                        }`}>
+                        {inStock ? `${totalStock} In Stock` : 'Depleted'}
+                    </span>
                 );
             }
         },
         {
-            header: 'Rating',
+            header: 'Sentiment',
+            align: 'center',
             render: (item) => (
-                <div className="flex items-center gap-1 min-w-[60px]">
-                    <span className="text-amber-500 text-xs">★</span>
-                    <span className="font-bold text-gray-900 text-xs">4.2</span>
+                <div className="flex items-center justify-center gap-1">
+                    <span className="text-gold text-[8px]">★</span>
+                    <span className="font-serif font-black text-black text-[10px]">4.2</span>
                 </div>
             )
         },
         {
-            header: 'Status',
+            header: 'Protocol',
+            align: 'center',
             render: (item) => {
                 const isActive = item.active !== false;
-                const toggleStatus = (e) => {
-                    e.stopPropagation();
-                    // Mock toggle logic - in reality would call API
-                    item.active = !isActive;
-                    // Force update would happen via state change usually
-                };
-
                 return (
-                    <div className="min-w-[80px]">
-                        <button
-                            onClick={toggleStatus}
-                            className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border transition-all hover:scale-105 active:scale-95 ${isActive
-                                ? 'bg-green-100 text-green-800 border-green-200 hover:bg-green-200'
-                                : 'bg-gray-100 text-gray-600 border-gray-200 hover:bg-gray-200'
-                                }`}>
-                            {isActive ? 'Active' : 'Inactive'}
-                        </button>
-                    </div>
+                    <button
+                        onClick={(e) => { e.stopPropagation(); }}
+                        className={`px-3 py-0.5 rounded-none text-[8px] font-black uppercase tracking-widest border transition-all ${isActive
+                            ? 'bg-gold/10 text-gold border-gold/30'
+                            : 'bg-gray-50 text-gray-400 border-black/5'
+                            }`}>
+                        {isActive ? 'Active' : 'Restricted'}
+                    </button>
                 );
             }
         },
         {
-            header: 'Date',
-            render: () => <span className="text-gray-900 text-xs font-semibold">20/01/2024</span>
+            header: 'Log Date',
+            align: 'center',
+            render: () => <span className="text-gray-400 text-[9px] font-black uppercase tracking-widest">20 Jan 24</span>
         },
         ...(!isSelectMode ? [{
-            header: 'Actions',
+            header: 'Access',
             align: 'right',
             render: (item) => (
-                <div className="flex items-center justify-end gap-3 min-w-[100px]">
-                    <button
-                        onClick={() => navigate(`/admin/products/view/${item.id}`)}
-                        className="p-1 text-gray-700 hover:text-black transition-colors"
-                        title="View Details"
-                    >
-                        <Eye className="w-4 h-4" />
+                <div className="flex items-center justify-end gap-1">
+                    <button onClick={() => navigate(`/admin/products/view/${item.id}`)} className="p-1.5 text-gray-400 hover:text-black hover:bg-gold/10 transition-all">
+                        <Eye size={12} />
                     </button>
-                    <button
-                        onClick={() => navigate(`/admin/products/edit/${item.id}`)}
-                        className="p-1 text-gray-700 hover:text-black transition-colors"
-                        title="Edit"
-                    >
-                        <Edit2 className="w-4 h-4" />
+                    <button onClick={() => navigate(`/admin/products/edit/${item.id}`)} className="p-1.5 text-gray-400 hover:text-black hover:bg-gold/10 transition-all">
+                        <Edit2 size={12} />
                     </button>
-                    <button
-                        onClick={() => handleDelete(item.id)}
-                        className="p-1 text-gray-700 hover:text-red-700 transition-colors"
-                        title="Delete"
-                    >
-                        <Trash2 className="w-4 h-4" />
+                    <button onClick={() => handleDelete(item.id)} className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 transition-all">
+                        <Trash2 size={12} />
                     </button>
                 </div>
             )
@@ -164,11 +147,11 @@ const ProductManagement = () => {
     const filters = [
         {
             options: [
-                { label: 'All Categories', value: 'all' },
-                { label: 'Necklaces', value: 'necklaces' },
-                { label: 'Rings', value: 'rings' },
-                { label: 'Earrings', value: 'earrings' },
-                { label: 'Bangles', value: 'bangles' }
+                { label: 'ALL DEPARTMENTS', value: 'all' },
+                { label: 'NECKLACES', value: 'necklaces' },
+                { label: 'RINGS', value: 'rings' },
+                { label: 'EARRINGS', value: 'earrings' },
+                { label: 'BANGLES', value: 'bangles' }
             ],
             onChange: (val) => setSelectedCategory(val)
         }
@@ -176,30 +159,24 @@ const ProductManagement = () => {
 
     const filteredProducts = products.filter(p => {
         const matchesSearch = p.name.toLowerCase().includes(searchTerm.toLowerCase());
-
-        // Support both old format (category) and new format (categories array)
         const categories = p.categories || (p.category ? [{ category: p.category, subcategory: p.subcategory }] : []);
         const matchesCategory = selectedCategory === 'all' || categories.some(cat => cat.category === selectedCategory);
-
         return matchesSearch && matchesCategory;
     });
 
     const handleBulkApply = (config) => {
-        // config already contains productIds selected in the modal
-        bulkUpdatePrices({
-            category: selectedCategory,
-            ...config
-        });
+        bulkUpdatePrices({ category: selectedCategory, ...config });
     };
 
     return (
-        <div className="max-w-[1400px] mx-auto space-y-4 md:space-y-6 pb-20 animate-in fade-in duration-500 relative">
+        <div className="space-y-4 animate-in fade-in duration-500 pb-12 text-left font-outfit px-1">
             <PageHeader
-                title={isSelectMode ? "Select Products" : "Products"}
-                subtitle={isSelectMode ? `Select products to add to showcase (${selectedIds.length} selected)` : "Manage your inventory, pricing, and product details."}
+                title={isSelectMode ? "Selection Protocol" : "Global Inventory"}
+                subtitle={isSelectMode ? `${selectedIds.length} items staged for showcase` : "Manage your premium jewelry catalog and valuation metrics."}
                 action={!isSelectMode ? {
-                    label: "Add New Product",
-                    onClick: () => navigate('/admin/products/new')
+                    label: "ADD NEW PRODUCT",
+                    onClick: () => navigate('/admin/products/new'),
+                    icon: <Plus className="w-3.5 h-3.5" />
                 } : undefined}
             />
 
@@ -208,30 +185,28 @@ const ProductManagement = () => {
                 data={filteredProducts}
                 searchTerm={searchTerm}
                 setSearchTerm={setSearchTerm}
-                searchPlaceholder="Search products by name..."
+                searchPlaceholder="Search product by nomenclature..."
                 filters={filters}
             >
                 {!isSelectMode && (
                     <button
                         onClick={() => setIsBulkModalOpen(true)}
-                        className="bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-xs font-bold text-gray-600 hover:bg-[#3E2723] hover:text-white hover:border-[#3E2723] transition-all flex items-center gap-2 shrink-0"
-                        title="Bulk Update Prices"
+                        className="bg-black text-white rounded-none px-4 py-2 text-[9px] font-black uppercase tracking-widest hover:bg-gold hover:text-black transition-all flex items-center gap-2 active:scale-95 shadow-md"
                     >
                         <TrendingUp size={14} />
-                        <span className="hidden md:inline">Bulk Actions</span>
-                        <span className="md:hidden">Bulk</span>
+                        <span>Bulk Protocol</span>
                     </button>
                 )}
             </DataTable>
 
             {isSelectMode && selectedIds.length > 0 && (
-                <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-[#3E2723] text-white px-6 py-3 rounded-full shadow-xl flex items-center gap-4 z-50 animate-in slide-in-from-bottom-5">
-                    <span className="font-bold text-sm">{selectedIds.length} Products Selected</span>
+                <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-black text-white px-8 py-3 rounded-none shadow-2xl flex items-center gap-6 z-50 animate-in slide-in-from-bottom-5 border border-gold/30">
+                    <span className="font-black text-[10px] uppercase tracking-[0.2em]">{selectedIds.length} Items Stage Ready</span>
                     <button
                         onClick={handleConfirmSelection}
-                        className="bg-white text-[#3E2723] px-4 py-1.5 rounded-full text-xs font-bold hover:bg-gray-100 transition-colors"
+                        className="bg-gold text-black px-6 py-2 rounded-none text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all active:scale-95"
                     >
-                        Confirm Selection
+                        Execute Selection
                     </button>
                 </div>
             )}

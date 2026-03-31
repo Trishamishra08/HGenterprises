@@ -3,8 +3,8 @@
 // I will split this into two calls or use multi_replacement. The chunk is large (imports + JSX + Logic). I will rewrite a contiguous large chunk.
 // I will replace from imports to end of render.
 
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useMemo } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Edit2, Trash2, Eye, EyeOff, Box, CheckCircle, AlertCircle } from 'lucide-react';
 import PageHeader from '../../components/common/PageHeader';
 import DataTable from '../../components/common/DataTable';
@@ -12,12 +12,36 @@ import AdminStatsCard from '../../components/AdminStatsCard';
 
 const CategoryPage = () => {
     const navigate = useNavigate();
-    const [categories, setCategories] = useState([
-        { id: 1, name: 'Rings', count: 124, status: 'Active', showInCollection: true, showInNavbar: true, image: 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=100&h=100&fit=crop' },
-        { id: 2, name: 'Earrings', count: 85, status: 'Active', showInCollection: true, showInNavbar: true, image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=100&h=100&fit=crop' },
-        { id: 3, name: 'Necklaces', count: 64, status: 'Active', showInCollection: false, showInNavbar: true, image: 'https://images.unsplash.com/photo-1599643477877-530eb83abc8e?w=100&h=100&fit=crop' },
-        { id: 4, name: 'Bracelets', count: 42, status: 'Hidden', showInCollection: false, showInNavbar: false, image: 'https://images.unsplash.com/photo-1611591437281-460bfbe1520e?w=100&h=100&fit=crop' },
-    ]);
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const department = queryParams.get('department') || 'jewellery';
+
+    // Mock Data for different departments
+    const departmentalData = {
+        jewellery: [
+            { id: 1, name: 'Rings', count: 124, status: 'Active', showInCollection: true, showInNavbar: true, image: 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=100&h=100&fit=crop' },
+            { id: 2, name: 'Earrings', count: 85, status: 'Active', showInCollection: true, showInNavbar: true, image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=100&h=100&fit=crop' },
+            { id: 3, name: 'Necklaces', count: 64, status: 'Active', showInCollection: false, showInNavbar: true, image: 'https://images.unsplash.com/photo-1599643477877-530eb83abc8e?w=100&h=100&fit=crop' },
+            { id: 4, name: 'Bracelets', count: 42, status: 'Hidden', showInCollection: false, showInNavbar: false, image: 'https://images.unsplash.com/photo-1611591437281-460bfbe1520e?w=100&h=100&fit=crop' },
+        ],
+        machine: [
+            { id: 101, name: 'Polishing Machines', count: 12, status: 'Active', showInCollection: true, showInNavbar: true, image: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=100&h=100&fit=crop' },
+            { id: 102, name: 'Cutting Tools', count: 28, status: 'Active', showInCollection: true, showInNavbar: true, image: 'https://images.unsplash.com/photo-1504148455328-c376907d081c?w=100&h=100&fit=crop' },
+            { id: 103, name: 'Engraving Machines', count: 8, status: 'Active', showInCollection: true, showInNavbar: false, image: 'https://images.unsplash.com/photo-1537462715879-360eeb61a0ad?w=100&h=100&fit=crop' },
+        ],
+        tools: [
+            { id: 201, name: 'Precision Pliers', count: 145, status: 'Active', showInCollection: true, showInNavbar: true, image: 'https://images.unsplash.com/photo-1530124560676-4ce5784914f6?w=100&h=100&fit=crop' },
+            { id: 202, name: 'Measuring Gauges', count: 67, status: 'Active', showInCollection: true, showInNavbar: true, image: 'https://images.unsplash.com/photo-1581092334651-ddf26d9a1930?w=100&h=100&fit=crop' },
+            { id: 203, name: 'Soldering Kits', count: 34, status: 'Active', showInCollection: false, showInNavbar: true, image: 'https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?w=100&h=100&fit=crop' },
+        ]
+    };
+
+    const [categories, setCategories] = useState([]);
+
+    // Initialize/Update categories when department changes
+    React.useEffect(() => {
+        setCategories(departmentalData[department] || departmentalData.jewellery);
+    }, [department]);
 
     const [searchTerm, setSearchTerm] = useState('');
 
@@ -162,28 +186,49 @@ const CategoryPage = () => {
     ];
 
     return (
-        <div className="space-y-6">
-            <PageHeader
-                title="Category Management"
-                subtitle="Manage main collections and their global visibility settings."
-                action={{
-                    label: "Add New Category",
-                    onClick: () => navigate('/admin/categories/new')
-                }}
-            />
+        <div className="space-y-4 animate-in fade-in duration-500 pb-12 font-outfit text-left">
+            {/* Header Section */}
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center bg-white p-4 border border-black/5 rounded-none shadow-sm gap-4">
+                <div>
+                    <h1 className="text-2xl font-serif font-black text-black tracking-tight leading-none uppercase">
+                         {department} Matrix
+                    </h1>
+                    <p className="text-[9px] font-black text-gray-400 uppercase tracking-[0.4em] mt-2">
+                         Global Hierarchy Management for {department}
+                    </p>
+                </div>
+                <button 
+                    onClick={() => navigate('/admin/categories/new')}
+                    className="px-5 py-2.5 bg-black text-white rounded-none text-[9px] font-black uppercase tracking-widest hover:bg-primary shadow-xl shadow-black/20 transition-all flex items-center gap-3 active:scale-95 group"
+                >
+                    <Box size={14} className="group-hover:translate-y-0.5 transition-transform" /> 
+                    <span>INITIALIZE NEW CATEGORY</span>
+                </button>
+            </div>
 
-            {/* Stats Cards */}
+            {/* Matrix Console - High Density */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {stats.map((stat, index) => (
-                    <AdminStatsCard
-                        key={index}
-                        label={stat.label}
-                        value={stat.value}
-                        icon={stat.icon}
-                        color={stat.color.split(' ').find(c => c.startsWith('text-'))}
-                        bgColor={stat.color.split(' ').find(c => c.startsWith('bg-'))}
-                    />
-                ))}
+                <AdminStatsCard
+                    label="TOTAL CATEGORY DEPTH"
+                    value={categories.length.toString().padStart(2, '0')}
+                    icon={Box}
+                    color="text-footerBg"
+                    bgColor="bg-gray-50"
+                />
+                <AdminStatsCard
+                    label="ACTIVE PROTOCOLS"
+                    value={categories.filter(c => c.status === 'Active').length.toString().padStart(2, '0')}
+                    icon={CheckCircle}
+                    color="text-emerald-600"
+                    bgColor="bg-emerald-50"
+                />
+                <AdminStatsCard
+                    label="HIDDEN REGISTRIES"
+                    value={categories.filter(c => c.status === 'Hidden').length.toString().padStart(2, '0')}
+                    icon={EyeOff}
+                    color="text-orange-600"
+                    bgColor="bg-orange-50"
+                />
             </div>
 
             <DataTable
@@ -191,7 +236,7 @@ const CategoryPage = () => {
                 data={categories.filter(cat => cat.name.toLowerCase().includes(searchTerm.toLowerCase()))}
                 searchTerm={searchTerm}
                 setSearchTerm={setSearchTerm}
-                searchPlaceholder="Search categories..."
+                searchPlaceholder={`Search within ${department} matrix...`}
                 filters={filters}
             />
         </div>

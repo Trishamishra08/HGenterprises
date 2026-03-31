@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Lock, Mail } from 'lucide-react';
+import { Lock, Mail, Shield, ArrowRight, Sparkles } from 'lucide-react';
+import hgLogo from '../../user/assets/logo_final.jpg';
 
 const AdminLogin = () => {
     const navigate = useNavigate();
@@ -10,104 +11,90 @@ const AdminLogin = () => {
     const [loading, setLoading] = useState(false);
 
     // Mock Admin Credentials
-    const MOCK_ADMIN_EMAIL = 'admin@example.com';
+    const MOCK_ADMIN_EMAIL = 'admin@hgenterprises.com';
     const MOCK_ADMIN_PASSWORD = 'admin123';
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setError(''); // Clear previous errors
-
-        // Validation
-        if (!email.trim()) {
-            setError('Email is required');
-            return;
-        }
-
-        if (!password.trim()) {
-            setError('Password is required');
-            return;
-        }
-
-        // Mock loading state
+        setError(''); 
         setLoading(true);
 
-        // Simulate API delay
         setTimeout(() => {
-            // Mock authentication logic
             if (email === MOCK_ADMIN_EMAIL && password === MOCK_ADMIN_PASSWORD) {
-                // Store login state
                 localStorage.setItem('isAdminLoggedIn', 'true');
-
-                // Redirect to admin dashboard
-                navigate('/admin/dashboard');
+                navigate('/admin');
             } else {
-                setError('Invalid credentials');
+                setError('AUTHENTICATION FAILURE: INVALID CREDENTIALS');
                 setLoading(false);
             }
-        }, 800);
+        }, 1200);
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center p-4">
-            <div className="w-full max-w-md">
-                {/* Login Card */}
-                <div className="bg-white rounded-2xl shadow-2xl p-8 md:p-10">
-                    {/* Header */}
-                    <div className="text-center mb-8">
-                        <div className="inline-block p-3 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full mb-4">
-                            <Lock className="w-8 h-8 text-white" />
+        <div className="min-h-screen bg-black flex items-center justify-center p-4 font-outfit">
+            {/* Background Aesthetic */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
+                <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-gold/10 rounded-full blur-[120px]"></div>
+                <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-gold/5 rounded-full blur-[120px]"></div>
+            </div>
+
+            <div className="w-full max-w-[450px] relative z-10">
+                {/* Login Card - High Density Geometric */}
+                <div className="bg-white rounded-none shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden border border-white/10">
+                    {/* Editorial Header */}
+                    <div className="bg-black p-8 text-center relative border-b border-white/5">
+                        <img 
+                            src={hgLogo} 
+                            alt="HG" 
+                            className="h-12 w-auto mx-auto mb-6 object-contain mix-blend-screen grayscale brightness-200"
+                        />
+                        <div className="flex items-center justify-center gap-2 mb-2">
+                            <Shield size={12} className="text-gold" />
+                            <span className="text-[8px] font-black text-gold uppercase tracking-[0.5em]">Security Protocol</span>
                         </div>
-                        <h1 className="text-3xl font-bold text-gray-900 mb-2">Admin Panel</h1>
-                        <p className="text-gray-600">Sign in to continue</p>
+                        <h1 className="text-2xl font-serif font-black text-white tracking-tighter uppercase italic">Harshad Gauri</h1>
+                        <p className="text-[8px] font-black text-white/40 uppercase tracking-[0.3em] mt-1">Administrative Control Entry</p>
                     </div>
 
                     {/* Login Form */}
-                    <form onSubmit={handleSubmit} className="space-y-6">
+                    <form onSubmit={handleSubmit} className="p-8 space-y-6">
                         {/* Error Message */}
                         {error && (
-                            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
+                            <div className="bg-red-50 border border-red-100 text-red-600 px-4 py-2.5 rounded-none text-[9px] font-black uppercase tracking-widest animate-pulse">
                                 {error}
                             </div>
                         )}
 
                         {/* Email Input */}
-                        <div>
-                            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                                Email Address
-                            </label>
+                        <div className="space-y-1.5">
+                            <label className="text-[8px] font-black text-gray-400 uppercase tracking-widest px-1">Registry Email</label>
                             <div className="relative">
-                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <Mail className="h-5 w-5 text-gray-400" />
-                                </div>
+                                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-gray-300" />
                                 <input
                                     type="email"
-                                    id="email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    placeholder="Enter your email"
+                                    placeholder="ADMIN@HGENTERPRISES.COM"
                                     disabled={loading}
-                                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all disabled:bg-gray-100 disabled:cursor-not-allowed"
+                                    className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-black/5 rounded-none text-[10px] font-black uppercase tracking-widest text-black outline-none focus:bg-white focus:border-gold transition-all duration-300 disabled:opacity-50 placeholder:text-gray-200"
+                                    required
                                 />
                             </div>
                         </div>
 
                         {/* Password Input */}
-                        <div>
-                            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
-                                Password
-                            </label>
+                        <div className="space-y-1.5">
+                            <label className="text-[8px] font-black text-gray-400 uppercase tracking-widest px-1">Access Cipher</label>
                             <div className="relative">
-                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <Lock className="h-5 w-5 text-gray-400" />
-                                </div>
+                                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-gray-300" />
                                 <input
                                     type="password"
-                                    id="password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    placeholder="Enter your password"
+                                    placeholder="••••••••"
                                     disabled={loading}
-                                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all disabled:bg-gray-100 disabled:cursor-not-allowed"
+                                    className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-black/5 rounded-none text-[10px] font-black tracking-widest text-black outline-none focus:bg-white focus:border-gold transition-all duration-300 disabled:opacity-50 placeholder:text-gray-200"
+                                    required
                                 />
                             </div>
                         </div>
@@ -116,24 +103,36 @@ const AdminLogin = () => {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold py-3 rounded-lg hover:from-indigo-600 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.02] active:scale-[0.98]"
+                            className="w-full bg-black text-white py-4 rounded-none font-black text-[10px] uppercase tracking-[0.3em] flex items-center justify-center gap-3 hover:bg-gold hover:text-black transition-all duration-500 shadow-xl active:scale-[0.98] group overflow-hidden relative"
                         >
-                            {loading ? 'Logging in...' : 'Sign In'}
+                            <div className="relative z-10 flex items-center gap-3">
+                                {loading ? 'INITIATING...' : 'AUTHORIZE ENTRY'}
+                                {!loading && <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />}
+                            </div>
+                            <div className="absolute inset-0 bg-white/5 -translate-x-full group-hover:translate-x-0 transition-transform duration-500"></div>
                         </button>
                     </form>
 
-                    {/* Simple Credential Text */}
-                    <div className="mt-6 text-center space-y-2">
-                        <p className="text-gray-500 text-sm">Use these credentials to login:</p>
-                        <p className="font-mono text-gray-800 font-medium">admin@example.com</p>
-                        <p className="font-mono text-gray-800 font-medium">admin123</p>
+                    {/* Visual Credential Hint */}
+                    <div className="px-8 pb-8 flex items-center justify-center gap-4">
+                        <div className="h-[1px] flex-1 bg-black/5"></div>
+                        <div className="flex items-center gap-1.5 text-[7px] font-black text-gray-300 uppercase tracking-widest">
+                            <Sparkles size={8} /> Admin Tier Access Only
+                        </div>
+                        <div className="h-[1px] flex-1 bg-black/5"></div>
                     </div>
                 </div>
 
-                {/* Footer */}
-                <p className="text-center text-gray-400 text-sm mt-6">
-                    © 2024 Sands Ornaments. Admin Access Only.
-                </p>
+                {/* Footer Footer */}
+                <div className="mt-8 flex flex-col items-center gap-4">
+                    <p className="text-[8px] font-black text-white/30 uppercase tracking-[0.4em]">
+                        © 2026 HARSHAD GAURI ENTERPRISES • ENCRYPTED SESSION
+                    </p>
+                    <div className="flex gap-6">
+                        <span className="text-[7px] font-black text-white/10 uppercase tracking-widest cursor-not-allowed">Protocol V4.2</span>
+                        <span className="text-[7px] font-black text-white/10 uppercase tracking-widest cursor-not-allowed">Cloud Registry</span>
+                    </div>
+                </div>
             </div>
         </div>
     );

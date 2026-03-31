@@ -25,11 +25,11 @@ const DataTable = ({
     };
 
     return (
-        <div className="space-y-3 md:space-y-4 animate-in fade-in duration-500">
-            {/* Toolbar */}
-            <div className="bg-white p-3 md:p-4 rounded-xl border border-gray-200 shadow-sm flex flex-col md:flex-row gap-3 md:gap-4 items-center">
+        <div className="space-y-2 md:space-y-3 animate-in fade-in duration-500 font-outfit text-left">
+            {/* Toolbar - Ultra Compact Geometric */}
+            <div className="bg-[#FDF5F6] p-2 md:p-3 rounded-none border border-black/5 shadow-sm flex flex-col md:flex-row gap-2 md:gap-3 items-center">
                 <div className="relative flex-grow w-full">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-600" />
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gold" />
                     <input
                         type="text"
                         placeholder={searchPlaceholder}
@@ -38,7 +38,7 @@ const DataTable = ({
                             setSearchTerm(e.target.value);
                             setCurrentPage(1); // Reset to page 1 on search
                         }}
-                        className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-xs md:text-sm focus:outline-none focus:ring-2 focus:ring-[#8D6E63]/20 focus:border-[#8D6E63] transition-all text-gray-900 placeholder-gray-500"
+                        className="w-full pl-9 pr-4 py-2 bg-white border border-black/5 rounded-none text-[10px] font-bold uppercase tracking-widest focus:outline-none focus:border-gold transition-all text-gray-900 placeholder-gray-400"
                     />
                 </div>
                 {filters && (
@@ -50,13 +50,13 @@ const DataTable = ({
                                         filter.onChange(e.target.value);
                                         setCurrentPage(1); // Reset to page 1 on filter change
                                     }}
-                                    className="bg-gray-50 border border-gray-200 rounded-lg pl-3 md:pl-4 pr-8 md:pr-10 py-1.5 md:py-2 text-[10px] md:text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#8D6E63]/20 appearance-none cursor-pointer"
+                                    className="bg-white border border-black/5 rounded-none pl-3 md:pl-4 pr-8 md:pr-10 py-1.5 md:py-2 text-[9px] font-black uppercase tracking-widest text-gray-800 focus:outline-none focus:border-gold appearance-none cursor-pointer"
                                 >
                                     {filter.options.map((opt, i) => (
                                         <option key={i} value={opt.value}>{opt.label}</option>
                                     ))}
                                 </select>
-                                <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-3 h-3 md:w-4 md:h-4 text-gray-500 pointer-events-none" />
+                                <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-3 h-3 text-gold pointer-events-none" />
                             </div>
                         ))}
                     </div>
@@ -64,34 +64,38 @@ const DataTable = ({
                 {children}
             </div>
 
-            {/* Table */}
-            <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-                <div className="overflow-x-auto">
+            {/* Table - High Density Geometric */}
+            <div className="bg-white rounded-none border border-black/5 shadow-sm overflow-hidden">
+                <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-gold/20">
                     <table className="w-full text-left">
-                        <thead className="bg-white border-b border-gray-200">
+                        <thead className="bg-[#FDF5F6]/50 border-b border-black/5">
                             <tr>
                                 {columns.map((col, index) => (
-                                    <th key={index} className={`px-4 md:px-6 py-4 text-gray-800 font-bold uppercase tracking-widest text-[10px] md:text-xs ${col.align === 'right' ? 'text-right' : ''}`}>
+                                    <th key={index} className={`px-4 md:px-6 py-2.5 text-gold font-black uppercase tracking-[0.2em] text-[8px] md:text-[9px] ${col.align === 'right' ? 'text-right' : ''}`}>
                                         {col.header}
                                     </th>
                                 ))}
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-gray-100 text-gray-900">
+                        <tbody className="divide-y divide-black/5 text-gray-900">
                             {paginatedData.length > 0 ? (
                                 paginatedData.map((item, rowIndex) => (
-                                    <tr key={startIndex + rowIndex} className="hover:bg-gray-50/50 transition-colors">
+                                    <tr key={startIndex + rowIndex} className="hover:bg-[#FDF5F6]/30 transition-colors group">
                                         {columns.map((col, colIndex) => (
-                                            <td key={colIndex} className={`px-4 md:px-6 py-2 md:py-2.5 ${col.align === 'right' ? 'text-right' : ''}`}>
-                                                {col.render ? col.render(item) : item[col.key]}
+                                            <td key={colIndex} className={`px-4 md:px-6 py-1.5 md:py-2 ${col.align === 'right' ? 'text-right' : ''}`}>
+                                                <div className="text-[10px] md:text-[11px]">
+                                                    {col.render ? col.render(item) : (
+                                                        <span className="font-medium text-black uppercase tracking-tight">{item[col.key]}</span>
+                                                    )}
+                                                </div>
                                             </td>
                                         ))}
                                     </tr>
                                 ))
                             ) : (
                                 <tr>
-                                    <td colSpan={columns.length} className="px-6 py-12 text-center text-gray-600 font-medium text-xs">
-                                        No results found
+                                    <td colSpan={columns.length} className="px-6 py-8 text-center text-gray-400 font-black uppercase tracking-widest text-[8px]">
+                                        Dataset Empty: No results mapped
                                     </td>
                                 </tr>
                             )}
@@ -99,25 +103,27 @@ const DataTable = ({
                     </table>
                 </div>
 
-                {/* Pagination Controls */}
+                {/* Pagination Controls - Sharp & Compact */}
                 {data.length > 0 && (
-                    <div className="px-4 md:px-6 py-3 border-t border-gray-200 flex items-center justify-between text-xs md:text-sm text-gray-500">
-                        <span>Showing {startIndex + 1} to {Math.min(startIndex + itemsPerPage, data.length)} of {data.length} entries</span>
-                        <div className="flex items-center gap-2">
+                    <div className="px-4 md:px-6 py-2.5 border-t border-black/5 flex items-center justify-between text-[8px] font-black uppercase tracking-widest text-gray-400 bg-[#FDF5F6]/20">
+                        <span>Showing {startIndex + 1}—{Math.min(startIndex + itemsPerPage, data.length)} of {data.length} records</span>
+                        <div className="flex items-center gap-4">
                             <button
                                 onClick={() => handlePageChange(currentPage - 1)}
                                 disabled={currentPage === 1}
-                                className="p-1 rounded-md hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                className="p-1 border border-black/5 hover:border-gold hover:text-gold disabled:opacity-30 disabled:hover:border-black/5 disabled:hover:text-gray-400 transition-all bg-white"
                             >
-                                <ChevronLeft className="w-4 h-4 md:w-5 md:h-5" />
+                                <ChevronLeft className="w-3 h-3" />
                             </button>
-                            <span className="font-medium text-gray-900">Page {currentPage} of {totalPages}</span>
+                            <span className="font-serif font-black text-black text-[10px] tabular-nums tracking-tighter">
+                                <span className="text-gold italic mr-1">{currentPage}</span> / {totalPages}
+                            </span>
                             <button
                                 onClick={() => handlePageChange(currentPage + 1)}
                                 disabled={currentPage === totalPages}
-                                className="p-1 rounded-md hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                className="p-1 border border-black/5 hover:border-gold hover:text-gold disabled:opacity-30 disabled:hover:border-black/5 disabled:hover:text-gray-400 transition-all bg-white"
                             >
-                                <ChevronRight className="w-4 h-4 md:w-5 md:h-5" />
+                                <ChevronRight className="w-3 h-3" />
                             </button>
                         </div>
                     </div>

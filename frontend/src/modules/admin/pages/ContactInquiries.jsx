@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Eye, Trash2, Mail, MessageSquare, Calendar, CheckCircle, Clock, Inbox, AlertCircle, CheckCircle2 } from 'lucide-react';
 import PageHeader from '../components/common/PageHeader';
 import DataTable from '../components/common/DataTable';
+import AdminStatsCard from '../components/AdminStatsCard';
 
 const ContactInquiries = () => {
     // Mock Data mimicking submissions from the Homepage "ChitChat" form
@@ -140,46 +141,36 @@ const ContactInquiries = () => {
     ];
 
     return (
-        <div className="max-w-[1400px] mx-auto w-full flex flex-col h-[calc(100vh-80px)] md:h-[calc(100vh-100px)] animate-in fade-in duration-500 pb-10">
-            <PageHeader
-                title="Contact Inquiries"
-                subtitle="Manage messages from your website visitors"
-            />
+        <div className="space-y-4 animate-in fade-in duration-500 pb-10 font-outfit text-left">
+            {/* Header Section */}
+            <div className="bg-white p-4 border border-black/5 rounded-none shadow-sm">
+                <h1 className="text-xl font-black text-footerBg uppercase tracking-tighter leading-tight">Inquiry Registry</h1>
+                <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest leading-none mt-0.5">Customer Correspondence & Lead Management</p>
+            </div>
 
-            {/* 3 Stats Cards: All, Unread, Read */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6 mb-8">
-                {/* All */}
-                <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex items-center justify-between group hover:border-[#3E2723]/20 transition-all">
-                    <div>
-                        <p className="text-gray-500 font-bold uppercase tracking-widest text-xs mb-1">Total Messages</p>
-                        <h3 className="text-3xl font-bold text-gray-900">{totalInquiries}</h3>
-                    </div>
-                    <div className="w-12 h-12 rounded-xl bg-gray-50 flex items-center justify-center text-gray-400 group-hover:bg-[#3E2723] group-hover:text-white transition-colors">
-                        <Inbox size={24} />
-                    </div>
-                </div>
-
-                {/* Unread */}
-                <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex items-center justify-between group hover:border-red-200 transition-all">
-                    <div>
-                        <p className="text-gray-500 font-bold uppercase tracking-widest text-xs mb-1">Unread</p>
-                        <h3 className="text-3xl font-bold text-gray-900">{unreadInquiries}</h3>
-                    </div>
-                    <div className="w-12 h-12 rounded-xl bg-red-50 flex items-center justify-center text-red-500 group-hover:bg-red-600 group-hover:text-white transition-colors">
-                        <AlertCircle size={24} />
-                    </div>
-                </div>
-
-                {/* Read */}
-                <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex items-center justify-between group hover:border-green-200 transition-all">
-                    <div>
-                        <p className="text-gray-500 font-bold uppercase tracking-widest text-xs mb-1">Read</p>
-                        <h3 className="text-3xl font-bold text-gray-900">{readInquiries}</h3>
-                    </div>
-                    <div className="w-12 h-12 rounded-xl bg-green-50 flex items-center justify-center text-green-500 group-hover:bg-green-600 group-hover:text-white transition-colors">
-                        <CheckCircle2 size={24} />
-                    </div>
-                </div>
+            {/* Matrix Console - High Density */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <AdminStatsCard
+                    label="TOTAL COMMUNICATIONS"
+                    value={totalInquiries.toString().padStart(2, '0')}
+                    icon={Inbox}
+                    color="text-footerBg"
+                    bgColor="bg-gray-50"
+                />
+                <AdminStatsCard
+                    label="WAITING FOR RESPONSE"
+                    value={unreadInquiries.toString().padStart(2, '0')}
+                    icon={AlertCircle}
+                    color="text-red-600"
+                    bgColor="bg-red-50"
+                />
+                <AdminStatsCard
+                    label="PROTOCOL COMPLETED"
+                    value={readInquiries.toString().padStart(2, '0')}
+                    icon={CheckCircle2}
+                    color="text-emerald-600"
+                    bgColor="bg-emerald-50"
+                />
             </div>
 
             <DataTable

@@ -30,21 +30,22 @@ const GlobalSettings = () => {
                 { id: 3, icon: 'RefreshCw', text: 'Easy Returns & Refunds' },
                 { id: 4, icon: 'Headset', text: 'Dedicated Support Team' }
             ],
-            fraudWarning: 'BEWARE OF FRAUD: Sands Ornaments never asks for confidential banking details over phone or email.',
-            address: '123 Silver Arcade, Heritage Marg, Jaipur',
-            phone: '+91 98765 43210',
-            email: 'support@sandsornaments.com',
-            website: 'www.sandsornaments.com',
+            fraudWarning: 'BEWARE OF FRAUD: HG Enterprises never asks for confidential banking details over phone or email.',
+            address: '45/2, Golden Plaza, Business District, Jaipur',
+            phone: '+91 91234 56789',
+            email: 'admin@hgenterprises.com',
+            website: 'www.hgenterprises.com',
 
             // Footer Settings
-            footerTagline: 'Timeless Elegance,',
-            footerSubTagline: 'Handcrafted for You.',
-            footerDescription: 'Every piece at Sands tell a story of heritage and modern Grace. Join our community of silver lovers and celebrate life\'s most precious moments.',
+            footerTagline: 'Exquisite Artistry,',
+            footerSubTagline: 'Individually Crafted for You.',
+            footerDescription: 'Every piece at HG Enterprises tells a story of modern luxury and timeless craftsmanship. Join us in celebrating life\'s most precious moments.',
 
             footerColumn1Title: 'Experience',
             footerColumn2Title: 'Policies',
             footerColumn3Title: 'Our World',
 
+            // ... (rest should be fine as path based)
             footerExperienceLinks: [
                 { id: 1, name: "Easy Returns", path: "/returns" },
                 { id: 2, name: "Contact Us", path: "/contact" },
@@ -72,7 +73,7 @@ const GlobalSettings = () => {
             },
 
             footerDeliveryText: 'Safe & Insured Express Worldwide Delivery',
-            footerCopyrightText: 'Sands Ornaments Pvt Ltd. All Rights Reserved.',
+            footerCopyrightText: 'HG Enterprises Pvt Ltd. All Rights Reserved.',
 
             ...initial
         };

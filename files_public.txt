@@ -1,0 +1,10 @@
+c:/Users/trish/Documents/HGenterprises/frontend/public\robots.txt
+c:/Users/trish/Documents/HGenterprises/frontend/public\videos\most-gifted.mp4
+c:/Users/trish/Documents/HGenterprises/frontend/public\videos\pinterest-banner.mp4
+c:/Users/trish/Documents/HGenterprises/frontend/public\videos\premium-banner.mp4
+c:/Users/trish/Documents/HGenterprises/frontend/public\videos\jewellery-slide-3.mp4
+c:/Users/trish/Documents/HGenterprises/frontend/public\videos\jewellery-slide-2.mp4
+c:/Users/trish/Documents/HGenterprises/frontend/public\videos\slide3.mp4
+c:/Users/trish/Documents/HGenterprises/frontend/public\videos\slide2.mp4
+c:/Users/trish/Documents/HGenterprises/frontend/public\videos\jewellery-banner.mp4
+c:/Users/trish/Documents/HGenterprises/frontend/public\vite.svg

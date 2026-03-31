@@ -98,123 +98,124 @@ const SubcategoryManagement = () => {
     ];
 
     return (
-        <div className="space-y-6 animate-in fade-in duration-500">
-            <PageHeader
-                title="Subcategory Management"
-                subtitle="Manage secondary product levels grouped by parent categories."
-                action={{
-                    label: "Add Sub-Category",
-                    onClick: () => navigate('/admin/subcategories/new'),
-                    icon: <Plus className="w-4 h-4" />
-                }}
-            />
+        <div className="space-y-4 animate-in fade-in duration-500 font-outfit text-left pb-12">
+            <div className="mb-2">
+                <PageHeader
+                    title="Sub-Level Hierarchy"
+                    subtitle="Administrative control over secondary product classifications"
+                    action={{
+                        label: "ADD SUB-CATEGORY",
+                        onClick: () => navigate('/admin/subcategories/new'),
+                        icon: <Plus className="w-3.5 h-3.5" />
+                    }}
+                />
+            </div>
 
-            {/* Stats Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {/* Stats Overview - High Density Geometric */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {stats.map((stat, index) => (
-                    <div key={index} className="bg-white p-4 md:p-5 rounded-xl border border-gray-200 shadow-sm flex items-center justify-between">
+                    <div key={index} className="bg-white p-3 rounded-none border border-black/5 shadow-sm flex items-center justify-between group transition-all hover:border-gold/30">
                         <div>
-                            <p className="text-[10px] md:text-xs font-bold text-gray-500 uppercase tracking-wider">{stat.label}</p>
-                            <p className="text-2xl md:text-3xl font-bold text-gray-900 mt-1">{stat.value}</p>
+                            <p className="text-[8px] font-black text-gray-400 uppercase tracking-widest mb-0.5">{stat.label}</p>
+                            <p className="text-xl font-black text-black tracking-tighter tabular-nums font-outfit uppercase">{stat.value}</p>
                         </div>
-                        <div className={`w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center ${stat.color}`}>
-                            <stat.icon className="w-5 h-5 md:w-6 md:h-6" />
+                        <div className={`w-8 h-8 rounded-none flex items-center justify-center p-1.5 border border-black/5 ${stat.color.replace('bg-', 'bg-[#FDF5F6] text-gold')}`}>
+                            <stat.icon className="w-full h-full" strokeWidth={2.5} />
                         </div>
                     </div>
                 ))}
             </div>
 
-            {/* Search Bar */}
-            <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+            {/* Global Search Interface */}
+            <div className="bg-white p-3 rounded-none border border-black/5 shadow-sm">
                 <div className="relative">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gold" />
                     <input
                         type="text"
-                        placeholder="Search sub-categories..."
+                        placeholder="Search specific level..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#8D6E63]/20 focus:border-[#8D6E63] transition-all"
+                        className="w-full pl-10 pr-4 py-2 bg-[#FDF5F6] border border-black/5 rounded-none text-[10px] font-bold uppercase tracking-widest focus:outline-none focus:border-gold transition-all"
                     />
                 </div>
             </div>
 
-            {/* Grouped Lists */}
-            <div className="space-y-4">
+            {/* Grouped Lists - Ultra Compact Geometric */}
+            <div className="space-y-3">
                 {filteredGroups.map(group => (
-                    <div key={group.id} className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden transition-all duration-300">
+                    <div key={group.id} className="bg-white rounded-none border border-black/5 overflow-hidden shadow-sm transition-all duration-300 hover:border-gold/20">
                         {/* Parent Header */}
                         <div
-                            className="p-4 flex items-center justify-between cursor-pointer hover:bg-gray-50 transition-colors"
+                            className="p-3 flex items-center justify-between cursor-pointer hover:bg-[#FDF5F6]/40 transition-colors"
                             onClick={() => toggleGroupExpand(group.id)}
                         >
                             <div className="flex items-center gap-4">
-                                <button className="p-1 rounded-full hover:bg-gray-200 text-gray-500 transition-colors">
-                                    {group.isExpanded ? <ChevronDown className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
-                                </button>
-                                <div className="w-10 h-10 rounded-lg bg-gray-100 border border-gray-200 overflow-hidden shrink-0">
+                                <div className={`p-1 transition-transform duration-300 ${group.isExpanded ? 'rotate-90 text-gold' : 'text-gray-400'}`}>
+                                    <ChevronRight size={16} strokeWidth={3} />
+                                </div>
+                                <div className="w-10 h-10 rounded-none bg-[#FDF5F6] border border-black/5 overflow-hidden shrink-0 shadow-sm">
                                     <img src={group.image} alt={group.name} className="w-full h-full object-cover" />
                                 </div>
-                                <div>
-                                    <h3 className="font-bold text-gray-900 text-sm md:text-base">{group.name}</h3>
-                                    <p className="text-xs text-gray-500 font-medium">{group.subcategories.length} Levels</p>
+                                <div className="space-y-0.5">
+                                    <h3 className="font-serif font-black text-black text-[13px] uppercase tracking-tighter leading-none">{group.name}</h3>
+                                    <p className="text-[8px] font-black text-gray-400 uppercase tracking-widest leading-none mt-1">{group.subcategories.length} Nodes Discovered</p>
                                 </div>
                             </div>
                             <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
                                 <button
                                     onClick={() => navigate(`/admin/subcategories/new?parent=${group.id}`)}
-                                    className="flex items-center gap-1 px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-xs font-bold text-gray-700 hover:bg-gray-50 hover:text-[#8D6E63] hover:border-[#8D6E63]/30 transition-all shadow-sm"
+                                    className="px-4 py-1.5 bg-[#FDF5F6] border border-black/5 rounded-none text-[9px] font-black text-black uppercase tracking-widest hover:bg-gold hover:text-black transition-all shadow-sm active:scale-95"
                                 >
-                                    <Plus className="w-3.5 h-3.5" />
-                                    Add Sub
+                                    <Plus className="inline w-3 h-3 mr-1" /> Add Node
                                 </button>
                             </div>
                         </div>
 
-                        {/* Subcategories Table */}
+                        {/* Hierarchical Detail Grid */}
                         {group.isExpanded && (
-                            <div className="border-t border-gray-100 bg-gray-50/30 animate-in slide-in-from-top-2 duration-300">
+                            <div className="border-t border-black/5 bg-[#FDF5F6]/20 animate-in slide-in-from-top-1 duration-300">
                                 <div className="overflow-x-auto">
                                     <table className="w-full text-left">
-                                        <thead className="text-gray-500 font-bold uppercase tracking-widest text-[10px] bg-gray-50 border-b border-gray-100">
+                                        <thead className="bg-[#FDF5F6]/80 border-b border-black/5">
                                             <tr>
-                                                <th className="px-6 py-3 pl-20">Sub-Category</th>
-                                                <th className="px-6 py-3 text-center">Products</th>
-                                                <th className="px-6 py-3 text-center">Status</th>
-                                                <th className="px-6 py-3 text-right">Actions</th>
+                                                <th className="px-6 py-3 pl-20 text-[8px] font-black text-gold uppercase tracking-[0.3em]">Sub-Level</th>
+                                                <th className="px-6 py-3 text-center text-[8px] font-black text-gold uppercase tracking-[0.3em]">Product Log</th>
+                                                <th className="px-6 py-3 text-center text-[8px] font-black text-gold uppercase tracking-[0.3em]">Protocol Status</th>
+                                                <th className="px-6 py-3 text-right text-[8px] font-black text-gold uppercase tracking-[0.3em]">Lifecycle Actions</th>
                                             </tr>
                                         </thead>
-                                        <tbody className="divide-y divide-gray-100">
+                                        <tbody className="divide-y divide-black/5">
                                             {group.subcategories.length > 0 ? (
                                                 group.subcategories.map(sub => (
                                                     <tr key={sub.id} className="hover:bg-white transition-colors group">
-                                                        <td className="px-6 py-3 pl-20">
-                                                            <span className="font-bold text-gray-800 text-sm">{sub.name}</span>
+                                                        <td className="px-6 py-2.5 pl-20">
+                                                            <span className="font-black text-black text-[10px] uppercase tracking-tight">{sub.name}</span>
                                                         </td>
-                                                        <td className="px-6 py-3 text-center">
-                                                            <span className="font-bold text-sm text-gray-800">{sub.productCount}</span>
+                                                        <td className="px-6 py-2.5 text-center">
+                                                            <span className="font-black text-[10px] text-gray-400 tabular-nums tracking-widest font-outfit uppercase">{sub.productCount} SKUs</span>
                                                         </td>
-                                                        <td className="px-6 py-3 text-center">
+                                                        <td className="px-6 py-2.5 text-center">
                                                             <button
                                                                 onClick={() => toggleSubcategoryStatus(group.id, sub.id)}
-                                                                className={`inline-flex items-center justify-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border transition-all ${sub.status === 'Active'
-                                                                    ? 'bg-green-50 text-green-700 border-green-200'
-                                                                    : 'bg-orange-50 text-orange-700 border-orange-200'
+                                                                className={`inline-flex items-center justify-center px-3 py-0.5 rounded-none text-[8px] font-black uppercase tracking-widest border transition-all ${sub.status === 'Active'
+                                                                    ? 'bg-emerald-50 text-emerald-600 border-emerald-100'
+                                                                    : 'bg-red-50 text-red-500 border-red-100'
                                                                     }`}
                                                             >
-                                                                {sub.status}
+                                                                {sub.status === 'Active' ? 'Operational' : 'Restricted'}
                                                             </button>
                                                         </td>
-                                                        <td className="px-6 py-3 text-right">
-                                                            <div className="flex items-center justify-end gap-2">
+                                                        <td className="px-6 py-2.5 text-right">
+                                                            <div className="flex items-center justify-end gap-1">
                                                                 <button
                                                                     onClick={() => navigate(`/admin/subcategories/edit/${sub.id}`)}
-                                                                    className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
+                                                                    className="p-1.5 text-gray-400 hover:text-black transition-all hover:bg-gold/10"
                                                                 >
                                                                     <Edit2 className="w-3.5 h-3.5" />
                                                                 </button>
                                                                 <button
                                                                     onClick={() => handleDeleteSubcategory(group.id, sub.id)}
-                                                                    className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
+                                                                    className="p-1.5 text-gray-400 hover:text-red-500 transition-all hover:bg-red-50"
                                                                 >
                                                                     <Trash2 className="w-3.5 h-3.5" />
                                                                 </button>
@@ -224,8 +225,8 @@ const SubcategoryManagement = () => {
                                                 ))
                                             ) : (
                                                 <tr>
-                                                    <td colSpan="4" className="px-6 py-8 text-center text-gray-500 text-xs italic">
-                                                        No subcategories found for {group.name}
+                                                    <td colSpan="4" className="px-6 py-6 text-center text-gray-300 text-[9px] font-black uppercase tracking-widest">
+                                                        Null Dataset Found
                                                     </td>
                                                 </tr>
                                             )}

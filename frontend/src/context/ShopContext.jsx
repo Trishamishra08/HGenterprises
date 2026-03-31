@@ -9,7 +9,8 @@ export const ShopProvider = ({ children }) => {
     const [cart, setCart] = useState(() => {
         try {
             const saved = localStorage.getItem('cart');
-            return saved ? JSON.parse(saved) : [];
+            const parsed = saved ? JSON.parse(saved) : null;
+            return Array.isArray(parsed) ? parsed : [];
         } catch (error) {
             console.error("Error parsing cart from localStorage:", error);
             return [];
@@ -18,7 +19,8 @@ export const ShopProvider = ({ children }) => {
     const [wishlist, setWishlist] = useState(() => {
         try {
             const saved = localStorage.getItem('wishlist');
-            return saved ? JSON.parse(saved) : [];
+            const parsed = saved ? JSON.parse(saved) : null;
+            return Array.isArray(parsed) ? parsed : [];
         } catch (error) {
             console.error("Error parsing wishlist from localStorage:", error);
             return [];
@@ -36,7 +38,8 @@ export const ShopProvider = ({ children }) => {
     const [orders, setOrders] = useState(() => {
         try {
             const saved = localStorage.getItem('orders');
-            return saved ? JSON.parse(saved) : [];
+            const parsed = saved ? JSON.parse(saved) : null;
+            return Array.isArray(parsed) ? parsed : [];
         } catch (error) {
             console.error("Error parsing orders from localStorage:", error);
             return [];
@@ -45,7 +48,8 @@ export const ShopProvider = ({ children }) => {
     const [addresses, setAddresses] = useState(() => {
         try {
             const saved = localStorage.getItem('addresses');
-            return saved ? JSON.parse(saved) : [];
+            const parsed = saved ? JSON.parse(saved) : null;
+            return Array.isArray(parsed) ? parsed : [];
         } catch (error) {
             console.error("Error parsing addresses from localStorage:", error);
             return [];
@@ -166,12 +170,12 @@ export const ShopProvider = ({ children }) => {
 
     // Persist Coupons
     useEffect(() => {
-        localStorage.setItem('farmlyf_coupons', JSON.stringify(coupons));
+        localStorage.setItem('hg_coupons', JSON.stringify(coupons));
     }, [coupons]);
 
     // Persist Products
     useEffect(() => {
-        localStorage.setItem('farmlyf_products', JSON.stringify(products));
+        localStorage.setItem('hg_products', JSON.stringify(products));
     }, [products]);
 
     useEffect(() => {

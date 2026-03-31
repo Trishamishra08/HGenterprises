@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { RefreshCcw, Search, RefreshCw, Clock, Truck } from 'lucide-react';
+import { RefreshCcw, Search, RefreshCw, Clock, Truck, Filter, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import AdminStatsCard from '../components/AdminStatsCard';
 
@@ -7,7 +7,6 @@ const ReplacementsPage = () => {
     const navigate = useNavigate();
     const [searchTerm, setSearchTerm] = useState('');
 
-    // Dummy Data matching Replacement Screenshot
     const mockReplacements = [
         { id: 'RPL-203', orderId: 'ORD-6003', customer: 'Rahul Roy', reason: 'Damaged', date: '06/02/2025', status: 'SHIPPED' },
         { id: 'RPL-202', orderId: 'ORD-6002', customer: 'Neha Gupta', reason: 'Defective', date: '04/02/2025', status: 'PENDING' },
@@ -25,87 +24,96 @@ const ReplacementsPage = () => {
     };
 
     return (
-        <div className="space-y-8 font-sans animate-in fade-in duration-500">
-            {/* Header */}
-            <div>
-                <h1 className="text-2xl font-bold text-gray-900 uppercase tracking-tight">Replacement Management</h1>
-                <p className="text-xs font-semibold text-gray-500 uppercase tracking-widest mt-1">Manage Item Replacements and Exchanges</p>
+        <div className="space-y-4 animate-in fade-in duration-500 font-outfit text-left">
+            {/* Header Section */}
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center bg-white p-3 border border-black/5 rounded-none shadow-sm gap-4">
+                <div>
+                    <h1 className="text-2xl font-serif font-black text-black tracking-tight leading-none uppercase">Replacement Matrix</h1>
+                    <p className="text-[9px] font-black text-gray-400 uppercase tracking-[0.4em] mt-2">Logistical Exchange & Discrepancy Control</p>
+                </div>
+                <div className="flex gap-2">
+                    <button className="px-4 py-2 bg-black text-white rounded-none text-[8px] font-black uppercase tracking-widest hover:bg-gold hover:text-black transition-all flex items-center gap-2 active:scale-95 group border border-transparent">
+                        <Filter size={12} className="group-hover:scale-110 transition-transform" />
+                        <span>Filter Matrix</span>
+                    </button>
+                </div>
             </div>
 
-            {/* Stats Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {/* Matrix Stats */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                 <AdminStatsCard
-                    label="Total Requests"
-                    value="3"
+                    label="TOTAL EXCHANGES"
+                    value="03"
                     icon={RefreshCw}
-                    color="text-blue-600"
-                    bgColor="bg-blue-50"
+                    color="text-footerBg"
+                    bgColor="bg-gray-50"
                 />
                 <AdminStatsCard
-                    label="Pending"
-                    value="1"
+                    label="PENDING PROTOCOLS"
+                    value="01"
                     icon={Clock}
                     color="text-amber-600"
                     bgColor="bg-amber-50"
                 />
                 <AdminStatsCard
-                    label="Shipped"
-                    value="1"
+                    label="DISPATCHED SHIPMENTS"
+                    value="01"
                     icon={Truck}
                     color="text-emerald-600"
                     bgColor="bg-emerald-50"
                 />
             </div>
 
-            {/* Search Bar - Simplified as per screenshot context (only Table visible in immediate view) */}
-            <div className="bg-white p-2 rounded-2xl border border-gray-100 shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
-                <div className="relative flex-1 max-w-md w-full ml-2">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-300" size={16} />
-                    <input
-                        type="text"
-                        placeholder="Search by ID or Customer..."
-                        className="w-full pl-10 pr-4 py-2 bg-gray-50 rounded-xl border-none text-xs font-bold text-gray-900 focus:ring-0 placeholder:text-gray-400"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
+            {/* Matrix Logic Table */}
+            <div className="bg-white rounded-none border border-black/5 shadow-sm overflow-hidden">
+                <div className="p-3 bg-gray-50/50 border-b border-black/5 flex items-center gap-4">
+                    <div className="relative flex-1 max-w-sm">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={14} />
+                        <input
+                            type="text"
+                            placeholder="SEARCH BY ID OR NOMENCLATURE..."
+                            className="w-full pl-9 pr-4 py-2 bg-white border border-black/5 rounded-none text-[9px] font-black uppercase tracking-widest focus:outline-none focus:border-gold transition-all"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                    </div>
                 </div>
-            </div>
 
-            {/* Table */}
-            <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
                 <div className="overflow-x-auto">
                     <table className="w-full text-left">
-                        <thead className="bg-white border-b border-gray-200">
+                        <thead className="bg-[#FDF5F6] border-b border-black/5 font-black uppercase text-gold text-[8px] tracking-[0.2em]">
                             <tr>
-                                <th className="px-6 py-4 text-[10px] md:text-xs font-bold text-gray-800 uppercase tracking-widest">Replacement ID</th>
-                                <th className="px-6 py-4 text-[10px] md:text-xs font-bold text-gray-800 uppercase tracking-widest">Order ID</th>
-                                <th className="px-6 py-4 text-[10px] md:text-xs font-bold text-gray-800 uppercase tracking-widest">Customer</th>
-                                <th className="px-6 py-4 text-[10px] md:text-xs font-bold text-gray-800 uppercase tracking-widest">Reason</th>
-                                <th className="px-6 py-4 text-[10px] md:text-xs font-bold text-gray-800 uppercase tracking-widest">Date</th>
-                                <th className="px-6 py-4 text-[10px] md:text-xs font-bold text-gray-800 uppercase tracking-widest">Status</th>
-                                <th className="px-6 py-4 text-[10px] md:text-xs font-bold text-gray-800 uppercase tracking-widest text-right">Action</th>
+                                <th className="px-6 py-3">REFERENCE ID</th>
+                                <th className="px-6 py-3">ORIGIN ORDER</th>
+                                <th className="px-6 py-3">SUBJECT USER</th>
+                                <th className="px-6 py-3">DISCREPANCY REASON</th>
+                                <th className="px-6 py-3">CHRONOLOGY</th>
+                                <th className="px-6 py-3">PROTOCOL STATUS</th>
+                                <th className="px-6 py-3 text-right">PROTOCOL ACTION</th>
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-gray-100 uppercase tracking-tighter text-[10px] md:text-[11px] text-gray-900">
+                        <tbody className="divide-y divide-black/5 text-[10px] font-black uppercase tracking-tight text-gray-900 font-outfit">
                             {mockReplacements.map((item, idx) => (
-                                <tr key={idx} className="hover:bg-gray-50/50 transition-colors group">
-                                    <td className="px-6 py-4 text-xs font-bold text-black">{item.id}</td>
-                                    <td className="px-6 py-4 text-xs font-bold text-gray-500">{item.orderId}</td>
-                                    <td className="px-6 py-4 text-xs font-bold text-black">{item.customer}</td>
-                                    <td className="px-6 py-4 text-xs font-medium text-gray-500">{item.reason}</td>
-                                    <td className="px-6 py-4 text-xs font-bold text-gray-500 font-mono">{item.date}</td>
-                                    <td className="px-6 py-4">
-                                        <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest ${getStatusStyle(item.status)}`}>
-                                            <span className="w-1.5 h-1.5 rounded-full bg-current"></span>
+                                <tr key={idx} className="hover:bg-[#FDF5F6]/20 transition-colors group">
+                                    <td className="px-6 py-3">
+                                        <span className="font-serif font-black tracking-tight text-sm">{item.id}</span>
+                                    </td>
+                                    <td className="px-6 py-3 text-gold font-black tracking-widest">{item.orderId}</td>
+                                    <td className="px-6 py-3 font-black uppercase">{item.customer}</td>
+                                    <td className="px-6 py-3 italic font-serif text-gray-500">{item.reason}</td>
+                                    <td className="px-6 py-3 text-gray-400 font-serif font-black">{item.date}</td>
+                                    <td className="px-6 py-3">
+                                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-none text-[8px] font-black uppercase tracking-widest border ${getStatusStyle(item.status)}`}>
+                                            <span className="w-1 h-1 rounded-none bg-current"></span>
                                             {item.status}
                                         </span>
                                     </td>
-                                    <td className="px-6 py-4 text-right">
+                                    <td className="px-6 py-3 text-right">
                                         <button
                                             onClick={() => navigate(`/admin/replacements/${item.id}`)}
-                                            className="bg-[#0f172a] text-white px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest hover:bg-black transition-all shadow-lg shadow-gray-200 active:scale-95"
+                                            className="bg-black text-white px-3 py-1.5 rounded-none text-[8px] font-black uppercase tracking-widest hover:bg-gold hover:text-black transition-all flex items-center justify-center gap-2 ml-auto active:scale-95"
                                         >
-                                            View
+                                            INSPECT <ArrowRight size={10} />
                                         </button>
                                     </td>
                                 </tr>

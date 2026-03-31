@@ -205,47 +205,47 @@ const AboutUs = () => {
             </div>
 
             {/* Compact Narrative Grid: Desktop Side-by-Side */}
-            <div className="hidden md:grid md:grid-cols-3 gap-6 max-w-[95%] lg:max-w-7xl px-8 mb-16 relative z-10">
+            <div className="hidden md:grid md:grid-cols-3 gap-3 max-w-[95%] lg:max-w-6xl px-8 mb-8 relative z-10">
                 {/* Heritage */}
                 <motion.div
-                    initial={{ opacity: 0, y: 30 }}
+                    initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="bg-white/40 backdrop-blur-xl rounded-[2rem] p-8 border border-white/40 shadow-xl text-center flex flex-col items-center"
+                    className="bg-white/40 backdrop-blur-xl rounded-none p-6 border border-white/40 shadow-sm text-center flex flex-col items-center"
                 >
-                    <h2 className="text-2xl font-serif text-[#4a1d1d] mb-4 italic tracking-tight leading-none">The Heritage</h2>
-                    <div className="h-[1px] w-12 bg-[#4a1d1d]/10 mb-6"></div>
-                    <p className="text-sm font-serif text-[#4a1d1d]/70 leading-relaxed italic">
+                    <h2 className="text-xl font-serif text-[#4a1d1d] mb-2 italic tracking-tight leading-none">The Heritage</h2>
+                    <div className="h-[1px] w-10 bg-[#4a1d1d]/10 mb-4"></div>
+                    <p className="text-[11px] font-serif text-[#4a1d1d]/70 leading-relaxed italic">
                         "At HG Enterprises, we believe luxury lies in pure craftsmanship. Our journey is a tribute to silver's timeless beauty."
                     </p>
                 </motion.div>
 
                 {/* Philosophy */}
                 <motion.div
-                    initial={{ opacity: 0, y: 30 }}
+                    initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.1 }}
-                    className="bg-white/40 backdrop-blur-xl rounded-[2rem] p-8 border border-white/40 shadow-xl text-center flex flex-col items-center"
+                    className="bg-white/40 backdrop-blur-xl rounded-none p-6 border border-white/40 shadow-sm text-center flex flex-col items-center"
                 >
-                    <h2 className="text-2xl font-serif text-[#4a1d1d] mb-4 italic tracking-tight leading-none">Our Philosophy</h2>
-                    <div className="h-[1px] w-12 bg-[#4a1d1d]/10 mb-6"></div>
-                    <p className="text-sm font-serif text-[#4a1d1d]/70 leading-relaxed italic">
+                    <h2 className="text-xl font-serif text-[#4a1d1d] mb-2 italic tracking-tight leading-none">Our Philosophy</h2>
+                    <div className="h-[1px] w-10 bg-[#4a1d1d]/10 mb-4"></div>
+                    <p className="text-[11px] font-serif text-[#4a1d1d]/70 leading-relaxed italic">
                         "My work is inspired by quiet, meaningful moments—the sunlit morning glow or the touch of pure metal on skin."
                     </p>
                 </motion.div>
 
                 {/* Approach */}
                 <motion.div
-                    initial={{ opacity: 0, y: 30 }}
+                    initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.2 }}
-                    className="bg-white/40 backdrop-blur-xl rounded-[2rem] p-8 border border-white/40 shadow-xl text-center flex flex-col items-center"
+                    className="bg-white/40 backdrop-blur-xl rounded-none p-6 border border-white/40 shadow-sm text-center flex flex-col items-center"
                 >
-                    <h2 className="text-2xl font-serif text-[#4a1d1d] mb-4 italic tracking-tight leading-none">Our Approach</h2>
-                    <div className="h-[1px] w-12 bg-[#4a1d1d]/10 mb-6"></div>
-                    <p className="text-sm font-serif text-[#4a1d1d]/70 leading-relaxed italic">
+                    <h2 className="text-xl font-serif text-[#4a1d1d] mb-2 italic tracking-tight leading-none">Our Approach</h2>
+                    <div className="h-[1px] w-10 bg-[#4a1d1d]/10 mb-4"></div>
+                    <p className="text-[11px] font-serif text-[#4a1d1d]/70 leading-relaxed italic">
                         "We marry traditional Indian metallurgy with modern aesthetic sensibilities. Each piece ensures no two ornaments share the same soul."
                     </p>
                 </motion.div>
