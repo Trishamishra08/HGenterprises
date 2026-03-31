@@ -510,7 +510,7 @@ const Checkout = () => {
                                         <CreditCard size={20} />
                                     </div>
                                     <div>
-                                        <p className="font-bold text-sm md:text-base text-black font-display uppercase tracking-wide">Signature Digital Checkout</p>
+                                        <p className="font-bold text-sm md:text-base text-black font-display uppercase tracking-wide">SwiftPay</p>
                                         <p className="text-xs text-gray-500 font-serif">Fast and secure online payment</p>
                                     </div>
                                 </div>
