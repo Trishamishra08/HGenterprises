@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { categories } from '../data/data';
 
 const Navbar = () => {
-    const { cart, wishlist, user, userNotifications, isMenuOpen, toggleMenu } = useShop();
+    const { cart, wishlist, user, userNotifications, isMenuOpen, toggleMenu, isSearchOpen, toggleSearch } = useShop();
     const location = useLocation();
     const isHome = location.pathname === '/';
 
@@ -71,7 +71,7 @@ const Navbar = () => {
                     <div className="w-full flex items-center justify-between h-14 md:h-18 px-4 md:px-10">
                         
                         {/* Logo & Brand Heading - Refined Placement */}
-                        <Link to="/" className="flex items-center group flex-shrink-0 gap-4">
+                        <Link to="/" className="flex items-center group flex-shrink-0 gap-2 md:gap-4">
                             <motion.div
                                 animate={{ 
                                     y: [0, -2, 0],
@@ -86,15 +86,15 @@ const Navbar = () => {
                                 <img 
                                     src={hgLogoPremium} 
                                     alt="HG" 
-                                    className="h-[50px] md:h-[60px] w-auto object-contain" 
+                                    className="h-[40px] md:h-[60px] w-auto object-contain" 
                                 />
                             </motion.div>
                             
                             <div className="flex flex-col">
-                                <span className="text-white font-serif text-lg md:text-xl font-light tracking-wider leading-none group-hover:text-[#EBCDD0] transition-colors">
+                                <span className="text-white font-serif text-[15px] md:text-xl font-light tracking-wider leading-none group-hover:text-[#EBCDD0] transition-colors">
                                     Harshad Gauri
                                 </span>
-                                <span className="text-[#FDF5F6]/80 font-serif italic text-[9px] md:text-[11px] tracking-[0.25em] pb-1 transition-colors group-hover:text-white">
+                                <span className="text-[#FDF5F6]/80 font-serif italic text-[8px] md:text-[11px] tracking-[0.25em] pb-1 transition-colors group-hover:text-white">
                                     enterprises
                                 </span>
                             </div>
@@ -113,25 +113,34 @@ const Navbar = () => {
                         </div>
 
                         {/* Icons */}
-                        <div className="flex items-center gap-2 md:gap-5">
-                            <Link to="/notifications" aria-label="View notifications" className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/10 relative group transition-colors">
-                                <Bell className="w-5 h-5 text-white/90 group-hover:text-primary transition-colors" />
-                                <span className="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full border-2 border-black"></span>
+                        <div className="flex items-center gap-1.5 md:gap-5">
+                            {/* Mobile/Tablet Search Toggle */}
+                            <button 
+                                onClick={() => toggleSearch(!isSearchOpen)}
+                                aria-label="Toggle search" 
+                                className="lg:hidden w-9 h-9 flex items-center justify-center rounded-full hover:bg-white/10 group transition-colors"
+                            >
+                                <Search className={`w-5 h-5 transition-colors ${isSearchOpen ? 'text-white' : 'text-white/90 group-hover:text-primary'}`} />
+                            </button>
+
+                            <Link to="/notifications" aria-label="View notifications" className="w-9 h-9 md:w-10 md:h-10 flex items-center justify-center rounded-full hover:bg-white/10 relative group transition-colors">
+                                <Bell className="w-4.5 h-4.5 md:w-5 md:h-5 text-white/90 group-hover:text-primary transition-colors" />
+                                <span className="absolute top-2 right-2 w-1.5 h-1.5 md:w-2 md:h-2 bg-primary rounded-full border-2 border-black"></span>
                             </Link>
 
-                            <Link to="/wishlist" aria-label="View wishlist" className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/10 relative group transition-colors">
-                                <Heart className="w-5 h-5 text-white/90 group-hover:text-primary transition-colors" />
+                            <Link to="/wishlist" aria-label="View wishlist" className="w-9 h-9 md:w-10 md:h-10 flex items-center justify-center rounded-full hover:bg-white/10 relative group transition-colors">
+                                <Heart className="w-4.5 h-4.5 md:w-5 md:h-5 text-white/90 group-hover:text-primary transition-colors" />
                                 {wishlist?.length > 0 && (
-                                    <span className="absolute top-2 right-2 bg-primary text-white text-[8px] w-3.5 h-3.5 flex items-center justify-center rounded-full font-bold">
+                                    <span className="absolute top-2 right-2 bg-primary text-white text-[7px] md:text-[8px] w-3 h-3 md:w-3.5 md:h-3.5 flex items-center justify-center rounded-full font-bold">
                                         {wishlist.length}
                                     </span>
                                 )}
                             </Link>
                             
-                            <Link to="/cart" aria-label="View shopping bag" className="w-10 h-10 flex items-center justify-center hover:bg-white/10 rounded-full group transition-colors relative">
-                                <ShoppingBag className="w-5 h-5 text-white/90 group-hover:text-primary transition-colors" />
+                            <Link to="/cart" aria-label="View shopping bag" className="w-9 h-9 md:w-10 md:h-10 flex items-center justify-center hover:bg-white/10 rounded-full group transition-colors relative">
+                                <ShoppingBag className="w-4.5 h-4.5 md:w-5 md:h-5 text-white/90 group-hover:text-primary transition-colors" />
                                 {cart?.length > 0 && (
-                                    <span className="absolute top-2 right-2 bg-primary text-white text-[8px] w-3.5 h-3.5 flex items-center justify-center rounded-full font-bold">
+                                    <span className="absolute top-2 right-2 bg-primary text-white text-[7px] md:text-[8px] w-3 h-3 md:w-3.5 md:h-3.5 flex items-center justify-center rounded-full font-bold">
                                         {cart.length}
                                     </span>
                                 )}
@@ -142,6 +151,40 @@ const Navbar = () => {
                             </Link>
                         </div>
                     </div>
+
+                    {/* Mobile Search Bar Expansion */}
+                    <AnimatePresence>
+                        {isSearchOpen && (
+                            <motion.div
+                                initial={{ height: 0, opacity: 0 }}
+                                animate={{ height: 'auto', opacity: 1 }}
+                                exit={{ height: 0, opacity: 0 }}
+                                transition={{ duration: 0.3, ease: 'easeInOut' }}
+                                className="lg:hidden bg-[#1A1A1A] border-t border-white/5 overflow-hidden"
+                            >
+                                <div className="px-6 py-4">
+                                    <div className="relative group/search">
+                                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                            <Search className="h-4 w-4 text-gray-500 group-focus-within/search:text-primary transition-colors" />
+                                        </div>
+                                        <input
+                                            type="text"
+                                            placeholder="What are you looking for?"
+                                            className="w-full bg-white/5 border border-white/10 rounded-full py-3 px-6 pl-12 text-sm focus:outline-none focus:ring-1 focus:ring-primary/30 focus:border-primary/40 transition-all text-white placeholder-gray-500"
+                                            autoFocus
+                                            onKeyDown={(e) => {
+                                                if (e.key === 'Enter') {
+                                                    toggleSearch(false);
+                                                    // Navigate to shop with search
+                                                    window.location.href = `/shop?search=${e.target.value}`;
+                                                }
+                                            }}
+                                        />
+                                    </div>
+                                </div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
 
                     {/* 3. Secondary Navigation Links Row - Ultra Compact & Clean */}
                     <div className="hidden md:block bg-white border-t border-gray-100 py-1.5 shadow-sm">
@@ -353,12 +396,12 @@ const Navbar = () => {
                     <span className="text-[8px] font-bold uppercase tracking-tighter text-gray-400">Menu</span>
                 </button>
                 <Link to="/wishlist" aria-label="View wishlist" className="flex flex-col items-center gap-1 group relative">
-                    <Heart className="w-5 h-5 text-gray-400 group-active:scale-90 transition-all" />
+                    <Heart className="w-5 h-5 text-gray-400 group-active:scale-90 transition-all group-[.active]:text-primary" />
                     {wishlist?.length > 0 && <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-primary rounded-full border-2 border-white"></span>}
                     <span className="text-[8px] font-bold uppercase tracking-tighter text-gray-400">Favs</span>
                 </Link>
                 <Link to="/profile" aria-label="View profile" className="flex flex-col items-center gap-1 group">
-                    <User className="w-5 h-5 text-gray-400 group-active:scale-90 transition-all" />
+                    <User className="w-5 h-5 text-gray-400 group-active:scale-90 transition-all group-[.active]:text-primary" />
                     <span className="text-[8px] font-bold uppercase tracking-tighter text-gray-400">Me</span>
                 </Link>
             </div>

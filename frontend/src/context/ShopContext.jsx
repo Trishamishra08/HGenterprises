@@ -112,9 +112,16 @@ export const ShopProvider = ({ children }) => {
 
     const [notification, setNotification] = useState(null);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isSearchOpen, setIsSearchOpen] = useState(false);
 
     const toggleMenu = (state) => {
         setIsMenuOpen(state !== undefined ? state : !isMenuOpen);
+        if (state !== false && isSearchOpen) setIsSearchOpen(false);
+    };
+
+    const toggleSearch = (state) => {
+        setIsSearchOpen(state !== undefined ? state : !isSearchOpen);
+        if (state !== false && isMenuOpen) setIsMenuOpen(false);
     };
 
     // Notification Preferences & List
@@ -570,6 +577,7 @@ export const ShopProvider = ({ children }) => {
             coupons, addCoupon, updateCoupon, deleteCoupon, getActiveCoupons,
             notificationsEnabled, userNotifications, toggleNotificationSettings, deleteUserNotification,
             isMenuOpen, toggleMenu,
+            isSearchOpen, toggleSearch,
 
             products, updateProduct, bulkUpdatePrices,
 

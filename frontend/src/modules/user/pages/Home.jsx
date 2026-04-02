@@ -67,6 +67,15 @@ const Home = () => {
             description: "Luxury Crafted with Precision.",
             btnText: "Explore Selection",
             link: "/shop"
+        },
+        {
+            video: "/videos/jewelry-video-2.mp4",
+            badge: "New Collection",
+            title: "DREAM",
+            titleItalic: "rings",
+            description: "Elegant and timeless pieces for every occasion.",
+            btnText: "Explore Now",
+            link: "/shop"
         }
     ];
 
